@@ -1,4 +1,4 @@
-# clean-machine
+# clean-machine [![Build Status](https://travis-ci.com/eu-team/clean-machine.svg?branch=master)](https://travis-ci.com/eu-team/clean-machine)
 
 ## Installation
 

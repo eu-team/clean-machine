@@ -1,6 +1,6 @@
 package euteam.cleanmachine.controller;
 
-import euteam.cleanmachine.model.User;
+import euteam.cleanmachine.model.user.User;
 import euteam.cleanmachine.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

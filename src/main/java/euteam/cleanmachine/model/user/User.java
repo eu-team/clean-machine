@@ -1,9 +1,8 @@
-package euteam.cleanmachine.model;
+package euteam.cleanmachine.model.user;
 
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name="users")

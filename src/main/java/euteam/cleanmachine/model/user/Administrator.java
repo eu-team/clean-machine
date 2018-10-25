@@ -1,4 +1,4 @@
-package euteam.cleanmachine.model;
+package euteam.cleanmachine.model.user;
 
 import javax.persistence.Table;
 

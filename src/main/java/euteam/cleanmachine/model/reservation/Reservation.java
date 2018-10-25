@@ -1,4 +1,6 @@
-package euteam.cleanmachine.model;
+package euteam.cleanmachine.model.reservation;
+
+import euteam.cleanmachine.model.facility.Machine;
 
 import javax.persistence.*;
 import java.util.Date;

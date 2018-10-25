@@ -1,4 +1,4 @@
-package euteam.cleanmachine.model;
+package euteam.cleanmachine.model.billing;
 
 import euteam.cleanmachine.model.enums.SubscriptionPeriodicity;
 

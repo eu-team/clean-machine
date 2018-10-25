@@ -1,4 +1,6 @@
-package euteam.cleanmachine.model;
+package euteam.cleanmachine.model.user;
+
+import euteam.cleanmachine.model.billing.SubscriptionPlan;
 
 import javax.persistence.*;
 import java.util.Date;

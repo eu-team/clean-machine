@@ -2,7 +2,7 @@ package euteam.cleanmachine.service;
 
 import java.util.List;
 
-import euteam.cleanmachine.model.User;
+import euteam.cleanmachine.model.user.User;
 import euteam.cleanmachine.dao.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

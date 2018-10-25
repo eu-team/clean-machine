@@ -1,4 +1,6 @@
-package euteam.cleanmachine.model;
+package euteam.cleanmachine.model.facility;
+
+import euteam.cleanmachine.model.billing.SubscriptionPlan;
 
 import javax.persistence.*;
 import java.util.List;

@@ -8,11 +8,12 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name="users")
 public abstract class User {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
     private String name;
+
     @OneToMany
     private List<AuthItem> authItemList;
 

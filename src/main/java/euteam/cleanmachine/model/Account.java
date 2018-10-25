@@ -6,13 +6,15 @@ import java.util.Objects;
 
 @Entity
 public class Account {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
     @OneToOne
     private User user;
+
     private double balance;
+
     @OneToMany
     private List<Payment> payments;
 

@@ -9,5 +9,6 @@ import javax.persistence.ManyToOne;
 public class RepeatingReservation extends Reservation{
     @ManyToOne
     private User user;
+
     private ReservationPeriodicity reservationPeriodicity;
 }

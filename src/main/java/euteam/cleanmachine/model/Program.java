@@ -10,7 +10,10 @@ public class Program {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
     private String name;
+
     private double duration;
+
     private double cost;
 }

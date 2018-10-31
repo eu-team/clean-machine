@@ -19,4 +19,8 @@ public class UserService {
 
         return users;
     }
+
+    public User addUser(User user) {
+        return repository.save(user);
+    }
 }

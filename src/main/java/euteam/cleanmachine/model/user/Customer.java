@@ -2,9 +2,16 @@ package euteam.cleanmachine.model.user;
 
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
+import java.util.List;
 
 @Entity
 public class Customer extends User {
-    @OneToOne
-    private Account account;
+
+    public Customer() {
+        super();
+    }
+
+    public Customer (String name, List<AuthItem> authItemList) {
+        super(name, authItemList);
+    }
 }

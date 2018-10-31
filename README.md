@@ -1,4 +1,4 @@
-# clean-machine [![Build Status](https://travis-ci.com/eu-team/clean-machine.svg?branch=master)](https://travis-ci.com/eu-team/clean-machine)
+# clean-machine [![Build Status](https://travis-ci.com/eu-team/clean-machine.svg?branch=master)](https://travis-ci.com/eu-team/clean-machine) [![Maintainability](https://api.codeclimate.com/v1/badges/6d0cb851cc1fe3103d51/maintainability)](https://codeclimate.com/github/eu-team/clean-machine/maintainability)
 
 ## Installation
 

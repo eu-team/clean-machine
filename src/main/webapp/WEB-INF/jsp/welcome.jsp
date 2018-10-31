@@ -21,7 +21,7 @@
 <nav class="navbar navbar-inverse">
     <div class="container">
         <div class="navbar-header">
-            <a class="navbar-brand" href="#">Spring Boot</a>
+            <a class="navbar-brand" href="#">Clean Machine</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
@@ -39,6 +39,8 @@
         <h1>Spring Boot Web JSP Example</h1>
         <h2>Message: ${message}</h2>
     </div>
+
+
 
 </div>
 

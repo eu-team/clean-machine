@@ -3,10 +3,12 @@ package euteam.cleanmachine.Services;
 import euteam.cleanmachine.CleanmachineApplication;
 import euteam.cleanmachine.dao.AccountDao;
 import euteam.cleanmachine.dao.UserDao;
+import euteam.cleanmachine.dto.UserDto;
 import euteam.cleanmachine.model.user.Customer;
 import euteam.cleanmachine.model.user.User;
 import euteam.cleanmachine.service.AccountService;
 
+import euteam.cleanmachine.service.UserService;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -19,6 +21,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
 
 
 @RunWith(SpringRunner.class)
@@ -35,7 +41,7 @@ public class UserServiceTest {
     private WebApplicationContext context;
 
     @Autowired
-    AccountService accountService;
+    UserService userService;
 
     @Autowired
     UserDao userDao;
@@ -55,5 +61,11 @@ public class UserServiceTest {
     public void UserCreated() {
         User user = new Customer();
         user.setName("test");
+        user.setPassword("pwd");
+        user.setEmail("test@test.com");
+        UserDto userDto = userService.addUser(user);
+        assertEquals(userService.getUserByID(userDto.getId()).getId(), userDto.getId());
+        assertNotEquals(userService.getUserByID(userDto.getId()).getPassword(), "pwd");
+        assertNotNull(accountDao.findByUser(user));
     }
 }

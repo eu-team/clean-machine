@@ -31,6 +31,7 @@ public class UserService {
     }
 
     public UserDto addUser(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         User userSaved = repository.save(user);
         Account account = new Account();
         account.setBalance(0);
@@ -42,5 +43,9 @@ public class UserService {
         userDto.setAuthItemList(user.getAuthItemList());
         accountService.addAccount(account);
         return userDto;
+    }
+
+    public User getUserByID(Long id) {
+        return repository.findById(id).orElse(null);
     }
 }

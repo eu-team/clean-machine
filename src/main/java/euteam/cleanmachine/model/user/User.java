@@ -1,27 +1,26 @@
-package euteam.cleanmachine.model;
+package euteam.cleanmachine.model.user;
 
+import java.util.List;
 import java.util.Objects;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
-@Table(name = "Users")
-public class User {
-
+@Table(name="users")
+public abstract class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
     private String name;
 
-    public User() {
-    }
+    @OneToMany
+    private List<AuthItem> authItemList;
 
-    public User(Long id, String name) {
-        this.id = id;
+    public User(){};
+
+    public User(String name, List<AuthItem> authItemList) {
         this.name = name;
+        this.authItemList = authItemList;
     }
 
     public Long getId() {
@@ -38,14 +37,6 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 79 * hash + Objects.hashCode(this.id);
-        hash = 79 * hash + Objects.hashCode(this.name);
-        return hash;
     }
 
     @Override

@@ -27,4 +27,10 @@ public class MainController {
 
         return users;
     }
+
+    @RequestMapping(path="/register", method = RequestMethod.POST)
+    public void saveUser(@RequestBody User user) {
+        //code to save user object
+
+    }
 }

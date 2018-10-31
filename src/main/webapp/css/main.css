@@ -5,9 +5,9 @@ h1{
 h2{
     color:#FF0000;
 }
-@media(min-width: 768px) {
-    .field-label-responsive {
-        padding-top: .5rem;
-        text-align: right;
-    }
-}
+/*@media(min-width: 768px) {*/
+    /*.field-label-responsive {*/
+        /*padding-top: .5rem;*/
+        /*text-align: right;*/
+    /*}*/
+/*}*/

@@ -25,9 +25,9 @@
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
                 <li><a href="#">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li class="active"><a href="#login">Login</a></li>
-                <li ><a href="#register">Register</a></li>
+                <li><a href="about">About</a></li>
+                <li class="active"><a href="login">Login</a></li>
+                <li ><a href="register">Register</a></li>
             </ul>
         </div>
     </div>
@@ -41,7 +41,7 @@
                     <h1 class="text-center pb-4 pt-3">
                         <span class="text-primary"><i class="fa fa-lock"></i> Clean machine</span> Login
                     </h1>
-                    <form class="form-group" role="form" method="POST" action="/register">
+                    <form class="form-group" role="form" method="POST" action="/login">
                         <div class="form-group">
                             <label for="name">Name</label>
                             <input type="text" name="name" id="name" class="form-control" required>
@@ -50,7 +50,7 @@
                             <label for="password">Password</label>
                             <input type="password" name="password" id="password" class="form-control" required>
                         </div>
-                        <input type="submit" value="Register" class="btn btn-primary btn-block">
+                        <input type="submit" value="submit" class="btn btn-primary btn-block">
                         <%--<button type="submit" class="btn btn-success"><i class="fa fa-user-plus"></i> Register</button>--%>
                     </form>
                 </div>

@@ -23,11 +23,6 @@ public class Account {
     public Account() {
     }
 
-    public Account(User user, double balance) {
-        this.user = user;
-        this.balance = balance;
-    }
-
     public Long getId() {
         return id;
     }

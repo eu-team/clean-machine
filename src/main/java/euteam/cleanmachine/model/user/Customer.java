@@ -10,8 +10,4 @@ public class Customer extends User {
     public Customer() {
         super();
     }
-
-    public Customer (String name, List<AuthItem> authItemList) {
-        super(name, authItemList);
-    }
 }

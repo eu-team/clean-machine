@@ -13,10 +13,4 @@ public class AccountController {
 
     @Autowired
     AccountService accountService;
-
-    @RequestMapping(path="/add", method = RequestMethod.POST)
-    public Account addAccount(@RequestBody Account account, HttpServletRequest request) {
-        // TODO retrieve user from jwt.
-        return accountService.addAccount(account);
-    }
 }

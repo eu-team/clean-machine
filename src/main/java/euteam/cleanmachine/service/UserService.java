@@ -2,9 +2,12 @@ package euteam.cleanmachine.service;
 
 import java.util.List;
 
+import euteam.cleanmachine.dto.UserDto;
+import euteam.cleanmachine.model.user.Account;
 import euteam.cleanmachine.model.user.User;
 import euteam.cleanmachine.dao.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -13,6 +16,13 @@ public class UserService {
     @Autowired
     private UserDao repository;
 
+    @Autowired
+    private AccountService accountService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+
     public List<User> findAll() {
 
         List<User> users = (List<User>) repository.findAll();
@@ -20,7 +30,17 @@ public class UserService {
         return users;
     }
 
-    public User addUser(User user) {
-        return repository.save(user);
+    public UserDto addUser(User user) {
+        User userSaved = repository.save(user);
+        Account account = new Account();
+        account.setBalance(0);
+        account.setUser(userSaved);
+        UserDto userDto = new UserDto();
+        userDto.setId(userSaved.getId());
+        userDto.setName(userSaved.getName());
+        userDto.setEmail(userSaved.getEmail());
+        userDto.setAuthItemList(user.getAuthItemList());
+        accountService.addAccount(account);
+        return userDto;
     }
 }

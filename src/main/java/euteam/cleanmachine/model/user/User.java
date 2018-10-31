@@ -12,16 +12,13 @@ public abstract class User {
     private Long id;
 
     private String name;
+    private String email;
+    private String password;
 
     @OneToMany
     private List<AuthItem> authItemList;
 
     public User(){};
-
-    public User(String name, List<AuthItem> authItemList) {
-        this.name = name;
-        this.authItemList = authItemList;
-    }
 
     public Long getId() {
         return id;
@@ -37,6 +34,22 @@ public abstract class User {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public List<AuthItem> getAuthItemList() {
+        return authItemList;
+    }
+
+    public void setAuthItemList(List<AuthItem> authItemList) {
+        this.authItemList = authItemList;
     }
 
     @Override

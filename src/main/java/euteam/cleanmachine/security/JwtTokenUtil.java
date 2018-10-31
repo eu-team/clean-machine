@@ -62,7 +62,7 @@ public class JwtTokenUtil implements Serializable {
         return (lastPasswordReset != null && created.before(lastPasswordReset));
     }
 
-    private Boolean ignoreTokenExpiration(String token) {
+    private Boolean ignoreTokenExpiration() {
         // here you specify tokens, for that the expiration is ignored
         return false;
     }
@@ -88,7 +88,7 @@ public class JwtTokenUtil implements Serializable {
     public Boolean canTokenBeRefreshed(String token, Date lastPasswordReset) {
         final Date created = getIssuedAtDateFromToken(token);
         return !isCreatedBeforeLastPasswordReset(created, lastPasswordReset)
-                && (!isTokenExpired(token) || ignoreTokenExpiration(token));
+                && (!isTokenExpired(token) || ignoreTokenExpiration());
     }
 
     public String refreshToken(String token) {

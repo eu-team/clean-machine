@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:8100/account" )
+@CrossOrigin(origins = "http://localhost:8100" )
 public class AccountController {
 
     @Autowired

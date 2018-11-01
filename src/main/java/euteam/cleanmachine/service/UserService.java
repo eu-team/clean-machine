@@ -3,7 +3,9 @@ package euteam.cleanmachine.service;
 import java.util.List;
 
 import euteam.cleanmachine.dto.UserDto;
+import euteam.cleanmachine.dto.UserSignUpDto;
 import euteam.cleanmachine.model.user.Account;
+import euteam.cleanmachine.model.user.Customer;
 import euteam.cleanmachine.model.user.User;
 import euteam.cleanmachine.dao.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +32,11 @@ public class UserService {
         return users;
     }
 
-    public UserDto addUser(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+    public UserDto addUser(UserSignUpDto userSignUpDto) {
+        User user = new Customer();
+        user.setPassword(passwordEncoder.encode(userSignUpDto.getPassword()));
+        user.setName(userSignUpDto.getName());
+        user.setEmail(userSignUpDto.getEmail());
         User userSaved = repository.save(user);
         Account account = new Account();
         account.setBalance(0);

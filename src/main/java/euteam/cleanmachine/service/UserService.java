@@ -1,5 +1,6 @@
 package euteam.cleanmachine.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import euteam.cleanmachine.dto.UserDto;
@@ -59,6 +60,7 @@ public class UserService {
         if (role == null) return null;
         role.setRoleName(userSignUpDto.getRoleName());
         user.setRole(role);
+        user.setAuthItemList(new ArrayList<>());
         User userSaved = repository.save(user);
         Account account = new Account();
         account.setBalance(0);

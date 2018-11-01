@@ -1,5 +1,6 @@
 package euteam.cleanmachine.controller;
 
+import java.util.List;
 import euteam.cleanmachine.model.user.User;
 import euteam.cleanmachine.dao.UserDao;
 import euteam.cleanmachine.service.UserService;
@@ -11,17 +12,13 @@ import org.springframework.web.servlet.ModelAndView;
 
 
 
-
-import java.util.List;
-
 @RestController
 @CrossOrigin(origins = "http://localhost:8100" )
 public class MainController {
 
     @Autowired
     UserService userService;
-    @Autowired
-    private UserDao repository;
+
 
 
     @RequestMapping(path="/hello", method = RequestMethod.GET)
@@ -38,12 +35,6 @@ public class MainController {
     }
 
 
-//    @RequestMapping(value="/users", method=RequestMethod.GET)
-//    public String customerForm(Model model) {
-//        model.addAttribute("user", new User() {
-//        });
-//        return "form";
-//    }
 
 
 }

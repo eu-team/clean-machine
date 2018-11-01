@@ -20,6 +20,9 @@ public class UserService {
     private AccountService accountService;
 
     @Autowired
+    private RoleService roleService;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
 
@@ -34,7 +37,7 @@ public class UserService {
 
         User user;
 
-        switch (userSignUpDto.getRole()) {
+        switch (userSignUpDto.getRoleName()) {
             case CUSTOMER:
                 user = new Customer();
                 break;
@@ -52,7 +55,10 @@ public class UserService {
         user.setName(userSignUpDto.getName());
         user.setUsername(userSignUpDto.getUsername());
         user.setEmail(userSignUpDto.getEmail());
-        user.setRole(userSignUpDto.getRole());
+        Role role = roleService.getRoleByRoleName(userSignUpDto.getRoleName());
+        if (role == null) return null;
+        role.setRoleName(userSignUpDto.getRoleName());
+        user.setRole(role);
         User userSaved = repository.save(user);
         Account account = new Account();
         account.setBalance(0);
@@ -62,7 +68,7 @@ public class UserService {
         userDto.setName(userSaved.getName());
         userDto.setEmail(userSaved.getEmail());
         userDto.setAuthItemList(userSaved.getAuthItemList());
-        userDto.setRole(userSaved.getRole());
+        userDto.setRoleName(userSaved.getRole().getRoleName());
         accountService.addAccount(account);
         return userDto;
     }

@@ -1,6 +1,9 @@
 package euteam.cleanmachine.security;
 
+import euteam.cleanmachine.model.user.Role;
 import euteam.cleanmachine.model.user.User;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 public final class JwtUserFactory {
 
@@ -12,7 +15,12 @@ public final class JwtUserFactory {
                 user.getId(),
                 user.getName(),
                 user.getEmail(),
-                user.getPassword()
+                user.getPassword(),
+                mapToGrantedAuthority(user.getRole())
         );
+    }
+
+    private static GrantedAuthority mapToGrantedAuthority(Role role) {
+        return new SimpleGrantedAuthority(role.getRoleName().name());
     }
 }

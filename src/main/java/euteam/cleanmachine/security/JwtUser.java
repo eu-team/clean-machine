@@ -14,17 +14,20 @@ public class JwtUser implements UserDetails {
     private final String name;
     private final String password;
     private final String email;
+    private final GrantedAuthority authority;
 
     public JwtUser(
             Long id,
             String name,
             String email,
-            String password
+            String password,
+            GrantedAuthority authority
     ) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
+        this.authority = authority;
     }
 
     public Long getId() {

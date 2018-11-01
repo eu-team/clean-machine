@@ -1,5 +1,5 @@
 package euteam.cleanmachine.model.enums;
 
-public enum Role {
+public enum RoleName {
     CUSTOMER, ADMINSTRATOR, MAINTAINER
 }

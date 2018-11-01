@@ -1,6 +1,6 @@
 package euteam.cleanmachine.model.user;
 
-import euteam.cleanmachine.model.enums.Role;
+import euteam.cleanmachine.model.enums.RoleName;
 
 import java.util.List;
 import java.util.Objects;
@@ -17,10 +17,12 @@ public abstract class User {
     private String username;
     private String email;
     private String password;
-    private Role role;
 
     @OneToMany
     private List<AuthItem> authItemList;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Role role;
 
     public User(){};
 
@@ -73,7 +75,7 @@ public abstract class User {
     }
 
     public Role getRole() {
-        return role;
+        return this.role;
     }
 
     public void setRole(Role role) {

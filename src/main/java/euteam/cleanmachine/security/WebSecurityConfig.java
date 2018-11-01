@@ -27,6 +27,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private UnauthorizedRequestHandler unauthorizedRequestHandler;
 
+    @Autowired
+    private JwtUserDetailsService userService;
+
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        auth
+            .userDetailsService(userService)
+            .passwordEncoder(passwordEncoderBean());
+    }
+
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
@@ -36,6 +46,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .authorizeRequests()
             .antMatchers(HttpMethod.OPTIONS,"/**").permitAll()
             .antMatchers("/auth/**").permitAll()
+            .antMatchers("/signup").permitAll()
             .anyRequest().authenticated();
 
         JwtAuthorizationTokenFilter authenticationTokenFilter = new JwtAuthorizationTokenFilter();

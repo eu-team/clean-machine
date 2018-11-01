@@ -50,6 +50,7 @@ public class UserService {
         }
         user.setPassword(passwordEncoder.encode(userSignUpDto.getPassword()));
         user.setName(userSignUpDto.getName());
+        user.setUsername(userSignUpDto.getUsername());
         user.setEmail(userSignUpDto.getEmail());
         user.setRole(userSignUpDto.getRole());
         User userSaved = repository.save(user);

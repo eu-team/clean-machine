@@ -1,5 +1,7 @@
 package euteam.cleanmachine.model.user;
 
+import euteam.cleanmachine.model.enums.Role;
+
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.*;
@@ -14,6 +16,7 @@ public abstract class User {
     private String name;
     private String email;
     private String password;
+    private Role role;
 
     @OneToMany
     private List<AuthItem> authItemList;
@@ -58,6 +61,14 @@ public abstract class User {
 
     public void setAuthItemList(List<AuthItem> authItemList) {
         this.authItemList = authItemList;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     @Override

@@ -1,5 +1,7 @@
 package euteam.cleanmachine.dto;
 
+import euteam.cleanmachine.model.enums.Role;
+
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -16,6 +18,9 @@ public class UserSignUpDto {
     @NotNull
     @NotEmpty
     private String password;
+
+    @NotNull
+    private Role role;
 
     public String getName() {
         return name;
@@ -39,5 +44,13 @@ public class UserSignUpDto {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }

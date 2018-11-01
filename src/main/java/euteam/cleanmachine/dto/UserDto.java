@@ -1,5 +1,6 @@
 package euteam.cleanmachine.dto;
 
+import euteam.cleanmachine.model.enums.Role;
 import euteam.cleanmachine.model.user.AuthItem;
 
 import java.util.List;
@@ -9,6 +10,7 @@ public class UserDto {
     private String name;
     private String email;
     private List<AuthItem> authItemList;
+    private Role role;
 
     public Long getId() {
         return id;
@@ -40,5 +42,13 @@ public class UserDto {
 
     public void setAuthItemList(List<AuthItem> authItemList) {
         this.authItemList = authItemList;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }

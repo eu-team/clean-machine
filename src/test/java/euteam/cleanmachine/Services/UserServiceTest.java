@@ -5,6 +5,7 @@ import euteam.cleanmachine.dao.AccountDao;
 import euteam.cleanmachine.dao.UserDao;
 import euteam.cleanmachine.dto.UserDto;
 import euteam.cleanmachine.dto.UserSignUpDto;
+import euteam.cleanmachine.model.enums.RoleName;
 import euteam.cleanmachine.model.user.Customer;
 import euteam.cleanmachine.model.user.User;
 import euteam.cleanmachine.service.AccountService;
@@ -62,8 +63,10 @@ public class UserServiceTest {
     public void UserCreated() {
         UserSignUpDto userSignUpDto = new UserSignUpDto();
         userSignUpDto.setName("test");
+        userSignUpDto.setUsername("username");
         userSignUpDto.setPassword("pwd");
         userSignUpDto.setEmail("test@test.com");
+        userSignUpDto.setRoleName(RoleName.CUSTOMER);
         UserDto userDto = userService.addUser(userSignUpDto);
         assertEquals(userService.getUserByID(userDto.getId()).getId(), userDto.getId());
         assertNotEquals(userService.getUserByID(userDto.getId()).getPassword(), "pwd");

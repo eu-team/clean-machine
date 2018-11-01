@@ -10,7 +10,7 @@ public class WelcomeController {
     public ModelAndView list(ModelAndView mav) {
 
         mav.setViewName("welcome");
-        mav.addObject("message", "Hello hhj JSP!");
+        mav.addObject("message", "welcome!");
 
         return mav;
     }

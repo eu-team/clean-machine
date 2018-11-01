@@ -10,7 +10,7 @@ public class LogInController {
     public ModelAndView list(ModelAndView mav) {
 
         mav.setViewName("login");
-        mav.addObject("message", "Hello sign!");
+//        mav.addObject("message", "Hello sign!");
 
         return mav;
     }

@@ -29,6 +29,7 @@
                 <li><a href="about">About</a></li>
                 <li><a href="login">Login</a></li>
                 <li><a href="register">Register</a></li>
+                <li><a href="greeting">Greeting</a></li>
             </ul>
         </div>
     </div>
@@ -37,10 +38,12 @@
 <div class="container">
 
     <div class="starter-template">
-        <h1>Spring Boot Web JSP Example</h1>
+        <h1>Clean Machine </h1>
         <h2>Message: ${message}</h2>
     </div>
 
+    <a href="login" class="btn btn-primary btn-lg active" role="button">Login</a>
+    <a href="register" class="btn btn-primary btn-lg active" role="button">Create Account</a>
 
 
 </div>

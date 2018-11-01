@@ -41,7 +41,7 @@
                     <h1 class="text-center pb-4 pt-3">
                         <span class="text-primary"><i class="fa fa-lock"></i> Clean machine</span> Login
                     </h1>
-                    <form class="form-group" role="form" method="POST" action="/login">
+                    <form class="form-group" role="form" method="POST" action="/users">
                         <div class="form-group">
                             <label for="name">Name</label>
                             <input type="text" name="name" id="name" class="form-control" required>

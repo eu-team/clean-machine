@@ -10,7 +10,7 @@ public class SignUpController {
     public ModelAndView list(ModelAndView mav) {
 
         mav.setViewName("signUp");
-        mav.addObject("message", "Hello sign!");
+//        mav.addObject("message", "Hello sign!");
 
         return mav;
     }

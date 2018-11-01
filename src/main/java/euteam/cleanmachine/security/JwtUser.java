@@ -11,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class JwtUser implements UserDetails {
 
     private final Long id;
+    private final String username;
     private final String name;
     private final String password;
     private final String email;
@@ -18,12 +19,14 @@ public class JwtUser implements UserDetails {
 
     public JwtUser(
             Long id,
+            String username,
             String name,
             String email,
             String password,
             GrantedAuthority authority
     ) {
         this.id = id;
+        this.username = username;
         this.name = name;
         this.email = email;
         this.password = password;
@@ -54,7 +57,7 @@ public class JwtUser implements UserDetails {
 
     @Override
     public String getUsername() {
-        return this.name;
+        return this.username;
     }
 
     @Override

@@ -21,6 +21,7 @@ public class Account {
     private List<Payment> payments;
 
     public Account() {
+        // Empty default constructor
     }
 
     public Long getId() {

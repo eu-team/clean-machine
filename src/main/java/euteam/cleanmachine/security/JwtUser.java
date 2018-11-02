@@ -1,5 +1,6 @@
 package euteam.cleanmachine.security;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
@@ -15,7 +16,7 @@ public class JwtUser implements UserDetails {
     private final String name;
     private final String password;
     private final String email;
-    private final GrantedAuthority authority;
+    private final Collection<? extends GrantedAuthority> authorities;
 
     public JwtUser(
             Long id,
@@ -30,7 +31,9 @@ public class JwtUser implements UserDetails {
         this.name = name;
         this.email = email;
         this.password = password;
-        this.authority = authority;
+        ArrayList<GrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(authority);
+        this.authorities = authorities;
     }
 
     public Long getId() {
@@ -52,7 +55,7 @@ public class JwtUser implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return this.authorities;
     }
 
     @Override

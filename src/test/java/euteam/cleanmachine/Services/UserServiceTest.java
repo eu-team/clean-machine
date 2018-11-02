@@ -66,7 +66,7 @@ public class UserServiceTest {
         userSignUpDto.setUsername("username");
         userSignUpDto.setPassword("pwd");
         userSignUpDto.setEmail("test@test.com");
-        userSignUpDto.setRoleName(RoleName.CUSTOMER);
+        userSignUpDto.setRoleName(RoleName.ROLE_CUSTOMER);
         UserDto userDto = userService.addUser(userSignUpDto);
         assertEquals(userService.getUserByID(userDto.getId()).getId(), userDto.getId());
         assertNotEquals(userService.getUserByID(userDto.getId()).getPassword(), "pwd");

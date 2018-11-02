@@ -39,13 +39,13 @@ public class UserService {
         User user;
 
         switch (userSignUpDto.getRoleName()) {
-            case CUSTOMER:
+            case ROLE_CUSTOMER:
                 user = new Customer();
                 break;
-            case MAINTAINER:
+            case ROLE_MAINTAINER:
                 user = new Maintainer();
                 break;
-            case ADMINSTRATOR:
+            case ROLE_ADMINISTRATOR:
                 user = new Administrator();
                 break;
 

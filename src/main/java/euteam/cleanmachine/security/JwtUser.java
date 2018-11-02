@@ -31,9 +31,9 @@ public class JwtUser implements UserDetails {
         this.name = name;
         this.email = email;
         this.password = password;
-        ArrayList<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(authority);
-        this.authorities = authorities;
+        ArrayList<GrantedAuthority> newAuthorities = new ArrayList<>();
+        newAuthorities.add(authority);
+        this.authorities = newAuthorities;
     }
 
     public Long getId() {

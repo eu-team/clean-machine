@@ -21,12 +21,7 @@ public class Account {
     private List<Payment> payments;
 
     public Account() {
-    }
-
-    public Account(Long id, User user, double balance) {
-        this.id = id;
-        this.user = user;
-        this.balance = balance;
+        // Empty default constructor
     }
 
     public Long getId() {

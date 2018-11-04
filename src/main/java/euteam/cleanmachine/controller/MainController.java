@@ -6,7 +6,10 @@ import euteam.cleanmachine.dao.UserDao;
 import euteam.cleanmachine.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.ui.Model;
+
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -20,6 +23,10 @@ public class MainController {
     UserService userService;
 
 
+
+
+
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
 
     @RequestMapping(path="/hello", method = RequestMethod.GET)
     public ResponseEntity<?> greetings() {

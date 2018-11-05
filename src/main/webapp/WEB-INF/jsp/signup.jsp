@@ -7,7 +7,7 @@
     <!-- Access the bootstrap Css like this,
         Spring boot will handle the resource mapping automcatically -->
     <link rel="stylesheet" type="text/css" href="webjars/bootstrap/3.3.7/css/bootstrap.min.css" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
 
     <!--
 	<spring:url value="/css/main.css" var="springCss" />
@@ -15,32 +15,9 @@
 	 -->
     <c:url value="/css/main.css" var="jstlCss" />
     <link href="${jstlCss}" rel="stylesheet" />
+    <<script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-    <%--<script>--%>
-        <%--$('#submitForm').submit(function(e) {--%>
-            <%--// reference to form object--%>
-            <%--var form = this;--%>
-            <%--// for stopping the default action of element--%>
-            <%--e.preventDefault();--%>
-            <%--// mapthat will hold form data--%>
-            <%--var formData = {}--%>
-            <%--//iterate over form elements--%>
-            <%--$.each(this, function(i, v){--%>
-                <%--var input = $(v);--%>
-                <%--// populate form data as key-value pairs--%>
-                <%--// with the name of input as key and its value as value--%>
-                <%--formData[input.attr("name")] = input.val();--%>
-            <%--});--%>
-            <%--$.ajax({--%>
-                <%--type: form.attr('method'), // method attribute of form--%>
-                <%--url: form.attr('action'),  // action attribute of form--%>
-                <%--dataType : 'json',--%>
-                <%--// convert form data to json format--%>
-                <%--data : JSON.stringify(formData),--%>
-            <%--});--%>
-        <%--});--%>
 
-    <%--</script>--%>
 
 </head>
 <body>
@@ -54,7 +31,7 @@
                 <li><a href="#">Home</a></li>
                 <li><a href="about">About</a></li>
                 <li><a href="login">Login</a></li>
-                <li class="active"><a href="register">Register</a></li>
+                <li class="active"><a href="signup">Signup</a></li>
             </ul>
         </div>
     </div>
@@ -88,9 +65,9 @@
                         <input type="password" name="password" id="password" class="form-control" required>
                     </div>
                     <div class="form-group">
-                            <label for="RoleName">Select one Role:</label>
-                            <select class="form-control" id="RoleName">
-                                <option>ROLE_CUSTOMER</option>
+                            <label for="roleName">Select Role:</label>
+                            <select class="form-control" id="roleName">
+                                <option>ROLE_CUSTOMER</option>s
                                 <option>ROLE_ADMINISTRATOR</option>
                                 <option>ROLE_MAINTAINER</option>
                             </select>
@@ -107,6 +84,10 @@
 </div>
 
 <script type="text/javascript" src="webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+<script type="text/javascript" src="js/main.js"></script>
+
 
 
 

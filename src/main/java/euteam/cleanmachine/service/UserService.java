@@ -42,19 +42,6 @@ public class UserService {
         return users;
     }
 
-//    @RequestMapping(value="/users", method= RequestMethod.POST)
-//    public String customerSubmit(@ModelAttribute User user, Model model) {
-//
-//        model.addAttribute("user",  user);
-//        String info = String.format("User Submission: id = %d,  Name = %s",
-//                user.getId(), user.getName());
-//        log.info(info);
-//        repository.save(user);
-//
-//        return "result";
-//    }
-
-
 
 
 

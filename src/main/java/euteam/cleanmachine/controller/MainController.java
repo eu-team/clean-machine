@@ -26,7 +26,7 @@ public class MainController {
 
 
 
-    @PreAuthorize("hasRole('ADMINISTRATOR')")
+    @PreAuthorize("hasRole('ROLE_CUSTOMER')")
 
     @RequestMapping(path="/hello", method = RequestMethod.GET)
     public ResponseEntity<?> greetings() {

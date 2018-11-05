@@ -61,6 +61,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers(HttpMethod.OPTIONS,"/**").permitAll()
             .antMatchers("/auth").permitAll()
             .antMatchers("/signup").permitAll()
+
             .anyRequest().authenticated();
 
         JwtAuthorizationTokenFilter authenticationTokenFilter = new JwtAuthorizationTokenFilter(userDetailsService(), jwtTokenUtil, tokenHeader);
@@ -68,5 +69,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity
             .addFilterBefore(authenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
     }
+
 
 }

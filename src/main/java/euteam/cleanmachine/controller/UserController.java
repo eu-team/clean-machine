@@ -22,7 +22,6 @@ public class UserController {
         UserDto userDto = userService.addUser(userSignUpDto);
         if(userDto != null) {
             return ResponseEntity.ok().body(userDto);
-           // return("/result");
         } else {
             return ResponseEntity.status(400).body("Error while creating user");
         }

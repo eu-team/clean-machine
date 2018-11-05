@@ -29,7 +29,7 @@
                 <li><a href="about">About</a></li>
                 <li><a href="login">Login</a></li>
                 <li><a href="register">Register</a></li>
-                <li><a href="greeting">Greeting</a></li>
+
             </ul>
         </div>
     </div>

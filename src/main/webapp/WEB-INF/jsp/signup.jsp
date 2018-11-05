@@ -7,6 +7,7 @@
     <!-- Access the bootstrap Css like this,
         Spring boot will handle the resource mapping automcatically -->
     <link rel="stylesheet" type="text/css" href="webjars/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
     <!--
 	<spring:url value="/css/main.css" var="springCss" />
@@ -69,10 +70,14 @@
                 <h1 class="text-center pb-4 pt-3">
                     <span class="text-primary"><i class="fa fa-lock"></i> Clean machine</span> Register
                 </h1>
-                <form class="form-group" id ="submitForm"role="form" method="POST" action="/users">
+                <form class="form-group" id ="submitForm"role="form" method="POST" action="/signup">
                     <div class="form-group">
                         <label for="name">Name</label>
                         <input type="text" name="name" id="name" class ="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="username">User Name</label>
+                        <input type="text" name="username" id="username" class ="form-control" required>
                     </div>
                     <div class="form-group">
                         <label for="email">Email</label>
@@ -83,9 +88,15 @@
                         <input type="password" name="password" id="password" class="form-control" required>
                     </div>
                     <div class="form-group">
-                        <label for="password">Confirm Password</label>
-                        <input type="password" name="password-confirmation" id="password-confirm" class="form-control" required>
+                            <label for="RoleName">Select one Role:</label>
+                            <select class="form-control" id="RoleName">
+                                <option>ROLE_CUSTOMER</option>
+                                <option>ROLE_ADMINISTRATOR</option>
+                                <option>ROLE_MAINTAINER</option>
+                            </select>
                     </div>
+
+
                     <input type="submit" value="Register" class="btn btn-primary btn-block">
                     <%--<button type="submit" class="btn btn-success"><i class="fa fa-user-plus"></i> Register</button>--%>
                 </form>

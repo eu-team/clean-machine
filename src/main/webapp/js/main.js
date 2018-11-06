@@ -6,6 +6,7 @@ $(document).ready(
             // Prevent the form from submitting via the browser.
             event.preventDefault();
             ajaxPost();
+
         });
 
         function ajaxPost() {
@@ -34,9 +35,11 @@ $(document).ready(
                             + "Post Successfully! <br>"
                             + "---> Congrats !!" + "</p>");
                     } else {
-                        $("#postResultDiv").html("<strong>Error</strong>");
+                        $("#postResultDiv").html("<strong>error</strong>");
                     }
                     console.log(result);
+                    window.location.replace("/view");
+
                 },
                 error : function(e) {
                     alert("Error!")

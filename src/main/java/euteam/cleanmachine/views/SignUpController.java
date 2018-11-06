@@ -8,9 +8,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class SignUpController {
     @RequestMapping(value = "/signup", method = RequestMethod.GET)
     public ModelAndView list(ModelAndView mav) {
-
         mav.setViewName("signup");
-
         return mav;
     }
 

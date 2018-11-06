@@ -69,10 +69,6 @@
 			<version>2.1.4</version>
 		</dependency>
 
-
-
-
-
 		<dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
@@ -88,7 +84,6 @@
 			<artifactId>jjwt</artifactId>
 			<version>0.9.0</version>
 		</dependency>
-
 
 	</dependencies>
 

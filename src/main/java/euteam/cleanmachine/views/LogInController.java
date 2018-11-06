@@ -8,10 +8,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class LogInController {
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public ModelAndView list(ModelAndView mav) {
-
         mav.setViewName("login");
-
-
         return mav;
     }
 

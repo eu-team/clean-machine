@@ -7,20 +7,15 @@ import euteam.cleanmachine.dto.UserDto;
 import euteam.cleanmachine.dto.UserSignUpDto;
 import euteam.cleanmachine.model.user.*;
 import euteam.cleanmachine.dao.UserDao;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-
 
 @Service
 public class UserService {
 
     @Autowired
     private UserDao repository;
-    Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private AccountService accountService;
@@ -83,5 +78,4 @@ public class UserService {
     public User getUserByID(Long id) {
         return repository.findById(id).orElse(null);
     }
-
 }

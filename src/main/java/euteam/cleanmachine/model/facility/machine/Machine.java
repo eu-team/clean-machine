@@ -17,7 +17,6 @@ public abstract class Machine {
     private List<Program> programs;
 
 
-
     private MachineState currentState;
 
     public Machine(){

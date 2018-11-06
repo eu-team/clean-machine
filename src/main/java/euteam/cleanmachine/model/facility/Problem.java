@@ -1,7 +1,7 @@
 package euteam.cleanmachine.model.facility;
 
 import euteam.cleanmachine.model.enums.ProblemStatus;
-import euteam.cleanmachine.model.facility.Machine;
+import euteam.cleanmachine.model.facility.machine.Machine;
 import euteam.cleanmachine.model.user.Maintainer;
 
 import javax.persistence.*;

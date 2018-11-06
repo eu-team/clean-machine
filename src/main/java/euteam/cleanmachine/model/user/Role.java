@@ -19,10 +19,6 @@ public class Role {
     @Enumerated(EnumType.STRING)
     private RoleName roleName;
 
-    @JsonIgnore
-    @OneToMany
-    private List<User> users;
-
     public Long getId() {
         return id;
     }
@@ -37,13 +33,5 @@ public class Role {
 
     public void setRoleName(RoleName roleName) {
         this.roleName = roleName;
-    }
-
-    public List<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(List<User> users) {
-        this.users = users;
     }
 }

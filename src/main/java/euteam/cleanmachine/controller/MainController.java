@@ -6,14 +6,10 @@ import euteam.cleanmachine.dao.UserDao;
 import euteam.cleanmachine.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-
 import org.springframework.ui.Model;
-
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
-
 
 @RestController
 @CrossOrigin(origins = "http://localhost:8100" )
@@ -21,10 +17,6 @@ public class MainController {
 
     @Autowired
     UserService userService;
-
-
-
-
 
     @PreAuthorize("hasRole('ROLE_CUSTOMER')")
 
@@ -40,8 +32,5 @@ public class MainController {
 
         return users;
     }
-
-
-
 
 }

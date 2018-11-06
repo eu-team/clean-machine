@@ -18,7 +18,7 @@ public class UserController {
     UserService userService;
 
     @RequestMapping(path="/signup", method = RequestMethod.POST)
-    public ResponseEntity<?> addUser( @RequestBody @Valid UserSignUpDto userSignUpDto) {
+    public ResponseEntity<?>addUser( @RequestBody @Valid UserSignUpDto userSignUpDto) {
         UserDto userDto = userService.addUser(userSignUpDto);
         if(userDto != null) {
             return ResponseEntity.ok().body(userDto);
@@ -27,8 +27,5 @@ public class UserController {
         }
 
     }
-
-
-
 
 }

@@ -11,7 +11,6 @@ public class WelcomeController {
 
         mav.setViewName("welcome");
         mav.addObject("message", "welcome!");
-
         return mav;
     }
 

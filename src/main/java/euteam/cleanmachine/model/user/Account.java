@@ -24,6 +24,11 @@ public class Account {
         // Empty default constructor
     }
 
+    public Account(User user) {
+        this.balance = 0;
+        this.user = user;
+    }
+
     public Long getId() {
         return id;
     }

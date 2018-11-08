@@ -30,7 +30,7 @@ public class AccountController {
     UserService userService;
 
     @PreAuthorize("hasRole('CUSTOMER')")
-    @RequestMapping(path="/account/balance", method = RequestMethod.GET)
+    @RequestMapping(path="/account/balance", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<?> getAccountBalance(HttpServletRequest request) {
 
         String token = request.getHeader(tokenHeader).substring(7);
@@ -44,6 +44,6 @@ public class AccountController {
             balance = accountService.getUserBalance(user);
         }
 
-        return ResponseEntity.ok("{\"balance\":"+balance+"}");
+        return ResponseEntity.ok("{\"balance\":" + balance + "}");
     }
 }

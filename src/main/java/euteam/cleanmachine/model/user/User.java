@@ -18,6 +18,9 @@ public abstract class User {
     private String email;
     private String password;
 
+    @OneToOne(mappedBy = "user")
+    private Account account;
+
     @OneToMany
     private List<AuthItem> authItemList;
 

@@ -21,6 +21,9 @@ public class UserService {
     private AccountService accountService;
 
     @Autowired
+    private AuthItemService authItemService;
+
+    @Autowired
     private RoleService roleService;
 
     @Autowired
@@ -77,5 +80,10 @@ public class UserService {
 
     public User getUserByID(Long id) {
         return repository.findById(id).orElse(null);
+    }
+
+    public User getUserByAuthId(Long authId){
+        AuthItem authItem = authItemService.getAuthItem(authId);
+        return repository.getUserByAuthItemListContains(authItem);
     }
 }

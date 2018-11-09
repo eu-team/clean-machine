@@ -46,9 +46,9 @@ public class JwtAuthorizationTokenFilter extends OncePerRequestFilter {
             authToken = requestHeader.substring(7);
             UserDetails userDetails = null;
 
-            if (jwtTokenUtil.getTypeFromToken(authToken).equals("user")) {
+            if (jwtTokenUtil.getTypeFromToken(authToken).equals(TokenTypes.USER.name())) {
                 userDetails = authenticateUser(authToken, request, response);
-            } else if (jwtTokenUtil.getTypeFromToken(authToken).equals("machine")) {
+            } else if (jwtTokenUtil.getTypeFromToken(authToken).equals(TokenTypes.MACHINE.name())) {
                 userDetails = authenticateMachine(authToken, request, response);
             }
 

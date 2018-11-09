@@ -12,6 +12,7 @@ import io.jsonwebtoken.Clock;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.impl.DefaultClock;
+import jdk.nashorn.internal.parser.Token;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -77,13 +78,13 @@ public class JwtTokenUtil implements Serializable {
 
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
-        claims.put("type", "user");
+        claims.put("type", TokenTypes.USER.name());
         return doGenerateToken(claims, userDetails.getUsername());
     }
 
     public String generateToken(Machine machine) {
         Map<String, Object> claims = new HashMap<>();
-        claims.put("type", "machine");
+        claims.put("type", TokenTypes.MACHINE.name());
         return doGenerateToken(claims, machine.getIdentifier());
     }
 

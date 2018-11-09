@@ -46,10 +46,22 @@ public class JwtAuthorizationTokenFilter extends OncePerRequestFilter {
             authToken = requestHeader.substring(7);
             UserDetails userDetails = null;
 
-            if (jwtTokenUtil.getTypeFromToken(authToken).equals(TokenTypes.USER.name())) {
-                userDetails = authenticateUser(authToken, request, response);
-            } else if (jwtTokenUtil.getTypeFromToken(authToken).equals(TokenTypes.MACHINE.name())) {
-                userDetails = authenticateMachine(authToken, request, response);
+            String subject = null;
+
+            try {
+                subject = jwtTokenUtil.getUsernameFromToken(authToken);
+            } catch (IllegalArgumentException e) {
+                logger.error("an error occurred during getting subject from token", e);
+            } catch (ExpiredJwtException e) {
+                logger.warn("the token is expired and not valid anymore", e);
+            }
+
+            if (subject != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                if (jwtTokenUtil.getTypeFromToken(authToken).equals(TokenTypes.USER.name())) {
+                    userDetails = authenticateUser(subject);
+                } else if (jwtTokenUtil.getTypeFromToken(authToken).equals(TokenTypes.MACHINE.name())) {
+                    userDetails = authenticateMachine(subject);
+                }
             }
 
             if (userDetails != null && jwtTokenUtil.validateToken(authToken, userDetails)) {
@@ -62,45 +74,15 @@ public class JwtAuthorizationTokenFilter extends OncePerRequestFilter {
         chain.doFilter(request, response);
     }
 
-    public UserDetails authenticateUser(String authToken, HttpServletRequest request, HttpServletResponse response) {
-        String username = null;
-
-        try {
-            username = jwtTokenUtil.getUsernameFromToken(authToken);
-        } catch (IllegalArgumentException e) {
-            logger.error("an error occured during getting username from token", e);
-        } catch (ExpiredJwtException e) {
-            logger.warn("the token is expired and not valid anymore", e);
-        }
-
-        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            logger.debug("security context was null, so authorizating user");
-
-            UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
-            return userDetails;
-        }
-        return null;
+    public UserDetails authenticateUser(String username) {
+        UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
+        return userDetails;
     }
 
-    public UserDetails authenticateMachine(String authToken, HttpServletRequest request, HttpServletResponse response) {
-        String identifier = null;
+    public UserDetails authenticateMachine(String identifier) {
+        Machine machine = machineService.getMachineByIdentifier(identifier);
 
-        try {
-            identifier = jwtTokenUtil.getMachineIdentifierFromToken(authToken);
-        } catch (IllegalArgumentException e) {
-            logger.error("an error occured during getting machine identifier from token", e);
-        } catch (ExpiredJwtException e) {
-            logger.warn("the token is expired and not valid anymore", e);
-        }
-
-        if (identifier != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            logger.debug("security context was null, so authorizating machine");
-
-            Machine machine = machineService.getMachineByIdentifier(identifier);
-
-            UserDetails userDetails = new JwtMachine(machine);
-            return userDetails;
-        }
-        return null;
+        UserDetails userDetails = new JwtMachine(machine);
+        return userDetails;
     }
 }

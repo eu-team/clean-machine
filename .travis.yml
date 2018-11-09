@@ -14,7 +14,10 @@ before_script:
   - cat .config/travis.application.properties > src/main/resources/application.properties
 
 script:
-  - mvn clean install
+  - mvn clean package
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
 
 cache:
   directories:

@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+import euteam.cleanmachine.model.facility.Machine;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Clock;
 import io.jsonwebtoken.Jwts;
@@ -27,7 +28,16 @@ public class JwtTokenUtil implements Serializable {
     @Value("${jwt.expiration}")
     private Long expiration;
 
+    public String getTypeFromToken(String token) {
+        final Claims claims = getAllClaimsFromToken(token);
+        return claims.get("type").toString();
+    }
+
     public String getUsernameFromToken(String token) {
+        return getClaimFromToken(token, Claims::getSubject);
+    }
+
+    public String getMachineIdentifierFromToken(String token) {
         return getClaimFromToken(token, Claims::getSubject);
     }
 
@@ -67,7 +77,14 @@ public class JwtTokenUtil implements Serializable {
 
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
+        claims.put("type", "user");
         return doGenerateToken(claims, userDetails.getUsername());
+    }
+
+    public String generateToken(Machine machine) {
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("type", "machine");
+        return doGenerateToken(claims, machine.getIdentifier());
     }
 
     private String doGenerateToken(Map<String, Object> claims, String subject) {
@@ -104,10 +121,9 @@ public class JwtTokenUtil implements Serializable {
     }
 
     public Boolean validateToken(String token, UserDetails userDetails) {
-        JwtUser user = (JwtUser) userDetails;
         final String username = getUsernameFromToken(token);
         return (
-                username.equals(user.getUsername())
+                username.equals(userDetails.getUsername())
                         && !isTokenExpired(token)
         );
     }

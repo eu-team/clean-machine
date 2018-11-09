@@ -46,32 +46,40 @@ public class JwtAuthorizationTokenFilter extends OncePerRequestFilter {
             authToken = requestHeader.substring(7);
             UserDetails userDetails = null;
 
-            String subject = null;
-
-            try {
-                subject = jwtTokenUtil.getUsernameFromToken(authToken);
-            } catch (IllegalArgumentException e) {
-                logger.error("an error occurred during getting subject from token", e);
-            } catch (ExpiredJwtException e) {
-                logger.warn("the token is expired and not valid anymore", e);
-            }
+            String subject = getSubjectFromToken(authToken);
 
             if (subject != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                if (jwtTokenUtil.getTypeFromToken(authToken).equals(TokenTypes.USER.name())) {
-                    userDetails = authenticateUser(subject);
-                } else if (jwtTokenUtil.getTypeFromToken(authToken).equals(TokenTypes.MACHINE.name())) {
-                    userDetails = authenticateMachine(subject);
-                }
+                userDetails = createUserDetails(authToken, subject);
             }
 
-            if (userDetails != null && jwtTokenUtil.validateToken(authToken, userDetails)) {
-                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-            }
+            setSecurityContext(userDetails, authToken, request);
         }
 
         chain.doFilter(request, response);
+    }
+
+    private String getSubjectFromToken(String authToken) {
+        String subject = null;
+
+        try {
+            subject = jwtTokenUtil.getUsernameFromToken(authToken);
+        } catch (IllegalArgumentException e) {
+            logger.error("an error occurred during getting subject from token", e);
+        } catch (ExpiredJwtException e) {
+            logger.warn("the token is expired and not valid anymore", e);
+        }
+
+        return subject;
+    }
+
+    private UserDetails createUserDetails(String authToken, String subject) {
+        UserDetails userDetails;
+        if (jwtTokenUtil.getTypeFromToken(authToken).equals(TokenTypes.USER.name())) {
+            userDetails = authenticateUser(subject);
+        } else if (jwtTokenUtil.getTypeFromToken(authToken).equals(TokenTypes.MACHINE.name())) {
+            userDetails = authenticateMachine(subject);
+        }
+        return userDetails;
     }
 
     public UserDetails authenticateUser(String username) {
@@ -84,5 +92,13 @@ public class JwtAuthorizationTokenFilter extends OncePerRequestFilter {
 
         UserDetails userDetails = new JwtMachine(machine);
         return userDetails;
+    }
+
+    private void setSecurityContext(UserDetails userDetails, String authToken, HttpServletRequest request) {
+        if (userDetails != null && jwtTokenUtil.validateToken(authToken, userDetails)) {
+            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+            authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+        }
     }
 }

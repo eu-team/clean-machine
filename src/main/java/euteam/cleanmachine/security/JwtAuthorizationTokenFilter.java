@@ -73,7 +73,7 @@ public class JwtAuthorizationTokenFilter extends OncePerRequestFilter {
     }
 
     private UserDetails createUserDetails(String authToken, String subject) {
-        UserDetails userDetails;
+        UserDetails userDetails = null;
         if (jwtTokenUtil.getTypeFromToken(authToken).equals(TokenTypes.USER.name())) {
             userDetails = authenticateUser(subject);
         } else if (jwtTokenUtil.getTypeFromToken(authToken).equals(TokenTypes.MACHINE.name())) {

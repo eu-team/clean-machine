@@ -1,5 +1,6 @@
 package euteam.cleanmachine.security;
 
+import euteam.cleanmachine.model.enums.RoleName;
 import euteam.cleanmachine.service.MachineService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -66,6 +67,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers(HttpMethod.OPTIONS,"/**").permitAll()
             .antMatchers("/auth/**").permitAll()
             .antMatchers("/signup").permitAll()
+            .antMatchers("/machine/**").hasRole("MACHINE")
+            .antMatchers("^(?!/machine)\\w+$/**").hasAnyRole(String.join(",", RoleName.ROLE_CUSTOMER.name(), RoleName.ROLE_ADMINISTRATOR.name(), RoleName.ROLE_MAINTAINER.name()))
             .antMatchers("/view/**").permitAll()
             .anyRequest().authenticated();
 

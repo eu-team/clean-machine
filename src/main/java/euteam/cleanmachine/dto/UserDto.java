@@ -12,7 +12,7 @@ public class UserDto {
     private String email;
     private List<AuthItem> authItemList;
     private RoleName roleName;
-    
+
 
     public Long getId() {
         return id;

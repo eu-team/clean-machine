@@ -77,9 +77,9 @@ public class UserService {
         return userDto;
     }
 
-    public CardDto LinkCard(CardDto cardDto) {
+    public UserDto LinkCard(CardDto cardDto) {
         //TODO: similar to addUser above get card details stated in NFCCard model and CardDto
-        return cardDto;
+        return null;
 
 
     }

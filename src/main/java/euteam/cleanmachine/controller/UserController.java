@@ -1,5 +1,6 @@
 package euteam.cleanmachine.controller;
 
+import euteam.cleanmachine.dto.CardDto;
 import euteam.cleanmachine.dto.UserDto;
 import euteam.cleanmachine.dto.UserSignUpDto;
 import euteam.cleanmachine.service.UserService;
@@ -26,9 +27,9 @@ public class UserController {
         }
     }
 
-    @RequestMapping(path="/account", method = RequestMethod.POST)
-    public ResponseEntity<?> LinkCard(@RequestBody @Valid UserDto user) {
-        UserDto link = userService.LinkCard(user);
+    @RequestMapping(path="/linkcard", method = RequestMethod.POST)
+    public ResponseEntity<?> LinkCard(@RequestBody @Valid CardDto cardDto) {
+        UserDto link = userService.LinkCard(cardDto);
         if(link != null) {
             return ResponseEntity.ok().body(link);
         } else {

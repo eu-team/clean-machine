@@ -3,8 +3,10 @@ package euteam.cleanmachine.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import euteam.cleanmachine.dto.CardDto;
 import euteam.cleanmachine.dto.UserDto;
 import euteam.cleanmachine.dto.UserSignUpDto;
+import euteam.cleanmachine.dto.CardDto;
 import euteam.cleanmachine.model.user.*;
 import euteam.cleanmachine.dao.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,14 +77,9 @@ public class UserService {
         return userDto;
     }
 
-    public UserDto LinkCard(UserDto userDto) {
-//        User user;
-//
-//        user.setCardNumber(userDto.getCardNumber());
-//        User cardSaved = repository.save(user);
-//        UserDto userDt  = new UserDto();
-//        userDt.setCardNumber(cardSaved.getCardNumber());
-        return userDto;
+    public UserDto LinkCard(CardDto cardDto) {
+        //TODO: similar to addUser above get card details stated in NFCCard model and cardDto
+        return null;
 
 
     }

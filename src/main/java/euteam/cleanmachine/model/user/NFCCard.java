@@ -26,7 +26,6 @@ public class NFCCard extends AuthItem {
     public String getFullName() {
         return fullName;
     }
-
     public String getCvv() {
         return cvv;
     }

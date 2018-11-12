@@ -2,6 +2,7 @@ package euteam.cleanmachine.dto;
 
 import euteam.cleanmachine.model.enums.RoleName;
 import euteam.cleanmachine.model.user.AuthItem;
+import euteam.cleanmachine.model.user.NFCCard;
 
 import java.util.List;
 
@@ -11,6 +12,7 @@ public class UserDto {
     private String email;
     private List<AuthItem> authItemList;
     private RoleName roleName;
+    private String cardNumber;
 
     public Long getId() {
         return id;
@@ -51,4 +53,11 @@ public class UserDto {
     public void setRoleName(RoleName roleName) {
         this.roleName = roleName;
     }
+
+    public String getCardNumber(){return cardNumber;}
+
+    public void setCardNumber(String cardNumber) {
+        this.cardNumber = cardNumber;
+    }
+
 }

@@ -75,6 +75,18 @@ public class UserService {
         return userDto;
     }
 
+    public UserDto LinkCard(UserDto userDto) {
+//        User user;
+//
+//        user.setCardNumber(userDto.getCardNumber());
+//        User cardSaved = repository.save(user);
+//        UserDto userDt  = new UserDto();
+//        userDt.setCardNumber(cardSaved.getCardNumber());
+        return userDto;
+
+
+    }
+
     public User getUserByID(Long id) {
         return repository.findById(id).orElse(null);
     }

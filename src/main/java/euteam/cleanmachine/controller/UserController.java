@@ -25,4 +25,14 @@ public class UserController {
             return ResponseEntity.status(400).body("Error while creating user");
         }
     }
+
+    @RequestMapping(path="/account", method = RequestMethod.POST)
+    public ResponseEntity<?> LinkCard(@RequestBody @Valid UserDto user) {
+        UserDto link = userService.LinkCard(user);
+        if(link != null) {
+            return ResponseEntity.ok().body(link);
+        } else {
+            return ResponseEntity.status(400).body("Error while Linking card");
+        }
+    }
 }

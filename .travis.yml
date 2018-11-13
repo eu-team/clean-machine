@@ -19,6 +19,20 @@ script:
 after_success:
   - bash <(curl -s https://codecov.io/bash)
 
+before_deploy:
+  - cat .config/heroku.application.properties > src/main/resources/application.properties
+  - echo "${DB_PASSWORD}" >> src/main/resources/application.properties
+  - echo "${DB_URL}" >> src/main/resources/application.properties
+  - echo "${DB_USERNAME}" >> src/main/resources/application.properties
+  - echo "${TOKEN_SECRET}" >> src/main/resources/application.properties
+
+deploy:
+  provider: heroku
+  api_key:
+    secure: "iO5eh6Mn2RSEK6f2EhHGx6PkwqB3+/caDTwGnmmfne2qBpKhByFtFaYvCYnvtpfgzsWrRZh4Qn1lM7BYGLGxKmAGgvG81U4rLEpiCtr/1tRFp6OoBflIRzoaQv6kU8OoE58dFqnNbXM1UlxdM0KE7VoWxoPnnNRz8YEBeK66a9aad0fKKlg7ecX3u+n00CTcvxQZ4r5ceqb5krJwKpKu1JCrZZ4p5Wf/7/1/EmUim/VsmIkaNs9HI3pRZWRVy3kedeFIZ64qsWkjTKIA4afnAnL+8Nz/pfDUe4GuXHDRGhXkQnVh6h0n0mMRUHNWGQ54hYO2AjLUSStjSWFCDRZ/IqtbmY2LO5EGTKVWFuU1e6ZscCpOhce98K6QfEQKwIxrNlcEfLLF3BKLBumcICp4OS7C+fdDan1vu3C1bZRQHwi3H1VnziqmVFeSMIb4WBA89aak91W/KJXlvZSTh/NCjrkahx1i/WUJp3cds5OYcuk68n8Jaxw5MDlPeJbQZdATEjViW7qMmerW5wgXINRHPq6NcCNV0hKmCFmulSSkGg9KO+L5lWLpA0u6KNG2aYxPgFghmLXS46tb5iNLJHw5yjM5+QEVqNJcgeMWE1ImHG1eoTVroO0ULomZ9WE3DDsuPNHyV7xitTK0AHwTJaQfJUkH2xNZTRanliC1Fmr+we4="
+  on: 
+    branch: master
+
 cache:
   directories:
   - $HOME/.m2

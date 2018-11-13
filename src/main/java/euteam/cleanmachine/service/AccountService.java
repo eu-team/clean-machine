@@ -30,4 +30,10 @@ public class AccountService {
     public Account addAccount(Account account) {
         return repository.save(account);
     }
+
+    public double getUserBalance(User user) {
+        Account account = repository.findByUser(user).orElse(null);
+        if (account != null) return account.getBalance();
+        return 0;
+    }
 }

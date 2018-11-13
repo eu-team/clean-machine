@@ -52,30 +52,31 @@ public class UserService {
             default: return null;
 
         }
+
         user.setPassword(passwordEncoder.encode(userSignUpDto.getPassword()));
         user.setName(userSignUpDto.getName());
         user.setUsername(userSignUpDto.getUsername());
         user.setEmail(userSignUpDto.getEmail());
+
         Role role = roleService.getRoleByRoleName(userSignUpDto.getRoleName());
         if (role == null) return null;
         role.setRoleName(userSignUpDto.getRoleName());
         user.setRole(role);
         user.setAuthItemList(new ArrayList<>());
         User userSaved = repository.save(user);
-        Account account = new Account();
-        account.setBalance(0);
-        account.setUser(userSaved);
-        UserDto userDto = new UserDto();
-        userDto.setId(userSaved.getId());
-        userDto.setName(userSaved.getName());
-        userDto.setEmail(userSaved.getEmail());
-        userDto.setAuthItemList(userSaved.getAuthItemList());
-        userDto.setRoleName(userSaved.getRole().getRoleName());
+
+        Account account = new Account(userSaved);
+        UserDto userDto = new UserDto(userSaved);
         accountService.addAccount(account);
+
         return userDto;
     }
 
     public User getUserByID(Long id) {
         return repository.findById(id).orElse(null);
+    }
+
+    public User getUserByUsername(String username) {
+        return repository.findByUsername(username);
     }
 }

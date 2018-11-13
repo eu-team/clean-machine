@@ -9,7 +9,7 @@ public class ProgramDecorator extends Program {
         this.program = program;
     }
 
-    public double cost() {
+    public double getCost() {
         return program.getCost();
     }
 }

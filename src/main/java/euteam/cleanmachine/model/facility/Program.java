@@ -15,6 +15,10 @@ public class Program {
     private double duration;
     private double cost;
 
+    public Program() {
+        this.cost = 3;
+    }
+
     public Long getId() {
         return id;
     }

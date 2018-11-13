@@ -12,7 +12,7 @@ public class WithSoftener extends ProgramDecorator {
         this.softener = softener;
     }
 
-    public double cost() {
-        return super.cost() + this.softener.getPrice();
+    public double getCost() {
+        return super.getCost() + this.softener.getPrice();
     }
 }

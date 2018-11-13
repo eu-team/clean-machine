@@ -12,7 +12,7 @@ public class WithPowder extends ProgramDecorator {
         this.powder = powder;
     }
 
-    public double cost() {
-        return super.cost() + this.powder.getPrice();
+    public double getCost() {
+        return super.getCost() + this.powder.getPrice();
     }
 }

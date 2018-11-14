@@ -2,7 +2,8 @@ package euteam.cleanmachine.dto;
 
 import euteam.cleanmachine.model.enums.RoleName;
 import euteam.cleanmachine.model.user.AuthItem;
-import euteam.cleanmachine.model.user.NFCCard;
+import euteam.cleanmachine.model.user.User;
+
 
 import java.util.List;
 
@@ -12,6 +13,15 @@ public class UserDto {
     private String email;
     private List<AuthItem> authItemList;
     private RoleName roleName;
+
+
+    public UserDto(User user) {
+        this.id = user.getId();
+        this.name = user.getName();
+        this.email = user.getEmail();
+        this.authItemList = user.getAuthItemList();
+        this.roleName = user.getRole().getRoleName();
+    }
 
 
     public Long getId() {

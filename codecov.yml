@@ -1,0 +1,8 @@
+ignore:
+  - "src/main/java/euteam/cleanmachine/views"
+  - "src/main/java/euteam/cleanmachine/CleanmachineApplication.java"
+
+coverage:
+  status:
+    project: no
+    patch: no

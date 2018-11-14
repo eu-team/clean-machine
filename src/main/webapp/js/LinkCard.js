@@ -1,33 +1,28 @@
 $(document).ready(
-    function() {
+    function () {
 
         // SUBMIT FORM
-        $("#submitForm").submit(function(event) {
+        $("#submitForm").submit(function (event) {
             // Prevent the form from submitting via the browser.
             event.preventDefault();
             ajaxPost();
-
         });
 
         function ajaxPost() {
 
             // PREPARE FORM DATA
             var formData = {
-                "cardNumber" : $("#cardNumber").val(),
-                "fullName" : $("#fullName").val(),
-                "cvv": $("#cvv").val(),
-                "dateOfExpiry" : $("#dateOfExpiry").val()
-
+                "cardNumber": $("#cardNumber").val()
             }
 
             // DO POST
             $.ajax({
-                type : "POST",
-                contentType : "application/json",
-                url : "/linkcard",
-                data : JSON.stringify(formData),
-                dataType : 'json',
-                success : function(result) {
+                type: "POST",
+                contentType: "application/json",
+                url: "/linkcard",
+                data: JSON.stringify(formData),
+                dataType: 'json',
+                success: function (result) {
                     if (result.status === "success") {
                         $("#postResultDiv").html(
                             "" + result.data.name
@@ -40,7 +35,7 @@ $(document).ready(
                     window.location.replace("/view");
 
                 },
-                error : function(e) {
+                error: function (e) {
                     alert("Error!")
                     console.log("ERROR: ", e);
                 }

@@ -50,18 +50,6 @@
                             <label for="cardNumber">Card Number</label>
                             <input type="number" name="cardNumber" id="cardNumber" class="form-control" required>
                         </div>
-                        <div class="form-group">
-                            <label for="fullName">Full Name</label>
-                            <input type="text" name="fullName" id="fullName" class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="cvv">CVV</label>
-                            <input type="number" name="cvv" id="cvv" class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="dateOfExpiry">Date Of Expiry</label>
-                            <input type="date" name="dateOfExpiry" id="dateOfExpiry" class="form-control" required>
-                        </div>
                         <input type="submit" value="Submit" class="btn btn-primary btn-block">
                     </form>
                 </div>

@@ -82,6 +82,7 @@ public abstract class User {
         this.role = role;
     }
 
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {

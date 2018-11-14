@@ -3,12 +3,12 @@ package euteam.cleanmachine.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import euteam.cleanmachine.dto.CardDto;
+import euteam.cleanmachine.dto.NFCDto;
 import euteam.cleanmachine.dto.UserDto;
 import euteam.cleanmachine.dto.UserSignUpDto;
-import euteam.cleanmachine.dto.CardDto;
 import euteam.cleanmachine.model.user.*;
 import euteam.cleanmachine.dao.UserDao;
+import euteam.cleanmachine.model.user.AuthItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -77,9 +77,14 @@ public class UserService {
         return userDto;
     }
 
-    public UserDto LinkCard(CardDto cardDto) {
-        //TODO: similar to addUser above get card details stated in NFCCard model and CardDto
-        return null;
+    public UserDto LinkCard(NFCDto nfcDto) {
+        AuthItem  authlist;
+       // NFCCard card = new NFCCard();
+      //  card.setCardNumber(nfcDto.getCardNumber());
+        UserDto userDto = new UserDto();
+      //  userDto.setAuthItemList();
+
+       return null;
 
 
     }

@@ -24,6 +24,10 @@ public abstract class Machine {
         setState(new IdleState());
     }
 
+    public MachineState getState() {
+        return state;
+    }
+
     public void setState(MachineState state){
         this.state = state;
     }

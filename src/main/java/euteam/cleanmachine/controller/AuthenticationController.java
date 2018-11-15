@@ -1,11 +1,15 @@
 package euteam.cleanmachine.controller;
 
+import euteam.cleanmachine.dto.MachineAuthDto;
 import euteam.cleanmachine.dto.TokenDto;
 import euteam.cleanmachine.dto.UserSignInDto;
 import euteam.cleanmachine.exceptions.AuthenticationException;
+import euteam.cleanmachine.model.facility.Machine;
 import euteam.cleanmachine.security.JwtTokenUtil;
+import euteam.cleanmachine.service.MachineService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
@@ -13,6 +17,10 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:8100")
@@ -25,14 +33,17 @@ public class AuthenticationController {
     private JwtTokenUtil jwtTokenUtil;
 
     @Autowired
+    private MachineService machineService;
+
+    @Autowired
     @Qualifier("jwtUserDetailsService")
     private UserDetailsService userDetailsService;
 
-    @RequestMapping(path="/auth", method = RequestMethod.POST)
+    @RequestMapping(path="/auth/user", method = RequestMethod.POST)
     public TokenDto createAuthenticationToken(@RequestBody UserSignInDto userSignInDto) throws AuthenticationException {
 
         // Authenticate the user throws exception if not able to to authenticate
-        authenticate(userSignInDto.getUsername(), userSignInDto.getPassword());
+        authenticateUser(userSignInDto.getUsername(), userSignInDto.getPassword());
 
         // Reload password post-security so we can generate the token
         final UserDetails userDetails = userDetailsService.loadUserByUsername(userSignInDto.getUsername());
@@ -44,7 +55,20 @@ public class AuthenticationController {
         return tokenDto;
     }
 
-    private void authenticate(String username, String password) {
+    @RequestMapping(path="/auth/machine", method = RequestMethod.POST)
+    public ResponseEntity<?> authMachine(@RequestBody @Valid MachineAuthDto machineAuthDto) {
+        String token = authenticateMachine(machineAuthDto.getIdentifier());
+        Map<String, Object> response = new HashMap<String, Object>();
+        if(token == null) {
+            response.put("error", "Unknown machine");
+            return ResponseEntity.status(401).body(response);
+        } else {
+            response.put("token", token);
+            return ResponseEntity.ok(response);
+        }
+    }
+
+    private void authenticateUser(String username, String password) {
 
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
@@ -53,5 +77,13 @@ public class AuthenticationController {
         } catch (BadCredentialsException e) {
             throw new AuthenticationException("Invalid credentials", e);
         }
+    }
+
+    private String authenticateMachine(String identifier) {
+        Machine machine = machineService.getMachineByIdentifier(identifier);
+        if(machine == null) {
+            return null;
+        }
+        return jwtTokenUtil.generateToken(machine);
     }
 }

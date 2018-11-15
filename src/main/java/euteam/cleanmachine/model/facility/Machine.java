@@ -43,6 +43,7 @@ public abstract class Machine {
   
     public void reopenMachine(Long employeId){
         state.reOpenMachine(this);
+    }
 
     public Long getId() {
         return id;

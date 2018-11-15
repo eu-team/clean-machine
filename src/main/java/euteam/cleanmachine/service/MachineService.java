@@ -23,4 +23,7 @@ public class MachineService {
     public Machine getMachine(Long machineID){
         return  repository.getMachineById(machineID);
     }
+    public Machine getMachineByIdentifier(String identifier) {
+        return repository.findByIdentifier(identifier);
+    }
 }

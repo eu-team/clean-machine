@@ -11,5 +11,6 @@ import java.util.List;
 public interface MachineDao extends CrudRepository<Machine,Long> {
 
     Machine getMachineById(Long machineID);
+    Machine findByIdentifier(String identifier);
 
 }

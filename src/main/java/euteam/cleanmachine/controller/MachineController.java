@@ -15,16 +15,21 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:8100")
 public class MachineController {
 
     @Autowired
-    MachineService machineService;
+    private MachineService machineService;
 
     @Autowired
     UserService userService;
@@ -76,6 +81,15 @@ public class MachineController {
         machineService.updateMachine(machine);
         */
         return ResponseEntity.ok("User authenticated on the machine");
+    }
+    @RequestMapping(path="/machine/hello", method = RequestMethod.GET)
+    public ResponseEntity<?> greetings() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String identifier = auth.getName();
+
+        Machine machine = machineService.getMachineByIdentifier(identifier);
+
+        return ResponseEntity.ok(machine);
     }
 
 }

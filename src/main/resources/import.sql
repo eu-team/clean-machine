@@ -34,7 +34,7 @@ INSERT INTO users_auth_item_list VALUES (100, 100);
 
 INSERT INTO public.facility VALUES (100, '8, facility avenue, Limerick', 'Lavomatic');
 
-INSERT INTO machine VALUES ('WashingMachine', 100);
+INSERT INTO machine VALUES ('WashingMachine', 100, 'ABC987654321');
 INSERT INTO program VALUES (100, 2, 50, 'Cotton 60');
 INSERT INTO machine_programs VALUES (100, 100);
 

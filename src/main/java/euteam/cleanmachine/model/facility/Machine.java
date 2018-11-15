@@ -1,5 +1,8 @@
 package euteam.cleanmachine.model.facility;
 
+import euteam.cleanmachine.model.facility.machine.state.IdleState;
+import euteam.cleanmachine.model.facility.machine.state.MachineState;
+
 import javax.persistence.*;
 import java.util.List;
 

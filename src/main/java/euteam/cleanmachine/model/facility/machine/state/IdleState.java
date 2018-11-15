@@ -1,9 +1,11 @@
-package euteam.cleanmachine.model.facility;
+package euteam.cleanmachine.model.facility.machine.state;
+
+import euteam.cleanmachine.model.facility.Machine;
 
 import javax.persistence.Entity;
 
 @Entity
-public class IdleState extends MachineState{
+public class IdleState extends MachineState {
     @Override
     public void idle(Machine m) {
         //already in idle state

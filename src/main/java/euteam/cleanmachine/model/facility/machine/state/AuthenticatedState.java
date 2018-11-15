@@ -1,4 +1,6 @@
-package euteam.cleanmachine.model.facility;
+package euteam.cleanmachine.model.facility.machine.state;
+
+import euteam.cleanmachine.model.facility.*;
 
 import javax.persistence.Entity;
 

@@ -1,5 +1,8 @@
 package euteam.cleanmachine.model.facility;
 
+import euteam.cleanmachine.model.facility.machine.state.IdleState;
+import euteam.cleanmachine.model.facility.machine.state.MachineState;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -19,6 +22,10 @@ public abstract class Machine {
 
     Machine(){
         setState(new IdleState());
+    }
+
+    public MachineState getState() {
+        return state;
     }
 
     public void setState(MachineState state){

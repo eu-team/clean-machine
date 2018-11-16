@@ -1,9 +1,13 @@
-package euteam.cleanmachine.model.facility;
+package euteam.cleanmachine.model.facility.machine.state;
+
+import euteam.cleanmachine.model.facility.Machine;
+import euteam.cleanmachine.model.facility.machine.state.IdleState;
+import euteam.cleanmachine.model.facility.machine.state.MachineState;
 
 import javax.persistence.Entity;
 
 @Entity
-public class OutOfOrderState extends  MachineState {
+public class OutOfOrderState extends MachineState {
     private Long employeId;
 
     public OutOfOrderState(Long employeId) {

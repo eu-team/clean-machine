@@ -1,4 +1,9 @@
-package euteam.cleanmachine.model.facility;
+package euteam.cleanmachine.model.facility.machine.state;
+
+import euteam.cleanmachine.model.facility.Machine;
+import euteam.cleanmachine.model.facility.machine.state.IdleState;
+import euteam.cleanmachine.model.facility.machine.state.MachineState;
+import euteam.cleanmachine.model.facility.machine.state.OutOfOrderState;
 
 import javax.persistence.Entity;
 

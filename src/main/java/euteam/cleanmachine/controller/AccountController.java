@@ -1,6 +1,7 @@
 package euteam.cleanmachine.controller;
 
 import euteam.cleanmachine.dto.AccountSubscriptionDto;
+import euteam.cleanmachine.dto.BalanceDto;
 import euteam.cleanmachine.dto.SubscribeToPlanDto;
 import euteam.cleanmachine.exceptions.ServiceException;
 import euteam.cleanmachine.model.user.Account;
@@ -39,21 +40,23 @@ public class AccountController {
     UserService userService;
 
     @PreAuthorize("hasRole('CUSTOMER')")
-    @RequestMapping(path="/account/balance", method = RequestMethod.GET, produces = "application/json")
-    public ResponseEntity<?> getAccountBalance(HttpServletRequest request) {
+    @RequestMapping(path="/account/balance", method = RequestMethod.GET)
+    public ResponseEntity<?> getAccountBalance() {
+        try {
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            String username = auth.getName();
+            User user = userService.getUserByUsername(username);
 
-        String token = request.getHeader(tokenHeader).substring(7);
-        String username = jwtTokenUtil.getUsernameFromToken(token);
-        User user = userService.getUserByUsername(username);
-        double balance;
-
-        if (user == null) {
-            return ResponseEntity.status(400).body("Error finding user");
-        } else {
-            balance = accountService.getUserBalance(user);
+            BalanceDto balanceDto = accountService.getUserBalance(user);
+            return ResponseEntity.ok().body(balanceDto);
+        } catch (ServiceException e) {
+            Map<String, String> response = new HashMap<>();
+            response.put("error", e.getMessage());
+            return ResponseEntity.badRequest().body(response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body(null);
         }
-
-        return ResponseEntity.ok("{\"balance\":" + balance + "}");
     }
 
     @PreAuthorize("hasRole('CUSTOMER')")

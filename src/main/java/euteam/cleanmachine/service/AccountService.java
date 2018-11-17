@@ -3,6 +3,7 @@ package euteam.cleanmachine.service;
 import euteam.cleanmachine.dao.AccountDao;
 import euteam.cleanmachine.dao.SubscriptionPlanDao;
 import euteam.cleanmachine.dto.AccountSubscriptionDto;
+import euteam.cleanmachine.dto.BalanceDto;
 import euteam.cleanmachine.exceptions.ServiceException;
 import euteam.cleanmachine.model.billing.AccountSubscription;
 import euteam.cleanmachine.model.billing.SubscriptionPlan;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.BlockingDeque;
 
 @Service
 public class AccountService {
@@ -40,10 +42,20 @@ public class AccountService {
         return accountDao.save(account);
     }
 
-    public double getUserBalance(User user) {
+    /**
+     * Get the balance of the user
+     * @param user user
+     * @return BalanceDto the balance
+     * @throws ServiceException
+     */
+    public BalanceDto getUserBalance(User user) throws  ServiceException {
         Account account = accountDao.findByUser(user).orElse(null);
-        if (account != null) return account.getBalance();
-        return 0;
+
+        if(account == null) {
+            throw new ServiceException("Account not found");
+        }
+
+        return new BalanceDto(account.getBalance());
     }
 
     /**

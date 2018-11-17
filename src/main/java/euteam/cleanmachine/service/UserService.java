@@ -5,6 +5,7 @@ import java.util.List;
 
 import euteam.cleanmachine.dto.UserDto;
 import euteam.cleanmachine.dto.UserSignUpDto;
+import euteam.cleanmachine.exceptions.ServiceException;
 import euteam.cleanmachine.model.user.*;
 import euteam.cleanmachine.dao.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,8 +35,7 @@ public class UserService {
         return users;
     }
 
-    public UserDto addUser(UserSignUpDto userSignUpDto) {
-
+    public UserDto addUser(UserSignUpDto userSignUpDto) throws ServiceException{
         User user;
 
         switch (userSignUpDto.getRoleName()) {
@@ -49,7 +49,8 @@ public class UserService {
                 user = new Administrator();
                 break;
 
-            default: return null;
+            default:
+                throw new ServiceException("Role does not exist");
 
         }
 
@@ -59,7 +60,11 @@ public class UserService {
         user.setEmail(userSignUpDto.getEmail());
 
         Role role = roleService.getRoleByRoleName(userSignUpDto.getRoleName());
-        if (role == null) return null;
+
+        if(role == null) {
+            throw new ServiceException("Role not found");
+        }
+
         role.setRoleName(userSignUpDto.getRoleName());
         user.setRole(role);
         user.setAuthItemList(new ArrayList<>());

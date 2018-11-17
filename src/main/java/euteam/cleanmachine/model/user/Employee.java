@@ -9,4 +9,12 @@ import javax.persistence.ManyToOne;
 public abstract class Employee extends User {
     @ManyToOne
     private Facility facility;
+
+    public Facility getFacility() {
+        return facility;
+    }
+
+    public void setFacility(Facility facility) {
+        this.facility = facility;
+    }
 }

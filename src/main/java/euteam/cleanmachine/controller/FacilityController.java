@@ -4,10 +4,14 @@ import euteam.cleanmachine.dto.FacilityDto;
 import euteam.cleanmachine.dto.MachineDto;
 import euteam.cleanmachine.dto.NewFacilityDto;
 import euteam.cleanmachine.dto.NewMachineDto;
+import euteam.cleanmachine.model.user.Administrator;
 import euteam.cleanmachine.service.FacilityService;
+import euteam.cleanmachine.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,6 +24,9 @@ public class FacilityController {
     @Autowired
     FacilityService facilityService;
 
+    @Autowired
+    UserService userService;
+
     @PreAuthorize("hasRole('ADMINISTRATOR')")
     @RequestMapping(path="/facility", method = RequestMethod.POST, produces = "application/json")
     public ResponseEntity<?> createFacility(@RequestBody @Valid NewFacilityDto newFacilityDto) {
@@ -28,9 +35,13 @@ public class FacilityController {
     }
 
     @PreAuthorize("hasRole('ADMINISTRATOR')")
-    @RequestMapping(path="/facility/{id}/machine", method = RequestMethod.POST, produces = "application/json")
-    public ResponseEntity<?> addMachineToFacility(@RequestBody @Valid NewMachineDto newMachineDto, @PathVariable String id) {
-        MachineDto machineDto = facilityService.addNewMachineToFacility(Long.parseLong(id), newMachineDto);
+    @RequestMapping(path="/facility/machine", method = RequestMethod.POST, produces = "application/json")
+    public ResponseEntity<?> addMachineToFacility(@RequestBody @Valid NewMachineDto newMachineDto) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String username = auth.getName();
+        Administrator administrator = (Administrator) userService.getUserByUsername(username);
+
+        MachineDto machineDto = facilityService.addNewMachineToFacility(administrator.getFacility().getId(), newMachineDto);
         if (machineDto != null ) {
             return ResponseEntity.ok().body(machineDto);
         } else {

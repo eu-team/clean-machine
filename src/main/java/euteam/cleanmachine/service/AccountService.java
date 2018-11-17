@@ -12,27 +12,27 @@ import java.util.List;
 public class AccountService {
 
     @Autowired
-    private AccountDao repository;
+    private AccountDao accountDao;
 
     public List<Account> findAll() {
 
-        return (List<Account>) repository.findAll();
+        return (List<Account>) accountDao.findAll();
     }
 
     public Account getAccountByID(Long id) {
-        return repository.findById(id).orElse(null);
+        return accountDao.findById(id).orElse(null);
     }
 
     public Account getAccountByUser(User user) {
-        return repository.findByUser(user).orElse(null);
+        return accountDao.findByUser(user).orElse(null);
     }
 
     public Account addAccount(Account account) {
-        return repository.save(account);
+        return accountDao.save(account);
     }
 
     public double getUserBalance(User user) {
-        Account account = repository.findByUser(user).orElse(null);
+        Account account = accountDao.findByUser(user).orElse(null);
         if (account != null) return account.getBalance();
         return 0;
     }

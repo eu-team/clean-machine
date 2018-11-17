@@ -1,19 +1,16 @@
 package euteam.cleanmachine.Services;
 
 import euteam.cleanmachine.CleanmachineApplication;
-import euteam.cleanmachine.dao.AccountDao;
-import euteam.cleanmachine.dao.MachineDao;
 import euteam.cleanmachine.dao.ReservationDao;
+import euteam.cleanmachine.dao.RoleDao;
 import euteam.cleanmachine.dao.UserDao;
-import euteam.cleanmachine.dto.MaintenanceReservationDto;
-import euteam.cleanmachine.dto.OneTimeReservationDto;
-import euteam.cleanmachine.dto.ReserveMaintenanceDto;
-import euteam.cleanmachine.dto.ReserveOneTimeDto;
-import euteam.cleanmachine.model.facility.Machine;
-import euteam.cleanmachine.model.reservation.OneTimeReservation;
+import euteam.cleanmachine.dto.*;
+import euteam.cleanmachine.model.enums.ReservationPeriodicity;
+import euteam.cleanmachine.model.enums.RoleName;
 import euteam.cleanmachine.model.user.Customer;
 import euteam.cleanmachine.model.user.Employee;
 import euteam.cleanmachine.model.user.Maintainer;
+import euteam.cleanmachine.model.user.Role;
 import euteam.cleanmachine.service.ReservationService;
 import org.junit.Before;
 import org.junit.Rule;
@@ -56,6 +53,9 @@ public class ReservationServiceTest {
     @Autowired
     ReservationDao reservationDao;
 
+    @Autowired
+    RoleDao roleDao;
+
     @Before
     public void setup() {
         mvc = MockMvcBuilders
@@ -67,6 +67,8 @@ public class ReservationServiceTest {
     public void createOneTimeReservation() {
         Customer customer = new Customer();
         customer.setName("customer");
+        Role role = roleDao.findByRoleName(RoleName.ROLE_CUSTOMER);
+        customer.setRole(role);
         ReserveOneTimeDto reserveOneTimeDto = new ReserveOneTimeDto();
         reserveOneTimeDto.setMachineId(1L);
         reserveOneTimeDto.setReservationDate(new Date());
@@ -74,13 +76,16 @@ public class ReservationServiceTest {
         OneTimeReservationDto oneTimeReservationDto = reservationService.createOneTimeReservation(customer, reserveOneTimeDto);
 
         assertNotNull(oneTimeReservationDto);
-        assertEquals("customer", oneTimeReservationDto.getCustomer().getName());
+        assertEquals("customer", oneTimeReservationDto.getUserDto().getName());
+        assertEquals("Reserved", oneTimeReservationDto.getMachineDto().getState());
     }
 
     @Test
     public void createMaintenanceReservation() {
         Employee maintainer = new Maintainer();
         maintainer.setName("maintainer");
+        Role role = roleDao.findByRoleName(RoleName.ROLE_MAINTAINER);
+        maintainer.setRole(role);
         ReserveMaintenanceDto reserveMaintenanceDto = new ReserveMaintenanceDto();
         reserveMaintenanceDto.setMachineId(1L);
         reserveMaintenanceDto.setStartDate(new Date());
@@ -89,6 +94,26 @@ public class ReservationServiceTest {
         MaintenanceReservationDto maintenanceReservationDto = reservationService.createMaintenanceReservation(maintainer, reserveMaintenanceDto);
 
         assertNotNull(maintenanceReservationDto);
-        assertEquals("maintainer", maintenanceReservationDto.getEmployee().getName());
+        assertEquals("maintainer", maintenanceReservationDto.getUserDto().getName());
+        assertEquals("Reserved", maintenanceReservationDto.getMachineDto().getState());
+    }
+
+
+    @Test
+    public void createRepeatingReservation() {
+        Employee maintainer = new Maintainer();
+        maintainer.setName("maintainer");
+        Role role = roleDao.findByRoleName(RoleName.ROLE_MAINTAINER);
+        maintainer.setRole(role);
+        ReserveRepeatingDto reserveRepeatingDto = new ReserveRepeatingDto();
+        reserveRepeatingDto.setMachineId(100L);
+        reserveRepeatingDto.setReservationDate(new Date());
+        reserveRepeatingDto.setReservationPeriodicity(ReservationPeriodicity.MONTHLY);
+
+        RepeatingReservationDto repeatingReservationDto = reservationService.createRepeatingReservation(maintainer, reserveRepeatingDto);
+
+        assertNotNull(repeatingReservationDto);
+        assertEquals("maintainer", repeatingReservationDto.getUserDto().getName());
+        assertEquals("Reserved", repeatingReservationDto.getMachineDto().getState());
     }
 }

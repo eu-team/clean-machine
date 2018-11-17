@@ -1,32 +1,38 @@
 package euteam.cleanmachine.dto;
 
-import euteam.cleanmachine.model.facility.Machine;
 import euteam.cleanmachine.model.reservation.MaintenanceReservation;
-import euteam.cleanmachine.model.user.Employee;
 
 import java.util.Date;
 
 public class MaintenanceReservationDto {
-    private Machine machine;
+    private MachineDto machineDto;
     private Date reservationMadeDate;
     private Date startDate;
     private Date endDate;
-    private Employee employee;
+    private UserDto userDto;
 
     public MaintenanceReservationDto(MaintenanceReservation maintenanceReservation) {
-        this.machine = maintenanceReservation.getMachine();
-        this.employee = maintenanceReservation.getEmployee();
+        this.machineDto = new MachineDto(maintenanceReservation.getMachine());
+        this.userDto = new UserDto(maintenanceReservation.getEmployee());
         this.startDate = maintenanceReservation.getStartDate();
         this.endDate = maintenanceReservation.getEndDate();
         this.reservationMadeDate = maintenanceReservation.getReservationMadeDate();
     }
 
-    public Machine getMachine() {
-        return machine;
+    public MachineDto getMachineDto() {
+        return machineDto;
     }
 
-    public void setMachine(Machine machine) {
-        this.machine = machine;
+    public void setMachineDto(MachineDto machineDto) {
+        this.machineDto = machineDto;
+    }
+
+    public UserDto getUserDto() {
+        return userDto;
+    }
+
+    public void setUserDto(UserDto userDto) {
+        this.userDto = userDto;
     }
 
     public Date getReservationMadeDate() {
@@ -51,14 +57,6 @@ public class MaintenanceReservationDto {
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
-    }
-
-    public Employee getEmployee() {
-        return employee;
-    }
-
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
     }
 }
 

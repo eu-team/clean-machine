@@ -1,9 +1,6 @@
 package euteam.cleanmachine.controller;
 
-import euteam.cleanmachine.dto.MaintenanceReservationDto;
-import euteam.cleanmachine.dto.OneTimeReservationDto;
-import euteam.cleanmachine.dto.ReserveMaintenanceDto;
-import euteam.cleanmachine.dto.ReserveOneTimeDto;
+import euteam.cleanmachine.dto.*;
 import euteam.cleanmachine.exceptions.ServiceException;
 import euteam.cleanmachine.model.user.Customer;
 import euteam.cleanmachine.model.user.Maintainer;
@@ -31,7 +28,7 @@ public class ReservationController {
     @Autowired
     ReservationService reservationService;
 
-    @PreAuthorize("hasRole('CUSOMER')")
+    @PreAuthorize("hasRole('CUSTOMER')")
     @RequestMapping(path="/reservation/onetime", method = RequestMethod.POST)
     public ResponseEntity<?> createOneTimeReservation(@RequestBody @Valid ReserveOneTimeDto reserveOneTimeDto) {
         try {
@@ -63,6 +60,27 @@ public class ReservationController {
             MaintenanceReservationDto maintenanceReservationDto = reservationService.createMaintenanceReservation(customer, reserveMaintenanceDto);
 
             return ResponseEntity.ok().body(maintenanceReservationDto);
+        } catch (ServiceException e) {
+            Map<String, String> response = new HashMap<>();
+            response.put("error", e.getMessage());
+            return ResponseEntity.badRequest().body(response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body(null);
+        }
+    }
+
+    @PreAuthorize("hasAnyRole('MAINTAINER','ADMINISTRATOR','CUSTOMER')")
+    @RequestMapping(path="/reservation/repeating", method = RequestMethod.POST)
+    public ResponseEntity<?> createRepeatingReservation(@RequestBody @Valid ReserveRepeatingDto reserveRepeatingDto) {
+        try {
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            String username = auth.getName();
+            User user = userService.getUserByUsername(username);
+
+            RepeatingReservationDto repeatingReservationDto = reservationService.createRepeatingReservation(user, reserveRepeatingDto);
+
+            return ResponseEntity.ok().body(repeatingReservationDto);
         } catch (ServiceException e) {
             Map<String, String> response = new HashMap<>();
             response.put("error", e.getMessage());

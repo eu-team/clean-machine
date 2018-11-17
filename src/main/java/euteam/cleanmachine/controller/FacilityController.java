@@ -21,7 +21,7 @@ public class FacilityController {
 
     @PreAuthorize("hasRole('ADMINISTRATOR')")
     @RequestMapping(path="/facility", method = RequestMethod.POST, produces = "application/json")
-    public ResponseEntity<?> getAccountBalance(@RequestBody @Valid NewFacilityDto newFacilityDto, HttpServletRequest request) {
+    public ResponseEntity<?> createFacility(@RequestBody @Valid NewFacilityDto newFacilityDto, HttpServletRequest request) {
         FacilityDto facilityDto = this.facilityService.addFacility(newFacilityDto);
         return ResponseEntity.ok().body(facilityDto);
     }

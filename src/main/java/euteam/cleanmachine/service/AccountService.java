@@ -1,11 +1,16 @@
 package euteam.cleanmachine.service;
 
 import euteam.cleanmachine.dao.AccountDao;
+import euteam.cleanmachine.dao.SubscriptionPlanDao;
+import euteam.cleanmachine.exceptions.ServiceException;
+import euteam.cleanmachine.model.billing.AccountSubscription;
+import euteam.cleanmachine.model.billing.SubscriptionPlan;
 import euteam.cleanmachine.model.user.Account;
 import euteam.cleanmachine.model.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -13,6 +18,9 @@ public class AccountService {
 
     @Autowired
     private AccountDao accountDao;
+
+    @Autowired
+    private SubscriptionPlanDao subscriptionPlanDao;
 
     public List<Account> findAll() {
 
@@ -35,5 +43,31 @@ public class AccountService {
         Account account = accountDao.findByUser(user).orElse(null);
         if (account != null) return account.getBalance();
         return 0;
+    }
+
+    /**
+     * Create a new subscription for an account to the specified subscription plan
+     * @param accountId id of the account subscribing
+     * @param subscriptionPlanId id of the plan to subscribe to
+     * @throws ServiceException
+     */
+    public void subscribeToPlan(Long accountId, Long subscriptionPlanId) throws ServiceException {
+        Account account = accountDao.findById(accountId).orElse(null);
+        SubscriptionPlan subscriptionPlan = subscriptionPlanDao.findById(subscriptionPlanId).orElse(null);
+
+        if(account == null) {
+            throw new ServiceException("Account not found");
+        }
+        if(subscriptionPlan == null) {
+            throw new ServiceException("Subscription plan not found");
+        }
+
+        AccountSubscription accountSubscription = new AccountSubscription();
+        accountSubscription.setStartDate(new Date());
+        accountSubscription.setSubscriptionPlan(subscriptionPlan);
+
+        account.getSubscriptions().add(accountSubscription);
+
+        accountDao.save(account);
     }
 }

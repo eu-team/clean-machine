@@ -3,6 +3,8 @@ package euteam.cleanmachine.Services;
 import euteam.cleanmachine.CleanmachineApplication;
 import euteam.cleanmachine.dao.AccountDao;
 import euteam.cleanmachine.dao.UserDao;
+import euteam.cleanmachine.model.billing.AccountSubscription;
+import euteam.cleanmachine.model.enums.SubscriptionPeriodicity;
 import euteam.cleanmachine.model.user.Account;
 import euteam.cleanmachine.model.user.AuthItem;
 import euteam.cleanmachine.model.user.Customer;
@@ -26,6 +28,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import static junit.framework.TestCase.assertNotNull;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 
 @RunWith(SpringRunner.class)
@@ -68,5 +71,20 @@ public class AccountServiceTest {
         Account accountSaved = accountService.addAccount(account);
         assertNotNull(accountService.getAccountByUser(user));
         assertEquals(accountService.getAccountByID(accountSaved.getId()).getId(), accountSaved.getId());
+    }
+
+    @Test
+    public void subscribeToPlan() {
+        accountService.subscribeToPlan(100L, 100L);
+        Account account = accountService.getAccountByID(100L);
+
+        assertEquals(1, account.getSubscriptions().size());
+
+        AccountSubscription accountSubscription = account.getSubscriptions().get(0);
+
+        assertNotNull(accountSubscription.getStartDate());
+        assertEquals("10 per month", accountSubscription.getSubscriptionPlan().getName());
+        assertEquals(10, accountSubscription.getSubscriptionPlan().getPrice(), 0.0);
+        assertEquals(SubscriptionPeriodicity.MONTHLY, accountSubscription.getSubscriptionPlan().getSubscriptionPeriodicity());
     }
 }

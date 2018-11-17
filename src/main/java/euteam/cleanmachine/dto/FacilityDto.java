@@ -1,11 +1,13 @@
 package euteam.cleanmachine.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import euteam.cleanmachine.model.billing.SubscriptionPlan;
 import euteam.cleanmachine.model.facility.Facility;
 import euteam.cleanmachine.model.facility.Machine;
 
 import java.util.List;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class FacilityDto {
 
     private Long id;

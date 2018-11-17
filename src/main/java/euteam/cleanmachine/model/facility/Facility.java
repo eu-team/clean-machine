@@ -18,8 +18,12 @@ public class Facility {
     @OneToMany
     private List<SubscriptionPlan> subscriptionPlans;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Machine> machines;
+
+    public void addMachine(Machine machine) {
+        this.machines.add(machine);
+    }
 
     public Long getId() {
         return id;

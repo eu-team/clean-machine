@@ -1,26 +1,25 @@
 package euteam.cleanmachine.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import euteam.cleanmachine.model.facility.Machine;
 import euteam.cleanmachine.model.reservation.OneTimeReservation;
-import euteam.cleanmachine.model.user.Customer;
+
 
 import java.util.Date;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class OneTimeReservationDto {
     private Long id;
-    private Machine machine;
+    private MachineDto machineDto;
     private Date reservationMadeDate;
     private Date reservationDate;
-    private Customer customer;
+    private UserDto userDto;
 
     public OneTimeReservationDto(OneTimeReservation oneTimeReservation) {
         this.id = oneTimeReservation.getId();
-        this.machine = oneTimeReservation.getMachine();
+        this.machineDto = new MachineDto(oneTimeReservation.getMachine());
         this.reservationMadeDate = oneTimeReservation.getReservationMadeDate();
         this.reservationDate = oneTimeReservation.getReservationDate();
-        this.customer = oneTimeReservation.getCustomer();
+        this.userDto = new UserDto(oneTimeReservation.getCustomer());
     }
 
     public Long getId() {
@@ -31,12 +30,12 @@ public class OneTimeReservationDto {
         this.id = id;
     }
 
-    public Machine getMachine() {
-        return machine;
+    public MachineDto getMachineDto() {
+        return machineDto;
     }
 
-    public void setMachine(Machine machine) {
-        this.machine = machine;
+    public void setMachineDto(MachineDto machineDto) {
+        this.machineDto = machineDto;
     }
 
     public Date getReservationMadeDate() {
@@ -55,11 +54,11 @@ public class OneTimeReservationDto {
         this.reservationDate = reservationDate;
     }
 
-    public Customer getCustomer() {
-        return customer;
+    public UserDto getUserDto() {
+        return userDto;
     }
 
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
+    public void setUserDto(UserDto userDto) {
+        this.userDto = userDto;
     }
 }

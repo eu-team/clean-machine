@@ -5,11 +5,15 @@ import euteam.cleanmachine.dao.AccountDao;
 import euteam.cleanmachine.dao.MachineDao;
 import euteam.cleanmachine.dao.ReservationDao;
 import euteam.cleanmachine.dao.UserDao;
+import euteam.cleanmachine.dto.MaintenanceReservationDto;
 import euteam.cleanmachine.dto.OneTimeReservationDto;
+import euteam.cleanmachine.dto.ReserveMaintenanceDto;
 import euteam.cleanmachine.dto.ReserveOneTimeDto;
 import euteam.cleanmachine.model.facility.Machine;
 import euteam.cleanmachine.model.reservation.OneTimeReservation;
 import euteam.cleanmachine.model.user.Customer;
+import euteam.cleanmachine.model.user.Employee;
+import euteam.cleanmachine.model.user.Maintainer;
 import euteam.cleanmachine.service.ReservationService;
 import org.junit.Before;
 import org.junit.Rule;
@@ -71,5 +75,20 @@ public class ReservationServiceTest {
 
         assertNotNull(oneTimeReservationDto);
         assertEquals("customer", oneTimeReservationDto.getCustomer().getName());
+    }
+
+    @Test
+    public void createMaintenanceReservation() {
+        Employee maintainer = new Maintainer();
+        maintainer.setName("maintainer");
+        ReserveMaintenanceDto reserveMaintenanceDto = new ReserveMaintenanceDto();
+        reserveMaintenanceDto.setMachineId(100L);
+        reserveMaintenanceDto.setStartDate(new Date());
+        reserveMaintenanceDto.setEndDate(new Date());
+
+        MaintenanceReservationDto maintenanceReservationDto = reservationService.createMaintenanceReservation(maintainer, reserveMaintenanceDto);
+
+        assertNotNull(maintenanceReservationDto);
+        assertEquals("maintainer", maintenanceReservationDto.getEmployee().getName());
     }
 }

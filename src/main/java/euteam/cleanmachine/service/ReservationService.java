@@ -25,7 +25,7 @@ public class ReservationService {
     MachineDao machineDao;
 
     public OneTimeReservationDto createOneTimeReservation(Customer customer, ReserveOneTimeDto reserveOneTimeDto) throws ServiceException {
-        Machine machine = machineDao.findById(reserveOneTimeDto.getMachineId()).orElse(null);
+        Machine machine = machineDao.findById(reserveOneTimeDto.getMachineId().toString()).orElse(null);
 
         if(machine == null) {
             throw new ServiceException("Machine not found");
@@ -37,7 +37,7 @@ public class ReservationService {
     }
 
     public MaintenanceReservationDto createMaintenanceReservation(Employee employee, ReserveMaintenanceDto reserveMaintenanceDto) throws ServiceException {
-        Machine machine = machineDao.findById(reserveMaintenanceDto.getMachineId()).orElse(null);
+        Machine machine = machineDao.findById(reserveMaintenanceDto.getMachineId().toString()).orElse(null);
 
         if(machine == null) {
             throw new ServiceException("Machine not found");

@@ -68,7 +68,7 @@ public class ReservationServiceTest {
         Customer customer = new Customer();
         customer.setName("customer");
         ReserveOneTimeDto reserveOneTimeDto = new ReserveOneTimeDto();
-        reserveOneTimeDto.setMachineId(100L);
+        reserveOneTimeDto.setMachineId(1L);
         reserveOneTimeDto.setReservationDate(new Date());
 
         OneTimeReservationDto oneTimeReservationDto = reservationService.createOneTimeReservation(customer, reserveOneTimeDto);
@@ -82,7 +82,7 @@ public class ReservationServiceTest {
         Employee maintainer = new Maintainer();
         maintainer.setName("maintainer");
         ReserveMaintenanceDto reserveMaintenanceDto = new ReserveMaintenanceDto();
-        reserveMaintenanceDto.setMachineId(100L);
+        reserveMaintenanceDto.setMachineId(1L);
         reserveMaintenanceDto.setStartDate(new Date());
         reserveMaintenanceDto.setEndDate(new Date());
 

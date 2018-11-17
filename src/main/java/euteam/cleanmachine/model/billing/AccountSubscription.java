@@ -1,4 +1,4 @@
-package euteam.cleanmachine.model.user;
+package euteam.cleanmachine.model.billing;
 
 import euteam.cleanmachine.model.billing.SubscriptionPlan;
 

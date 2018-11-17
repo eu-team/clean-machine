@@ -14,5 +14,6 @@ public class SubscriptionPlan {
 
     private double price;
 
+    @Enumerated(EnumType.STRING)
     private SubscriptionPeriodicity subscriptionPeriodicity;
 }

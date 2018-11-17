@@ -18,7 +18,7 @@ public class Account {
 
     private double balance;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<AccountSubscription> subscriptions;
 
     @OneToMany

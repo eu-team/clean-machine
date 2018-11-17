@@ -29,7 +29,6 @@ public class MachineService {
                 machine = new WashingMachine(newMachineDto.getIdentifier());
                 break;
             default:
-                machine = null;
                 return null;
         }
 

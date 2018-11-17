@@ -81,10 +81,19 @@ public class UserService {
 
     public User getUserByAuthId(Long authId){
         AuthItem authItem = authItemService.getAuthItem(authId);
-        return repository.getUserByAuthItemListContains(authItem);
+
+        try {
+            return repository.getUserByAuthItemListContains(authItem);
+        }catch (Exception e){
+            return null;
+        }
     }
 
     public User getUserByUsername(String username) {
         return repository.findByUsername(username);
+    }
+
+    public void update(User u) {
+        repository.save(u);
     }
 }

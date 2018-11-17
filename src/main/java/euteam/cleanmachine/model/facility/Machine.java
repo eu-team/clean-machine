@@ -2,6 +2,7 @@ package euteam.cleanmachine.model.facility;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.concurrent.locks.Lock;
 
 @Entity
 public abstract class Machine {
@@ -9,7 +10,7 @@ public abstract class Machine {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @OneToOne
+    @OneToOne(cascade=CascadeType.ALL)
     private MachineState state;
 
     private String identifier;
@@ -22,33 +23,76 @@ public abstract class Machine {
     }
 
     public void setState(MachineState state){
+        checkIfRunningStateIsOver(state);
         this.state = state;
     }
 
-    public void Idle(){
+    public void checkIfRunningStateIsOver(MachineState state) {
+        if(state == null) state = this.state;
+        if (!(state instanceof RunningState)) {
+            return;
+        }
+        RunningState runningState = (RunningState)state;
+        if(runningState.getEndTime()<= System.currentTimeMillis()){
+            lockMachine(runningState.getUserId());
+            return;
+        }
+    }
+
+    public void idle(){
         state.idle(this);
     }
-
-    public void startMachine(Long userId){
-        state.startMachine(this,userId);
-    }
-
     public void authenticateOnMachine(Long userId){
         state.authenticateOnMachine(this,userId);
     }
-
+    public void startMachine(Long userId, long programId){
+        Program p  =  getProgramById(programId);
+        long durationInMiliseconds =Math.round(p.getDuration() * 60 * 1000);
+        state.startMachine(this,userId,durationInMiliseconds + System.currentTimeMillis(),programId );
+    }
+    private void lockMachine(Long userId){
+        state.lockMachine(this,userId);
+    }
+    public boolean unlockMachine(long userId){
+        Long loggedInUserID = null;
+        if(state instanceof  LockedState){
+            LockedState state = (LockedState) getState();
+          loggedInUserID=  state.getUserId();
+        }else if(state instanceof RunningState){
+            RunningState state = (RunningState) getState();
+            loggedInUserID=  state.getUserId();
+        }
+        if(loggedInUserID == userId){
+            idle();
+            return true;
+        }
+        return false;
+    }
+    public long getProgramEndTime() throws ClassCastException{
+        RunningState runningState = (RunningState) state;
+         return runningState.getEndTime();
+    }
     public void outOfOrder(Long employeId){
         state.outOfOrder(this,employeId);
     }
 
-    public void reopenMachine(Long employeId){
-        state.reOpenMachine(this);
+
+    public Long getLoggedInUserId(){
+        try {
+            AuthenticatedState authenticatedState = (AuthenticatedState) state;
+            return authenticatedState.getUserId();
+        }catch (Exception e){
+            return null;
+        }
+
+    }
+    public MachineState getState() {
+        return state;
     }
 
     public Long getId() {
         return id;
     }
-
     public void setId(Long id) {
         this.id = id;
     }
@@ -56,7 +100,6 @@ public abstract class Machine {
     public String getIdentifier() {
         return identifier;
     }
-
     public void setIdentifier(String identifier) {
         this.identifier = identifier;
     }
@@ -64,15 +107,6 @@ public abstract class Machine {
     public List<Program> getPrograms() {
         return programs;
     }
-
-    public void setPrograms(List<Program> programs) {
-        this.programs = programs;
-    }
-
-    public List<Program> getPrograms() {
-        return programs;
-    }
-
     public void setPrograms(List<Program> programs) {
         this.programs = programs;
     }
@@ -84,4 +118,13 @@ public abstract class Machine {
         }
         return false;
     }
+    public Program getProgramById(long id){
+        Program result = null;
+        for (Program program:programs) {
+            if(program.getId()==id)result = program;
+        }
+        return result;
+    }
+
+
 }

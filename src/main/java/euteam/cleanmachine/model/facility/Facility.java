@@ -18,6 +18,9 @@ public class Facility {
     @OneToMany
     private List<SubscriptionPlan> subscriptionPlans;
 
+    public Facility() {
+    }
+
     @OneToMany
     private List<Machine> machines;
 }

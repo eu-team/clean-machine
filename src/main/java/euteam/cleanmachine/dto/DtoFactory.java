@@ -1,5 +1,6 @@
 package euteam.cleanmachine.dto;
 
+import euteam.cleanmachine.model.facility.MachineState;
 import euteam.cleanmachine.model.facility.Program;
 
 public class DtoFactory {
@@ -13,4 +14,6 @@ public class DtoFactory {
         programDto.setId(program.getId());
         return  programDto;
     }
+
+
 }

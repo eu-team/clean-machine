@@ -23,7 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:8100")
+@CrossOrigin
 public class AuthenticationController {
 
     @Autowired
@@ -54,7 +54,7 @@ public class AuthenticationController {
 
         return tokenDto;
     }
-
+    @CrossOrigin
     @RequestMapping(path="/auth/machine", method = RequestMethod.POST)
     public ResponseEntity<?> authMachine(@RequestBody @Valid MachineAuthDto machineAuthDto) {
         String token = authenticateMachine(machineAuthDto.getIdentifier());

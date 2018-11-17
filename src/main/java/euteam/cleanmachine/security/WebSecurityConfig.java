@@ -65,12 +65,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
             .authorizeRequests()
             .antMatchers(HttpMethod.OPTIONS,"/**").permitAll()
+            .antMatchers("/machine").permitAll()
             .antMatchers("/auth/**").permitAll()
             .antMatchers("/signup").permitAll()
             .antMatchers("/machine/**").hasRole("MACHINE")
             .antMatchers("^(?!/machine)\\w+$/**").hasAnyRole(String.join(",", RoleName.ROLE_CUSTOMER.name(), RoleName.ROLE_ADMINISTRATOR.name(), RoleName.ROLE_MAINTAINER.name()))
             .antMatchers("/view/**").permitAll()
-            .antMatchers("/machine/**").permitAll()
             .anyRequest().authenticated();
 
         JwtAuthorizationTokenFilter authenticationTokenFilter = new JwtAuthorizationTokenFilter(userDetailsService(), machineService, jwtTokenUtil, tokenHeader);

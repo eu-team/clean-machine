@@ -21,9 +21,17 @@ public class MachineService {
     }
 
     public Machine getMachine(Long machineID){
-        return  repository.getMachineById(machineID);
+        Machine m = repository.getMachineById(machineID);
+        m.checkIfRunningStateIsOver(null);
+        return m;
     }
     public Machine getMachineByIdentifier(String identifier) {
-        return repository.findByIdentifier(identifier);
+        Machine m = repository.findByIdentifier(identifier);
+        m.checkIfRunningStateIsOver(null);
+        return m;
+    }
+
+    public void update(Machine machine) {
+        repository.save(machine);
     }
 }

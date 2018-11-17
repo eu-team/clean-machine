@@ -3,7 +3,11 @@ package euteam.cleanmachine.Services;
 import euteam.cleanmachine.CleanmachineApplication;
 import euteam.cleanmachine.dao.FacilityDao;
 import euteam.cleanmachine.dto.FacilityDto;
+import euteam.cleanmachine.dto.MachineDto;
 import euteam.cleanmachine.dto.NewFacilityDto;
+import euteam.cleanmachine.dto.NewMachineDto;
+import euteam.cleanmachine.model.enums.MachineType;
+import euteam.cleanmachine.model.facility.Facility;
 import euteam.cleanmachine.service.FacilityService;
 import org.junit.Assert;
 import org.junit.Before;
@@ -18,6 +22,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = CleanmachineApplication.class)
@@ -57,5 +63,19 @@ public class FacilityServiceTest {
         assertEquals("new", facilityDto.getName());
         assertEquals(null, facilityDto.getMachines());
         assertEquals(null, facilityDto.getSubscriptionPlans());
+    }
+
+    @Test
+    public void addMachineToFacility() {
+        NewMachineDto newMachineDto = new NewMachineDto();
+        newMachineDto.setIdentifier("test");
+        newMachineDto.setMachineType(MachineType.DRYER);
+
+        MachineDto machineDto = facilityService.addNewMachineToFacility(100L, newMachineDto);
+
+        assertEquals("test", machineDto.getIdentifier());
+        assertEquals("Idle", machineDto.getState());
+        assertEquals(MachineType.DRYER, machineDto.getMachineType());
+        assertFalse(facilityDao.findById(100L).get().getMachines().isEmpty());
     }
 }

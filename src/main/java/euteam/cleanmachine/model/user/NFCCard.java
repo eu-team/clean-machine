@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 public class NFCCard extends AuthItem {
     private String cardNumber;
 
+    public NFCCard() {}
+
     public NFCCard(String cardNumber) {
         this.cardNumber = cardNumber;
     }

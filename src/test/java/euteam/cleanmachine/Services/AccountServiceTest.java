@@ -4,6 +4,7 @@ import euteam.cleanmachine.CleanmachineApplication;
 import euteam.cleanmachine.dao.AccountDao;
 import euteam.cleanmachine.dao.UserDao;
 import euteam.cleanmachine.dto.AccountSubscriptionDto;
+import euteam.cleanmachine.dto.BalanceDto;
 import euteam.cleanmachine.model.billing.AccountSubscription;
 import euteam.cleanmachine.model.enums.SubscriptionPeriodicity;
 import euteam.cleanmachine.model.user.Account;
@@ -91,5 +92,20 @@ public class AccountServiceTest {
         assertEquals("10 per month", accountSubscription.getSubscriptionPlan().getName());
         assertEquals(10, accountSubscription.getSubscriptionPlan().getPrice(), 0.0);
         assertEquals(SubscriptionPeriodicity.MONTHLY, accountSubscription.getSubscriptionPlan().getSubscriptionPeriodicity());
+    }
+
+    @Test
+    public void getUserBalance() {
+        Customer customer = new Customer();
+        userDao.save(customer);
+
+        Account account = new Account();
+        account.setUser(customer);
+        account.setBalance(10);
+        accountDao.save(account);
+
+        BalanceDto balanceDto = accountService.getUserBalance(customer);
+
+        assertEquals(10, balanceDto.getBalance(), 0.0);
     }
 }

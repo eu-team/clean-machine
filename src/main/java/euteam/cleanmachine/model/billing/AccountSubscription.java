@@ -12,7 +12,7 @@ public class AccountSubscription {
     private Long id;
 
     @ManyToOne
-    private SubscriptionPlan subscriptionPlans;
+    private SubscriptionPlan subscriptionPlan;
 
     private Date startDate;
 

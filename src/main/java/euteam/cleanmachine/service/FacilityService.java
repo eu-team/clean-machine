@@ -21,6 +21,11 @@ public class FacilityService {
     @Autowired
     private MachineService machineService;
 
+    /**
+     * Creates and saves a new facility
+     * @param newFacilityDto
+     * @return the facility created dto
+     */
     public FacilityDto addFacility(NewFacilityDto newFacilityDto) {
         Facility facility = new Facility();
         facility.setName(newFacilityDto.getName());
@@ -29,6 +34,12 @@ public class FacilityService {
         return new FacilityDto(facilityDao.save(facility));
     }
 
+    /**
+     * Creates and saves a machine and adds it to the provided facility
+     * @param facilityId the facility id
+     * @param newMachineDto the dto of the new machine to create and add
+     * @return the machine created dto
+     */
     public MachineDto addNewMachineToFacility(Long facilityId, NewMachineDto newMachineDto) {
         Facility facility = facilityDao.findById(facilityId).orElse(null);
 

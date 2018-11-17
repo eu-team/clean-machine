@@ -1,9 +1,8 @@
 package euteam.cleanmachine.model.facility.machine.state;
 
 import euteam.cleanmachine.model.facility.Machine;
-import euteam.cleanmachine.model.facility.machine.state.IdleState;
-import euteam.cleanmachine.model.facility.machine.state.MachineState;
-import euteam.cleanmachine.model.facility.machine.state.OutOfOrderState;
+
+import static euteam.cleanmachine.model.enums.State.RUNNING;
 
 import javax.persistence.Entity;
 
@@ -12,6 +11,7 @@ public class RunningState extends MachineState {
     private Long userId;
     public RunningState(Long userId) {
         this.userId = userId;
+        this.setName(RUNNING.getName());
     }
 
     @Override

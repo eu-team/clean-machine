@@ -4,8 +4,15 @@ import euteam.cleanmachine.model.facility.Machine;
 
 import javax.persistence.Entity;
 
+import static euteam.cleanmachine.model.enums.State.IDLE;
+
 @Entity
 public class IdleState extends MachineState {
+
+    public IdleState() {
+        this.setName(IDLE.getName());
+    }
+
     @Override
     public void idle(Machine m) {
         //already in idle state

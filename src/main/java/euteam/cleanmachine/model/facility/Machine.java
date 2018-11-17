@@ -12,7 +12,7 @@ public abstract class Machine {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private MachineState state;
 
     private String identifier;
@@ -21,6 +21,11 @@ public abstract class Machine {
     private List<Program> programs;
 
     Machine(){
+        setState(new IdleState());
+    }
+
+    Machine(String identifier) {
+        this.identifier = identifier;
         setState(new IdleState());
     }
 

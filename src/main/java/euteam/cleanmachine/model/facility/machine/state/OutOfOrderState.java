@@ -1,8 +1,7 @@
 package euteam.cleanmachine.model.facility.machine.state;
 
 import euteam.cleanmachine.model.facility.Machine;
-import euteam.cleanmachine.model.facility.machine.state.IdleState;
-import euteam.cleanmachine.model.facility.machine.state.MachineState;
+import static euteam.cleanmachine.model.enums.State.OUTOFORDER;
 
 import javax.persistence.Entity;
 
@@ -12,6 +11,7 @@ public class OutOfOrderState extends MachineState {
 
     public OutOfOrderState(Long employeId) {
         this.employeId = employeId;
+        this.setName(OUTOFORDER.getName());
     }
 
     @Override

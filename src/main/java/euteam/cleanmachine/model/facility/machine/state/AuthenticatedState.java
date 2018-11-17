@@ -4,12 +4,17 @@ import euteam.cleanmachine.model.facility.*;
 
 import javax.persistence.Entity;
 
+import static euteam.cleanmachine.model.enums.State.AUTHENTICATED;
+
 @Entity
 public class AuthenticatedState extends MachineState {
     private Long userId;
+
     AuthenticatedState(Long userId){
         this.userId= userId;
+        this.setName(AUTHENTICATED.getName());
     }
+
     @Override
     public void idle(Machine m) {
         m.setState(new IdleState());

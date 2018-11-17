@@ -1,28 +1,27 @@
-package euteam.cleanmachine.model.facility;
+package euteam.cleanmachine.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import euteam.cleanmachine.model.billing.SubscriptionPlan;
+import euteam.cleanmachine.model.facility.Facility;
+import euteam.cleanmachine.model.facility.Machine;
 
-import javax.persistence.*;
 import java.util.List;
 
-@Entity
-public class Facility {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class FacilityDto {
+
     private Long id;
-
     private String name;
-
     private String address;
-
-    @OneToMany
     private List<SubscriptionPlan> subscriptionPlans;
-
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Machine> machines;
 
-    public void addMachine(Machine machine) {
-        this.machines.add(machine);
+    public FacilityDto(Facility facility) {
+        this.id = facility.getId();
+        this.name = facility.getName();
+        this.address = facility.getAddress();
+        this.machines = facility.getMachines();
+        this.subscriptionPlans = facility.getSubscriptionPlans();
     }
 
     public Long getId() {

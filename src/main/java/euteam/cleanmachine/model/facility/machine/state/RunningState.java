@@ -1,4 +1,8 @@
-package euteam.cleanmachine.model.facility;
+package euteam.cleanmachine.model.facility.machine.state;
+
+import euteam.cleanmachine.model.facility.Machine;
+
+import static euteam.cleanmachine.model.enums.State.RUNNING;
 
 import euteam.cleanmachine.exceptions.StateTransitionException;
 

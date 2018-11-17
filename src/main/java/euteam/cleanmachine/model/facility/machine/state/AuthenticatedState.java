@@ -1,4 +1,6 @@
-package euteam.cleanmachine.model.facility;
+package euteam.cleanmachine.model.facility.machine.state;
+
+import euteam.cleanmachine.model.facility.*;
 
 import euteam.cleanmachine.exceptions.StateTransitionException;
 
@@ -6,7 +8,6 @@ import javax.persistence.Entity;
 
 @Entity
 public class AuthenticatedState extends MachineState {
-
     private Long userId;
     private static final String NAME = "Logged_In";
 

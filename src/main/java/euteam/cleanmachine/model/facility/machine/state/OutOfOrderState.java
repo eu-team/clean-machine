@@ -1,11 +1,14 @@
-package euteam.cleanmachine.model.facility;
+package euteam.cleanmachine.model.facility.machine.state;
+
+import euteam.cleanmachine.model.facility.Machine;
+import static euteam.cleanmachine.model.enums.State.OUTOFORDER;
 
 import euteam.cleanmachine.exceptions.StateTransitionException;
 
 import javax.persistence.Entity;
 
 @Entity
-public class OutOfOrderState extends  MachineState {
+public class OutOfOrderState extends MachineState {
     private Long employeId;
 
     public OutOfOrderState() {
@@ -15,6 +18,7 @@ public class OutOfOrderState extends  MachineState {
 
     public OutOfOrderState(Long employeId) {
         this.employeId = employeId;
+        this.setName(OUTOFORDER.getName());
     }
 
     @Override

@@ -1,5 +1,6 @@
 package euteam.cleanmachine.model.user;
 
+import euteam.cleanmachine.model.billing.AccountSubscription;
 import euteam.cleanmachine.model.billing.Payment;
 
 import javax.persistence.*;
@@ -16,6 +17,9 @@ public class Account {
     private User user;
 
     private double balance;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<AccountSubscription> subscriptions;
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<Payment> payments;
@@ -51,6 +55,14 @@ public class Account {
 
     public void setBalance(double balance) {
         this.balance = balance;
+    }
+
+    public List<AccountSubscription> getSubscriptions() {
+        return subscriptions;
+    }
+
+    public void setSubscriptions(List<AccountSubscription> subscriptions) {
+        this.subscriptions = subscriptions;
     }
 
     public void substractBalance(double payment){

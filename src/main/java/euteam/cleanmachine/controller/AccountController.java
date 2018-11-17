@@ -1,5 +1,8 @@
 package euteam.cleanmachine.controller;
 
+import euteam.cleanmachine.dto.AccountSubscriptionDto;
+import euteam.cleanmachine.dto.SubscribeToPlanDto;
+import euteam.cleanmachine.exceptions.ServiceException;
 import euteam.cleanmachine.model.user.Account;
 import euteam.cleanmachine.model.user.User;
 import euteam.cleanmachine.security.JwtTokenUtil;
@@ -12,6 +15,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:8100" )
@@ -45,5 +51,23 @@ public class AccountController {
         }
 
         return ResponseEntity.ok("{\"balance\":" + balance + "}");
+    }
+
+    @PreAuthorize("hasRole('CUSTOMER')")
+    @RequestMapping(path="/account/subscribe", method = RequestMethod.POST)
+    public ResponseEntity<?> subscribeToPlan(@RequestBody @Valid SubscribeToPlanDto subscribeToPlanDto) {
+        try {
+            AccountSubscriptionDto accountSubscriptionDto
+                    = accountService.subscribeToPlan(subscribeToPlanDto.getAccountID(), subscribeToPlanDto.getSubscriptionPlanID());
+
+            return ResponseEntity.status(201).body(accountSubscriptionDto);
+        } catch (ServiceException e) {
+            Map<String, String> response = new HashMap<>();
+            response.put("error", e.getMessage());
+            return ResponseEntity.badRequest().body(response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body(null);
+        }
     }
 }

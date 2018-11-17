@@ -1,9 +1,12 @@
 package euteam.cleanmachine.controller;
 
+import euteam.cleanmachine.dto.MaintenanceReservationDto;
 import euteam.cleanmachine.dto.OneTimeReservationDto;
+import euteam.cleanmachine.dto.ReserveMaintenanceDto;
 import euteam.cleanmachine.dto.ReserveOneTimeDto;
 import euteam.cleanmachine.exceptions.ServiceException;
 import euteam.cleanmachine.model.user.Customer;
+import euteam.cleanmachine.model.user.Maintainer;
 import euteam.cleanmachine.model.user.User;
 import euteam.cleanmachine.service.ReservationService;
 import euteam.cleanmachine.service.UserService;
@@ -39,6 +42,27 @@ public class ReservationController {
             OneTimeReservationDto oneTimeReservationDto = reservationService.createOneTimeReservation(customer, reserveOneTimeDto);
 
             return ResponseEntity.ok().body(oneTimeReservationDto);
+        } catch (ServiceException e) {
+            Map<String, String> response = new HashMap<>();
+            response.put("error", e.getMessage());
+            return ResponseEntity.badRequest().body(response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body(null);
+        }
+    }
+
+    @PreAuthorize("hasAnyRole('MAINTAINER','ADMINISTRATOR')")
+    @RequestMapping(path="/reservation/maintenance", method = RequestMethod.POST)
+    public ResponseEntity<?> createMaintenanceReservation(@RequestBody @Valid ReserveMaintenanceDto reserveMaintenanceDto) {
+        try {
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            String username = auth.getName();
+            Maintainer customer = (Maintainer) userService.getUserByUsername(username);
+
+            MaintenanceReservationDto maintenanceReservationDto = reservationService.createMaintenanceReservation(customer, reserveMaintenanceDto);
+
+            return ResponseEntity.ok().body(maintenanceReservationDto);
         } catch (ServiceException e) {
             Map<String, String> response = new HashMap<>();
             response.put("error", e.getMessage());

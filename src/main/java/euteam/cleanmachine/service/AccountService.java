@@ -2,6 +2,7 @@ package euteam.cleanmachine.service;
 
 import euteam.cleanmachine.dao.AccountDao;
 import euteam.cleanmachine.dao.SubscriptionPlanDao;
+import euteam.cleanmachine.dto.AccountSubscriptionDto;
 import euteam.cleanmachine.exceptions.ServiceException;
 import euteam.cleanmachine.model.billing.AccountSubscription;
 import euteam.cleanmachine.model.billing.SubscriptionPlan;
@@ -49,9 +50,10 @@ public class AccountService {
      * Create a new subscription for an account to the specified subscription plan
      * @param accountId id of the account subscribing
      * @param subscriptionPlanId id of the plan to subscribe to
+     * @return AccountSubscriptionDto the created subscription
      * @throws ServiceException
      */
-    public void subscribeToPlan(Long accountId, Long subscriptionPlanId) throws ServiceException {
+    public AccountSubscriptionDto subscribeToPlan(Long accountId, Long subscriptionPlanId) throws ServiceException {
         Account account = accountDao.findById(accountId).orElse(null);
         SubscriptionPlan subscriptionPlan = subscriptionPlanDao.findById(subscriptionPlanId).orElse(null);
 
@@ -68,6 +70,8 @@ public class AccountService {
 
         account.getSubscriptions().add(accountSubscription);
 
-        accountDao.save(account);
+        account = accountDao.save(account);
+
+        return new AccountSubscriptionDto(account.getSubscriptions().get(account.getSubscriptions().size() - 1));
     }
 }

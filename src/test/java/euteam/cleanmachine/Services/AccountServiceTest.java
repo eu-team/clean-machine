@@ -3,6 +3,7 @@ package euteam.cleanmachine.Services;
 import euteam.cleanmachine.CleanmachineApplication;
 import euteam.cleanmachine.dao.AccountDao;
 import euteam.cleanmachine.dao.UserDao;
+import euteam.cleanmachine.dto.AccountSubscriptionDto;
 import euteam.cleanmachine.model.billing.AccountSubscription;
 import euteam.cleanmachine.model.enums.SubscriptionPeriodicity;
 import euteam.cleanmachine.model.user.Account;
@@ -75,13 +76,14 @@ public class AccountServiceTest {
 
     @Test
     public void subscribeToPlan() {
-        accountService.subscribeToPlan(100L, 100L);
+        AccountSubscriptionDto accountSubscriptionDto = accountService.subscribeToPlan(100L, 100L);
         Account account = accountService.getAccountByID(100L);
 
         assertEquals(1, account.getSubscriptions().size());
 
         AccountSubscription accountSubscription = account.getSubscriptions().get(0);
 
+        assertNotNull(accountSubscriptionDto.getId());
         assertNotNull(accountSubscription.getStartDate());
         assertEquals("10 per month", accountSubscription.getSubscriptionPlan().getName());
         assertEquals(10, accountSubscription.getSubscriptionPlan().getPrice(), 0.0);

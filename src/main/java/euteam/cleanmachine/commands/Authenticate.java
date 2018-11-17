@@ -4,6 +4,10 @@ import euteam.cleanmachine.model.facility.Machine;
 import euteam.cleanmachine.model.user.User;
 
 public class Authenticate extends MachineCommand {
+    public Authenticate() {
+        super.commandName = "Authenticate";
+    }
+
     @Override
     public void execute(User user, Machine machine) {
         machine.authenticateOnMachine(user.getId());

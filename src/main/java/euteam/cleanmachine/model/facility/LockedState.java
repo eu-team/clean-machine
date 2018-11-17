@@ -2,24 +2,15 @@ package euteam.cleanmachine.model.facility;
 
 import euteam.cleanmachine.exceptions.StateTransitionException;
 
-import javax.persistence.Entity;
+import java.util.concurrent.locks.Lock;
 
-@Entity
-public class RunningState extends MachineState {
+public class LockedState extends MachineState {
     private Long userId;
-    private Long endTime;
-    private long programId;
-    private static final String NAME = "Running";
+    private static final String NAME = "Locked";
 
-
-
-    public RunningState(){
-
-    }
-    public RunningState(Long userId, Long endTime, long programId) {
+    public LockedState(){}
+    public LockedState(Long userId) {
         this.userId = userId;
-        this.endTime = endTime;
-        this.programId = programId;
     }
 
     @Override
@@ -34,17 +25,17 @@ public class RunningState extends MachineState {
 
     @Override
     public void startMachine(Machine machine, Long userId, Long EndTime, long programId) {
-        throw new StateTransitionException("Machine already started");
+        throw new StateTransitionException("Cannot start a machine while it's locked");
     }
 
     @Override
     public void lockMachine(Machine machine, Long userId) {
-        machine.setState(new LockedState(userId));
+        throw new StateTransitionException("Machine already locked");
     }
 
     @Override
     public void authenticateOnMachine(Machine machine, Long userId) {
-        throw new StateTransitionException("Cannot authenticate while the machine is running");
+        throw new StateTransitionException("Cannot authenticate on machine while locked");
     }
 
     @Override
@@ -52,19 +43,13 @@ public class RunningState extends MachineState {
         machine.setState(new OutOfOrderState(employeId));
     }
 
-    public Long getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(Long endTime) {
-        this.endTime = endTime;
-    }
 
     public Long getUserId() {
         return userId;
     }
-
     public void setUserId(Long userId) {
         this.userId = userId;
     }
+
+
 }

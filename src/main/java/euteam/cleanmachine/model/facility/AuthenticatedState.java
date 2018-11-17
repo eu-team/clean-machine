@@ -1,26 +1,45 @@
 package euteam.cleanmachine.model.facility;
 
+import euteam.cleanmachine.exceptions.StateTransitionException;
+
 import javax.persistence.Entity;
 
 @Entity
 public class AuthenticatedState extends MachineState {
+
     private Long userId;
+    private static final String NAME = "Logged_In";
+
     AuthenticatedState(Long userId){
         this.userId= userId;
     }
+
+    @Override
+    public String getStateName() {
+        return NAME;
+    }
+
+    public AuthenticatedState() {
+    }
+
     @Override
     public void idle(Machine m) {
         m.setState(new IdleState());
     }
 
     @Override
-    public void startMachine(Machine machine, Long userId) {
-        machine.setState(new RunningState(userId));
+    public void startMachine(Machine machine, Long userId, Long EndTime, long programId) {
+        machine.setState(new RunningState(userId,EndTime,programId));
+    }
+
+    @Override
+    public void lockMachine(Machine machine, Long userId) {
+        throw new StateTransitionException("Cannot lock machine while authenticated");
     }
 
     @Override
     public void authenticateOnMachine(Machine machine, Long userId) {
-        //Already authenticated
+        throw new StateTransitionException("Already authenticate on machine");
     }
 
     @Override
@@ -28,8 +47,13 @@ public class AuthenticatedState extends MachineState {
         machine.setState(new OutOfOrderState(employeId));
     }
 
-    @Override
-    public void reOpenMachine(Machine machine) {
-        //cannot reopen while in this state
+    public Long getUserId() {
+        return userId;
     }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+
 }

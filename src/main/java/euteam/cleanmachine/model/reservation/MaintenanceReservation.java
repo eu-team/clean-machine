@@ -1,5 +1,6 @@
 package euteam.cleanmachine.model.reservation;
 
+import euteam.cleanmachine.model.facility.Machine;
 import euteam.cleanmachine.model.user.Employee;
 
 import javax.persistence.Entity;
@@ -14,4 +15,8 @@ public class MaintenanceReservation extends Reservation {
 
     @ManyToOne
     private Employee employee;
+
+    public MaintenanceReservation(Machine machine) {
+        super(machine);
+    }
 }

@@ -24,12 +24,9 @@ public class RunningState extends MachineState {
         this.userId = userId;
         this.endTime = endTime;
         this.programId = programId;
+        setName(RUNNING.getName());
     }
 
-    @Override
-    public String getStateName() {
-        return NAME;
-    }
 
     @Override
     public void idle(Machine m) {

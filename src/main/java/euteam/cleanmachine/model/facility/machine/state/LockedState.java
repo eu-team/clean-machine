@@ -1,21 +1,19 @@
-package euteam.cleanmachine.model.facility;
+package euteam.cleanmachine.model.facility.machine.state;
 
 import euteam.cleanmachine.exceptions.StateTransitionException;
+import euteam.cleanmachine.model.facility.Machine;
 
 import java.util.concurrent.locks.Lock;
 
+import static euteam.cleanmachine.model.enums.State.LOCKED;
+
 public class LockedState extends MachineState {
     private Long userId;
-    private static final String NAME = "Locked";
 
     public LockedState(){}
     public LockedState(Long userId) {
         this.userId = userId;
-    }
-
-    @Override
-    public String getStateName() {
-        return NAME;
+        setName(LOCKED.getName());
     }
 
     @Override

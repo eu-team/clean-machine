@@ -14,8 +14,6 @@ public abstract class MachineState {
     private Long id;
     private String name;
 
-    public abstract String getStateName();
-
     /**
      * When a machine goes back to is idle state means aka machine is not being used
      * @param m

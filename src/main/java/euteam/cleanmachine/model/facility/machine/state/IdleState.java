@@ -1,5 +1,6 @@
 package euteam.cleanmachine.model.facility.machine.state;
 
+import euteam.cleanmachine.model.enums.State;
 import euteam.cleanmachine.model.facility.Machine;
 
 import euteam.cleanmachine.exceptions.StateTransitionException;
@@ -8,14 +9,9 @@ import javax.persistence.Entity;
 
 @Entity
 public class IdleState extends MachineState{
-    private static final String NAME = "Idle";
-
-    @Override
-    public String getStateName() {
-        return NAME;
-    }
 
     public IdleState() {
+        setName(State.IDLE.getName());
     }
 
     @Override

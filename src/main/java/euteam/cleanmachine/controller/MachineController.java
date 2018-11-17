@@ -5,14 +5,13 @@ import euteam.cleanmachine.dto.ProgramDto;
 import euteam.cleanmachine.exceptions.StateTransitionException;
 import euteam.cleanmachine.model.billing.OneTimePayment;
 import euteam.cleanmachine.model.facility.Machine;
-import euteam.cleanmachine.model.facility.MachineState;
 import euteam.cleanmachine.model.facility.Program;
-import euteam.cleanmachine.model.facility.RunningState;
+import euteam.cleanmachine.model.facility.machine.state.MachineState;
+import euteam.cleanmachine.model.facility.machine.state.RunningState;
 import euteam.cleanmachine.model.user.User;
 import euteam.cleanmachine.service.AccountService;
 import euteam.cleanmachine.service.MachineService;
 import euteam.cleanmachine.service.UserService;
-import javafx.application.Preloader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -50,7 +49,7 @@ public class MachineController {
         Machine machine = getMachineByAuthentication();
         //get Status from the machine
         MachineState state= machine.getState();
-        String stateName= state.getStateName();
+        String stateName= state.getName();
         //Prepare result into object
         HashMap<String,String> result = new HashMap<>();
         result.put("status",stateName);

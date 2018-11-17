@@ -1,11 +1,9 @@
 package euteam.cleanmachine.model.facility;
 
-import euteam.cleanmachine.model.facility.machine.state.IdleState;
-import euteam.cleanmachine.model.facility.machine.state.MachineState;
+import euteam.cleanmachine.model.facility.machine.state.*;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.concurrent.locks.Lock;
 
 @Entity
 public abstract class Machine {
@@ -28,10 +26,6 @@ public abstract class Machine {
     Machine(String identifier) {
         this.identifier = identifier;
         setState(new IdleState());
-    }
-
-    public MachineState getState() {
-        return state;
     }
 
     public void setState(MachineState state){
@@ -67,7 +61,7 @@ public abstract class Machine {
     }
     public boolean unlockMachine(long userId){
         Long loggedInUserID = null;
-        if(state instanceof  LockedState){
+        if(state instanceof LockedState){
             LockedState state = (LockedState) getState();
           loggedInUserID=  state.getUserId();
         }else if(state instanceof RunningState){

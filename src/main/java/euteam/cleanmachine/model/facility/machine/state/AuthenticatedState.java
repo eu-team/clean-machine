@@ -1,5 +1,6 @@
 package euteam.cleanmachine.model.facility.machine.state;
 
+import euteam.cleanmachine.model.enums.State;
 import euteam.cleanmachine.model.facility.*;
 
 import euteam.cleanmachine.exceptions.StateTransitionException;
@@ -13,11 +14,7 @@ public class AuthenticatedState extends MachineState {
 
     AuthenticatedState(Long userId){
         this.userId= userId;
-    }
-
-    @Override
-    public String getStateName() {
-        return NAME;
+        setName(State.AUTHENTICATED.getName());
     }
 
     public AuthenticatedState() {

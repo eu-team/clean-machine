@@ -14,18 +14,11 @@ public class OutOfOrderState extends MachineState {
     public OutOfOrderState() {
     }
 
-    private static final String NAME = "Out_Of_Order";
 
     public OutOfOrderState(Long employeId) {
         this.employeId = employeId;
         this.setName(OUTOFORDER.getName());
     }
-
-    @Override
-    public String getStateName() {
-        return NAME;
-    }
-
     @Override
     public void idle(Machine m) {
         m.setState(new IdleState());

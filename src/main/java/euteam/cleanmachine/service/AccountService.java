@@ -64,6 +64,10 @@ public class AccountService {
             throw new ServiceException("Subscription plan not found");
         }
 
+        if(this.accountHasSubscriptionPlanId(account, subscriptionPlanId)) {
+            throw new ServiceException("Already subscribed to plan");
+        }
+
         AccountSubscription accountSubscription = new AccountSubscription();
         accountSubscription.setStartDate(new Date());
         accountSubscription.setSubscriptionPlan(subscriptionPlan);
@@ -73,5 +77,14 @@ public class AccountService {
         account = accountDao.save(account);
 
         return new AccountSubscriptionDto(account.getSubscriptions().get(account.getSubscriptions().size() - 1));
+    }
+
+    private boolean accountHasSubscriptionPlanId(Account account, Long subscriptionPlanId) {
+        for(AccountSubscription existingAccountSubscription : account.getSubscriptions()) {
+            if (existingAccountSubscription.getSubscriptionPlan().getId() == subscriptionPlanId) {
+                return true;
+            }
+        }
+        return false;
     }
 }

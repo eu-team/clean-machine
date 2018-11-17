@@ -29,7 +29,7 @@ public class FacilityController {
 
     @PreAuthorize("hasRole('ADMINISTRATOR')")
     @RequestMapping(path="/facility/{id}/machine", method = RequestMethod.POST, produces = "application/json")
-    public ResponseEntity<?> createFacility(@RequestBody @Valid NewMachineDto newMachineDto, @PathVariable String id) {
+    public ResponseEntity<?> addMachineToFacility(@RequestBody @Valid NewMachineDto newMachineDto, @PathVariable String id) {
         MachineDto machineDto = facilityService.addNewMachineToFacility(Long.parseLong(id), newMachineDto);
         if (machineDto != null ) {
             return ResponseEntity.ok().body(machineDto);

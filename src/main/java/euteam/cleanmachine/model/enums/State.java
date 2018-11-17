@@ -1,7 +1,8 @@
 package euteam.cleanmachine.model.enums;
 
 public enum State {
-    IDLE("Idle"), AUTHENTICATED("Authenticated"), OUTOFORDER("Out of order"), RUNNING("Running"), LOCKED("Locked");
+
+    IDLE("Idle"), AUTHENTICATED("Authenticated"), OUTOFORDER("Out of order"), RUNNING("Running"),  LOCKED("Locked");
 
     private String name;
 

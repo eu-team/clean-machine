@@ -31,7 +31,7 @@ public class MachineService {
         return m;
     }
     public Machine getMachineByIdentifier(String identifier) {
-        Machine m = repository.findByIdentifier(identifier);
+        Machine m = machineDao.findByIdentifier(identifier);
         m.checkIfRunningStateIsOver(null);
         return m;
     }
@@ -52,6 +52,6 @@ public class MachineService {
         return machineDao.save(machine);
     }
     public void update(Machine machine) {
-        repository.save(machine);
+        machineDao.save(machine);
     }
 }

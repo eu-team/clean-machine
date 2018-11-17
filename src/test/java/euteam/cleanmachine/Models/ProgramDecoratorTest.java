@@ -4,6 +4,7 @@ import euteam.cleanmachine.CleanmachineApplication;
 import euteam.cleanmachine.model.enums.Powder;
 import euteam.cleanmachine.model.enums.Softener;
 import euteam.cleanmachine.model.facility.Program;
+import euteam.cleanmachine.model.facility.StandardProgram;
 import euteam.cleanmachine.model.facility.decorator.WithPowder;
 import euteam.cleanmachine.model.facility.decorator.WithSoftener;
 import org.junit.Test;
@@ -21,7 +22,7 @@ public class ProgramDecoratorTest {
 
     @Test
     public void shouldBeTheRightCost() {
-        Program premiumProgram = new WithPowder(new WithSoftener(new Program(), Softener.PREMIUMSOFTENER), Powder.PREMIUMPOWDER);
+        Program premiumProgram = new WithPowder(new WithSoftener(new StandardProgram(), Softener.PREMIUMSOFTENER), Powder.PREMIUMPOWDER);
         assertEquals(11, premiumProgram.getCost(), 0.0);
     }
 }

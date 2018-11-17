@@ -1,25 +1,26 @@
-package euteam.cleanmachine.model.facility;
+package euteam.cleanmachine.dto;
 
 import euteam.cleanmachine.model.billing.SubscriptionPlan;
+import euteam.cleanmachine.model.facility.Facility;
+import euteam.cleanmachine.model.facility.Machine;
 
-import javax.persistence.*;
 import java.util.List;
 
-@Entity
-public class Facility {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+public class FacilityDto {
+
     private Long id;
-
     private String name;
-
     private String address;
-
-    @OneToMany
     private List<SubscriptionPlan> subscriptionPlans;
-
-    @OneToMany
     private List<Machine> machines;
+
+    public FacilityDto(Facility facility) {
+        this.id = facility.getId();
+        this.name = facility.getName();
+        this.address = facility.getAddress();
+        this.machines = facility.getMachines();
+        this.subscriptionPlans = facility.getSubscriptionPlans();
+    }
 
     public Long getId() {
         return id;

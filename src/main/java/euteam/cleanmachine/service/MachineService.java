@@ -97,10 +97,9 @@ public class MachineService {
 
     public boolean startProgram(String machineID, long programId) {
         Machine m = getMachineByIdentifier(machineID);
-        if(m==null)return  false;
         Program p = m.getProgramById(programId);
         User u = userService.getUserByID(m.getLoggedInUserId());
-        if(u==null)return false;
+        if(m==null||u==null)return  false;
         if (u.getAccount().getBalance() < p.getCost()) return  false;
         u.getAccount().substractBalance(p.getCost());
         u.getAccount().addPayment(new OneTimePayment(p.getCost()));

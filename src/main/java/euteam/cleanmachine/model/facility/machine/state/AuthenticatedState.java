@@ -45,6 +45,11 @@ public class AuthenticatedState extends MachineState {
         machine.setState(new OutOfOrderState(employeId));
     }
 
+    @Override
+    public void unlockMachine(Machine machine, Long employeID) {
+        throw new StateTransitionException("cannot unlock machine in this state");
+    }
+
     public Long getUserId() {
         return userId;
     }

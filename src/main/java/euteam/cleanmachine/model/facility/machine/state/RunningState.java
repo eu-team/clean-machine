@@ -53,6 +53,11 @@ public class RunningState extends MachineState {
         machine.setState(new OutOfOrderState(employeId));
     }
 
+    @Override
+    public void unlockMachine(Machine machine, Long employeID) {
+        if(!employeID.equals(userId))throw new StateTransitionException("cannot unlock because given id's doesn't match current logged in user");
+        machine.setState(new IdleState());
+    }
     public Long getEndTime() {
         return endTime;
     }

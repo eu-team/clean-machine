@@ -50,6 +50,8 @@ public abstract class MachineState {
      */
     public abstract void outOfOrder(Machine machine,Long employeId);
 
+    public abstract  void unlockMachine(Machine machine,Long employeID);
+
     public Long getId() {
         return id;
     }

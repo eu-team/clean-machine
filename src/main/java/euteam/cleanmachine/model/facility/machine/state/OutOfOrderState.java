@@ -43,5 +43,10 @@ public class OutOfOrderState extends MachineState {
     public void outOfOrder(Machine machine, Long employeId) {
         throw new StateTransitionException("Machine already out of order");
     }
+    @Override
+    public void unlockMachine(Machine machine, Long employeID) {
+        if(!employeID.equals(this.employeId))throw new StateTransitionException("cannot unlock because given id's doesn't match current logged in user");
+        machine.setState(new IdleState());
+    }
 
 }

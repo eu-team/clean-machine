@@ -66,19 +66,12 @@ public abstract class Machine {
         state.lockMachine(this,userId);
     }
     public boolean unlockMachine(long userId){
-        Long loggedInUserID = null;
-        if(state instanceof LockedState){
-            LockedState state = (LockedState) getState();
-          loggedInUserID=  state.getUserId();
-        }else if(state instanceof RunningState){
-            RunningState state = (RunningState) getState();
-            loggedInUserID=  state.getUserId();
+        try{
+            state.unlockMachine(this,userId);
+        }catch(StateTransitionException e){
+            return  false;
         }
-        if(loggedInUserID == userId){
-            idle();
-            return true;
-        }
-        return false;
+        return true;
     }
     public Long getProgramEndTime(){
         if( state instanceof  RunningState) {

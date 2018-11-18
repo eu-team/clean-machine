@@ -68,12 +68,10 @@ public class FacilityServiceTest {
     @Test
     public void addMachineToFacility() {
         NewMachineDto newMachineDto = new NewMachineDto();
-        newMachineDto.setIdentifier("test");
         newMachineDto.setMachineType(MachineType.DRYER);
 
         MachineDto machineDto = facilityService.addNewMachineToFacility(100L, newMachineDto);
 
-        assertEquals("test", machineDto.getIdentifier());
         assertEquals("Idle", machineDto.getState());
         assertEquals(MachineType.DRYER, machineDto.getMachineType());
         assertFalse(facilityDao.findById(100L).get().getMachines().isEmpty());

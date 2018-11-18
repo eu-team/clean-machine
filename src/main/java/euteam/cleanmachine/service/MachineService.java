@@ -39,7 +39,7 @@ public class MachineService {
 
     public Machine getMachineByIdentifier(String identifier) {
         Machine m = machineDao.findByIdentifier(identifier);
-        m.checkIfRunningStateIsOver(null);
+        if(m!=null)m.checkIfRunningStateIsOver(null);
         return m;
     }
 

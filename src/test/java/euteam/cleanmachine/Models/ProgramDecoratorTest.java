@@ -23,6 +23,6 @@ public class ProgramDecoratorTest {
     @Test
     public void shouldBeTheRightCost() {
         Program premiumProgram = new WithPowder(new WithSoftener(new StandardProgram(), Softener.PREMIUMSOFTENER), Powder.PREMIUMPOWDER);
-        assertEquals(11, premiumProgram.getCost(), 0.0);
+        assertEquals(8, premiumProgram.getCost(), 0.0);
     }
 }

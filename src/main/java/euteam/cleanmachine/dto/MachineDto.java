@@ -11,7 +11,6 @@ import java.util.List;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class MachineDto {
-    private String id;
     private String identifier;
     private List<Program> programs;
     private String state;
@@ -19,7 +18,6 @@ public class MachineDto {
 
     public MachineDto(Machine machine) {
 
-        this.id = machine.getIdentifier();
         this.identifier = machine.getIdentifier();
         this.programs =machine.getPrograms();
         this.state = machine.getState().getName();
@@ -29,14 +27,6 @@ public class MachineDto {
         } else if (machine instanceof WashingMachine) {
             this.machineType = MachineType.WASHINGMACHINE;
         }
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getIdentifier() {

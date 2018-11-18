@@ -1,3 +1,4 @@
+var machineID= "1";
 var token;
 var state;
 var endTime;
@@ -37,7 +38,7 @@ function authenticate(){
     "cache-control": "no-cache",
   },
   "processData": false,
-  "data": "{\n\t\"identifier\":\"123ABC\"\n}"
+  "data": "{\n\t\"identifier\":\""+machineID+"\"\n}"
   }
   return $.ajax(settings);
 }
@@ -74,11 +75,11 @@ function initializeState(state){
     case "Running":
       getRunningEndTime();
       break;
-    case "Out_Of_Order":
+    case "Out of order":
       //TODO When employe logs in on machine it should have to option to put the machine out of order
       $("#EmployeScreen").show();
       break;
-    case "Logged_In":
+    case "Authenticated":
       var settings = {
             "async": true,
             "crossDomain": true,

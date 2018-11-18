@@ -1,17 +1,19 @@
 package euteam.cleanmachine.model.facility.machine.state;
 
-import euteam.cleanmachine.model.enums.State;
+import euteam.cleanmachine.model.enums.State.*;
 import euteam.cleanmachine.model.facility.Machine;
 
 import euteam.cleanmachine.exceptions.StateTransitionException;
 
 import javax.persistence.Entity;
 
+import static euteam.cleanmachine.model.enums.State.IDLE;
+
 @Entity
 public class IdleState extends MachineState{
 
     public IdleState() {
-        setName(State.IDLE.getName());
+        setName(IDLE.getName());
     }
 
     @Override

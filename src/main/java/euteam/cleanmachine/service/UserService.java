@@ -101,4 +101,13 @@ public class UserService {
     public void update(User u) {
         repository.save(u);
     }
+
+    public boolean doesUserExist(Long authItemToken) {
+       return getUserByAuthId(authItemToken)!=null;
+    }
+
+    public Long getUserIdByAuthId(Long authItemToken) {
+        if(getUserByAuthId(authItemToken)==null)return null;
+        return getUserByAuthId(authItemToken).getId();
+    }
 }

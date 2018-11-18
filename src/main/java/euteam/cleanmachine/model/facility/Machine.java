@@ -1,6 +1,8 @@
 package euteam.cleanmachine.model.facility;
 
+import euteam.cleanmachine.exceptions.StateTransitionException;
 import euteam.cleanmachine.model.facility.machine.state.*;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.List;
@@ -8,23 +10,17 @@ import java.util.List;
 @Entity
 public abstract class Machine {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid")
+    private String identifier;
 
     @OneToOne(cascade=CascadeType.ALL)
     private MachineState state;
-
-    private String identifier;
 
     @OneToMany
     private List<Program> programs;
 
     Machine(){
-        setState(new IdleState());
-    }
-
-    Machine(String identifier) {
-        this.identifier = identifier;
         setState(new IdleState());
     }
 
@@ -45,16 +41,26 @@ public abstract class Machine {
         }
     }
 
-    public void idle(){
-        state.idle(this);
+    public boolean idle(){
+        try {
+            state.idle(this);
+        }catch (Exception e){
+            return  false ;
+        }
+        return true;
     }
     public void authenticateOnMachine(Long userId){
         state.authenticateOnMachine(this,userId);
     }
-    public void startMachine(Long userId, long programId){
+    public boolean startMachine(Long userId, long programId){
         Program p  =  getProgramById(programId);
         long durationInMiliseconds =Math.round(p.getDuration() * 60 * 1000);
-        state.startMachine(this,userId,durationInMiliseconds + System.currentTimeMillis(),programId );
+        try {
+            state.startMachine(this, userId, durationInMiliseconds + System.currentTimeMillis(), programId);
+        }catch (StateTransitionException e){
+            return false;
+        }
+        return true;
     }
     private void lockMachine(Long userId){
         state.lockMachine(this,userId);
@@ -74,9 +80,12 @@ public abstract class Machine {
         }
         return false;
     }
-    public long getProgramEndTime() throws ClassCastException{
-        RunningState runningState = (RunningState) state;
-         return runningState.getEndTime();
+    public Long getProgramEndTime(){
+        if( state instanceof  RunningState) {
+            RunningState runningState = (RunningState) state;
+            return runningState.getEndTime();
+        }
+        return null;
     }
     public void outOfOrder(Long employeId){
         state.outOfOrder(this,employeId);
@@ -94,13 +103,6 @@ public abstract class Machine {
     }
     public MachineState getState() {
         return state;
-    }
-
-    public Long getId() {
-        return id;
-    }
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getIdentifier() {

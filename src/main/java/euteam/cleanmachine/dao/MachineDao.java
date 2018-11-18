@@ -8,9 +8,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface MachineDao extends CrudRepository<Machine,Long> {
+public interface MachineDao extends CrudRepository<Machine,String> {
 
-    Machine getMachineById(Long machineID);
     Machine findByIdentifier(String identifier);
 
 }

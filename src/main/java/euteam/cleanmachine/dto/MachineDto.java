@@ -11,7 +11,7 @@ import java.util.List;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class MachineDto {
-    private Long id;
+    private String id;
     private String identifier;
     private List<Program> programs;
     private String state;
@@ -19,7 +19,7 @@ public class MachineDto {
 
     public MachineDto(Machine machine) {
 
-        this.id = machine.getId();
+        this.id = machine.getIdentifier();
         this.identifier = machine.getIdentifier();
         this.programs =machine.getPrograms();
         this.state = machine.getState().getName();
@@ -31,11 +31,11 @@ public class MachineDto {
         }
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

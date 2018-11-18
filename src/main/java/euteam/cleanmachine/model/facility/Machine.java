@@ -122,7 +122,7 @@ public abstract class Machine {
     public boolean containsProgram(Long programId){
         for (Program program:programs
              ) {
-            if(program.getId()==programId)return true;
+            if(program.getId().equals(programId)) return true;
         }
         return false;
     }

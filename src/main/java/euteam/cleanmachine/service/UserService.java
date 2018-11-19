@@ -2,7 +2,9 @@ package euteam.cleanmachine.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+import euteam.cleanmachine.dao.AuthItemDao;
 import euteam.cleanmachine.dto.NFCDto;
 import euteam.cleanmachine.dto.UserDto;
 import euteam.cleanmachine.dto.UserSignUpDto;
@@ -27,6 +29,9 @@ public class UserService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private AuthItemDao authDao;
 
 
     public List<User> findAll() {
@@ -74,14 +79,19 @@ public class UserService {
         return userDto;
     }
 
-    public UserDto LinkCard(NFCDto nfcDto) {
-        AuthItem  authlist;
-       // NFCCard card = new NFCCard();
-      //  card.setCardNumber(nfcDto.getCardNumber());
-        //UserDto userDto = new UserDto();
-      //  userDto.setAuthItemList();
+    public boolean LinkCard( String Username,NFCDto nfcDto) {
+        User user = repository.findByUsername(Username);
+        //get authItem from db
+        Optional<AuthItem> optional =  authDao.findById(nfcDto.getId());
+        if(!optional.isPresent())   return false;
+        AuthItem authItem = optional.get();
+        user.addAuthItem(authItem);
 
-       return null;
+        //update user object in database
+        repository.save(user);
+
+
+       return true;
 
 
     }

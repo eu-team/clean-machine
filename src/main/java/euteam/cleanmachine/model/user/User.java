@@ -105,4 +105,8 @@ public abstract class User {
     public String toString() {
         return "User{" + "id=" + id + ", name=" + name + '}';
     }
+
+    public void addAuthItem(AuthItem authItem) {
+        authItemList.add(authItem);
+    }
 }

@@ -1,8 +1,8 @@
 $(document).ready(
-    function () {
+    function() {
 
         // SUBMIT FORM
-        $("#submitForm").submit(function (event) {
+        $("#submitLogin").submit(function(event) {
             // Prevent the form from submitting via the browser.
             event.preventDefault();
             ajaxPost();
@@ -12,21 +12,22 @@ $(document).ready(
 
             // PREPARE FORM DATA
             var formData = {
-                "id": $("#id").val()
+                "username" : $("#username").val(),
+                "password" : $("#password").val()
+
+
             }
+
+
 
             // DO POST
             $.ajax({
-                type: "POST",
-                contentType: "application/json",
-                url: "/linkcard",
-                data: JSON.stringify(formData),
-                dataType: 'json',
-
-                headers: {
-                    "Authorization": "Bearer " + window.localStorage.getItem('token')
-                },
-                success: function (result) {
+                type : "POST",
+                contentType : "application/json",
+                url : "/auth/user",
+                data : JSON.stringify(formData),
+                dataType : 'json',
+                success : function(result) {
                     if (result.status === "success") {
                         $("#postResultDiv").html(
                             "" + result.data.name
@@ -35,15 +36,23 @@ $(document).ready(
                     } else {
                         $("#postResultDiv").html("<strong>error</strong>");
                     }
+
+
+                     $.post("/auth/user", formData, function(res) {
+                        window.localStorage.setItem('token',res.token)
+                    });
                     console.log(result);
+
+
                     window.location.replace("/view");
 
                 },
-                error: function (e) {
+                error : function(e) {
                     alert("Error!")
-                    console.log("ERROR: card not linked ", e);
+                    console.log("ERROR: ", e);
                 }
             });
+
 
         }
 

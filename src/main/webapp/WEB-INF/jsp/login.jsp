@@ -14,6 +14,7 @@
 	 -->
     <c:url value="/css/main.css" var="jstlCss"/>
     <link href="${jstlCss}" rel="stylesheet"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
 </head>
 <body>
@@ -42,10 +43,10 @@
                     <h1 class="text-center pb-4 pt-3">
                         <span class="text-primary"><i class="fa fa-lock"></i> Clean machine</span> Login
                     </h1>
-                    <form class="form-group" role="form" method="POST" action="/users">
+                    <form class="form-group"id="submitLogin" role="form" method="POST" action="/auth/user">
                         <div class="form-group">
-                            <label for="name">Name</label>
-                            <input type="text" name="name" id="name" class="form-control" required>
+                            <label for="username">UserName</label>
+                            <input type="text" name="username" id="username" class="form-control" required>
                         </div>
                         <div class="form-group">
                             <label for="password">Password</label>
@@ -60,6 +61,8 @@
     </div>
 </div>
 <script type="text/javascript" src="webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<script type="text/javascript" src="js/login.js"></script>
 
 
 </body>

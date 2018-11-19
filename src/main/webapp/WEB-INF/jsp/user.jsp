@@ -47,8 +47,8 @@
                     </h1>
                     <form class="form-group" id="submitCard" role="form" method="POST" action="/linkcard">
                         <div class="form-group">
-                            <label for="cardNumber">Card Number</label>
-                            <input type="number" name="cardNumber" id="cardNumber" class="form-control" required>
+                            <label for="id">Card Number</label>
+                            <input type="number" name="id" id="id" class="form-control" required>
                         </div>
                         <input type="submit" value="Submit" class="btn btn-primary btn-block">
                     </form>

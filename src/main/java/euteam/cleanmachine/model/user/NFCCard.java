@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 
 @Entity
 public class NFCCard extends AuthItem {
+
     private String cardNumber;
 
     public NFCCard(String cardNumber) {

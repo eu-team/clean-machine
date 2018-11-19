@@ -3,6 +3,7 @@ package euteam.cleanmachine.controller;
 import euteam.cleanmachine.dto.NFCDto;
 import euteam.cleanmachine.dto.UserDto;
 import euteam.cleanmachine.dto.UserSignUpDto;
+import euteam.cleanmachine.model.user.User;
 import euteam.cleanmachine.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -30,13 +31,20 @@ public class UserController {
     }
 
     @RequestMapping(path="/linkcard", method = RequestMethod.POST)
-    public ResponseEntity<?> LinkCard(@RequestBody @Valid NFCDto cardDto) {
+    public ResponseEntity<?> LinkCard(@RequestBody @Valid NFCDto cardDto, String Username) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        //bool method
+        userService.LinkCard(Username,cardDto);
+        // UserDto userDto= userService.LinkCard(Username,cardDto);
         String identifier = auth.getName();
+
         if(identifier != null){
             return ResponseEntity.ok().body(cardDto);
         } else {
-            return ResponseEntity.status(400).body("Error while creating user");
+            return ResponseEntity.status(400).body("Error while linking card");
         }
     }
+//
+
+
 }

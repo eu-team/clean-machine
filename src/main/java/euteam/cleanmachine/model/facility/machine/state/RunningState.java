@@ -1,22 +1,32 @@
-package euteam.cleanmachine.model.facility;
+package euteam.cleanmachine.model.facility.machine.state;
+
+import euteam.cleanmachine.model.facility.Machine;
+
+import static euteam.cleanmachine.model.enums.State.RUNNING;
 
 import javax.persistence.Entity;
 
 @Entity
-public class IdleState extends MachineState{
+public class RunningState extends MachineState {
+    private Long userId;
+    public RunningState(Long userId) {
+        this.userId = userId;
+        this.setName(RUNNING.getName());
+    }
+
     @Override
     public void idle(Machine m) {
-        //already in idle state
+        m.setState(new IdleState());
     }
 
     @Override
     public void startMachine(Machine machine, Long userId) {
-        //need to authenticate first
+        //already running
     }
 
     @Override
     public void authenticateOnMachine(Machine machine, Long userId) {
-        machine.setState(new AuthenticatedState(userId));
+        //Not possible
     }
 
     @Override
@@ -26,6 +36,6 @@ public class IdleState extends MachineState{
 
     @Override
     public void reOpenMachine(Machine machine) {
-        machine.setState(new IdleState());
+        //Not possible
     }
 }

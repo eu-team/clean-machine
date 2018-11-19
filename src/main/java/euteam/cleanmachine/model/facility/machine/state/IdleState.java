@@ -1,33 +1,36 @@
-package euteam.cleanmachine.model.facility;
+package euteam.cleanmachine.model.facility.machine.state;
+
+import euteam.cleanmachine.model.facility.Machine;
 
 import javax.persistence.Entity;
 
-@Entity
-public class OutOfOrderState extends  MachineState {
-    private Long employeId;
+import static euteam.cleanmachine.model.enums.State.IDLE;
 
-    public OutOfOrderState(Long employeId) {
-        this.employeId = employeId;
+@Entity
+public class IdleState extends MachineState {
+
+    public IdleState() {
+        this.setName(IDLE.getName());
     }
 
     @Override
     public void idle(Machine m) {
-        //not possible from this state
+        //already in idle state
     }
 
     @Override
     public void startMachine(Machine machine, Long userId) {
-        //not possible from this state
+        //need to authenticate first
     }
 
     @Override
     public void authenticateOnMachine(Machine machine, Long userId) {
-        //not possible from this state
+        machine.setState(new AuthenticatedState(userId));
     }
 
     @Override
     public void outOfOrder(Machine machine, Long employeId) {
-        //not possible from this state
+        machine.setState(new OutOfOrderState(employeId));
     }
 
     @Override

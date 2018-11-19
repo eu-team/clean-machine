@@ -12,6 +12,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:8100" )
@@ -22,11 +24,16 @@ public class UserController {
 
     @RequestMapping(path="/signup", method = RequestMethod.POST)
     public ResponseEntity<?> addUser(@RequestBody @Valid UserSignUpDto userSignUpDto) {
-        UserDto userDto = userService.addUser(userSignUpDto);
-        if(userDto != null) {
+        try {
+            UserDto userDto = userService.addUser(userSignUpDto);
             return ResponseEntity.ok().body(userDto);
-        } else {
-            return ResponseEntity.status(400).body("Error while creating user");
+        } catch (SecurityException e) {
+            Map<String, String> response = new HashMap<>();
+            response.put("error", e.getMessage());
+            return ResponseEntity.badRequest().body(response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body(null);
         }
     }
 

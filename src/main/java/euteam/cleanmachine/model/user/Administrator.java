@@ -1,7 +1,7 @@
 package euteam.cleanmachine.model.user;
 
-import javax.persistence.Table;
+import javax.persistence.Entity;
 
-@Table
+@Entity
 public class Administrator extends Employee {
 }

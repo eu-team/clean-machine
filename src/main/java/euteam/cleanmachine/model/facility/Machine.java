@@ -1,5 +1,8 @@
 package euteam.cleanmachine.model.facility;
 
+import euteam.cleanmachine.model.facility.machine.state.IdleState;
+import euteam.cleanmachine.model.facility.machine.state.MachineState;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -9,7 +12,7 @@ public abstract class Machine {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private MachineState state;
 
     private String identifier;
@@ -19,6 +22,15 @@ public abstract class Machine {
 
     Machine(){
         setState(new IdleState());
+    }
+
+    Machine(String identifier) {
+        this.identifier = identifier;
+        setState(new IdleState());
+    }
+
+    public MachineState getState() {
+        return state;
     }
 
     public void setState(MachineState state){

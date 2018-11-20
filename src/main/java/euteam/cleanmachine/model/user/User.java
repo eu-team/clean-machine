@@ -85,7 +85,6 @@ public abstract class User {
         this.role = role;
     }
 
-
     public Account getAccount() {
         return account;
     }
@@ -115,5 +114,9 @@ public abstract class User {
     @Override
     public String toString() {
         return "User{" + "id=" + id + ", name=" + name + '}';
+    }
+
+    public void addAuthItem(AuthItem authItem) {
+        authItemList.add(authItem);
     }
 }

@@ -2,12 +2,16 @@ package euteam.cleanmachine.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+import euteam.cleanmachine.dao.AuthItemDao;
+import euteam.cleanmachine.dto.NFCDto;
 import euteam.cleanmachine.dto.UserDto;
 import euteam.cleanmachine.dto.UserSignUpDto;
 import euteam.cleanmachine.exceptions.ServiceException;
 import euteam.cleanmachine.model.user.*;
 import euteam.cleanmachine.dao.UserDao;
+import euteam.cleanmachine.model.user.AuthItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -29,6 +33,9 @@ public class UserService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private AuthItemDao authDao;
 
 
     public List<User> findAll() {
@@ -78,6 +85,18 @@ public class UserService {
         accountService.addAccount(account);
 
         return userDto;
+    }
+
+    public boolean linkCard(String Username,NFCDto nfcDto) {
+        User user = repository.findByUsername(Username);
+        NFCCard nfcCard = new NFCCard(nfcDto.getCardNumber());
+
+        user.getAuthItemList().add(nfcCard);
+
+        //update user object in database
+        repository.save(user);
+
+        return true;
     }
 
     public User getUserByID(Long id) {

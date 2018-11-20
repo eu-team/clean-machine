@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 
 @Entity
 public class NFCCard extends AuthItem {
+
     private String cardNumber;
 
     public NFCCard() {}
@@ -15,8 +16,8 @@ public class NFCCard extends AuthItem {
     public String getCardNumber() {
         return cardNumber;
     }
-
     public void setCardNumber(String cardNumber) {
         this.cardNumber = cardNumber;
     }
+
 }

@@ -1,34 +1,31 @@
 $(document).ready(
-    function() {
+    function () {
 
         // SUBMIT FORM
-        $("#submitForm").submit(function(event) {
+        $("#submitCard").submit(function (event) {
             // Prevent the form from submitting via the browser.
             event.preventDefault();
             ajaxPost();
-
         });
 
         function ajaxPost() {
 
             // PREPARE FORM DATA
             var formData = {
-                "name" : $("#name").val(),
-                "username" : $("#username").val(),
-                "email": $("#email").val(),
-                "password" : $("#password").val(),
-                "roleName" : $("#roleName").val()
-
+                "cardNumber": $("#cardNumber").val()
             }
 
             // DO POST
             $.ajax({
-                type : "POST",
-                contentType : "application/json",
-                url : "/signup",
-                data : JSON.stringify(formData),
-                dataType : 'json',
-                success : function(result) {
+                type: "POST",
+                contentType: "application/json",
+                url: "/linkcard",
+                data: JSON.stringify(formData),
+                dataType: 'json',
+                headers: {
+                     "Authorization": "Bearer " + window.localStorage.getItem('token')
+                },
+                success: function (result) {
                     if (result.status === "success") {
                         $("#postResultDiv").html(
                             "" + result.data.name
@@ -41,9 +38,9 @@ $(document).ready(
                     window.location.replace("/view");
 
                 },
-                error : function(e) {
+                error: function (e) {
                     alert("Error!")
-                    console.log("ERROR: ", e);
+                    console.log("ERROR: card not linked ", e);
                 }
             });
 

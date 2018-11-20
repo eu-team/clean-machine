@@ -38,18 +38,12 @@ public class UserController {
     }
 
     @RequestMapping(path="/linkcard", method = RequestMethod.POST)
-    public ResponseEntity<?> linkCard(@RequestBody @Valid NFCDto cardDto, String Username) {
+    public ResponseEntity<?> linkCard(@RequestBody @Valid NFCDto cardDto) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String Username = auth.getName();
         //bool method
         userService.linkCard(Username,cardDto);
-
-        String identifier = auth.getName();
-
-        if(identifier != null){
-            return ResponseEntity.ok().body(cardDto);
-        } else {
-            return ResponseEntity.status(400).body("Error while linking card");
-        }
+        return ResponseEntity.ok().body(cardDto);
     }
 //
 

@@ -84,21 +84,16 @@ public class UserService {
         return userDto;
     }
 
-    public boolean linkCard( String Username,NFCDto nfcDto) {
+    public boolean linkCard(String Username,NFCDto nfcDto) {
         User user = repository.findByUsername(Username);
-        //get authItem from db
-        Optional<AuthItem> optional =  authDao.findById(nfcDto.getId());
-        if(!optional.isPresent())   return false;
-        AuthItem authItem = optional.get();
-        user.addAuthItem(authItem);
+        NFCCard nfcCard = new NFCCard(nfcDto.getCardNumber());
+
+        user.getAuthItemList().add(nfcCard);
 
         //update user object in database
         repository.save(user);
 
-
-       return true;
-
-
+        return true;
     }
 
     public User getUserByID(Long id) {

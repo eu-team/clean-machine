@@ -18,7 +18,7 @@ public abstract class User {
     private String email;
     private String password;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<AuthItem> authItemList;
 
     @ManyToOne(fetch = FetchType.EAGER)

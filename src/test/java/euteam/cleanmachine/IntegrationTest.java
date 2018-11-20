@@ -4,6 +4,7 @@ import euteam.cleanmachine.dao.*;
 import euteam.cleanmachine.dto.OneTimeReservationDto;
 import euteam.cleanmachine.dto.ReserveOneTimeDto;
 import euteam.cleanmachine.exceptions.ServiceException;
+import euteam.cleanmachine.exceptions.StateTransitionException;
 import euteam.cleanmachine.model.enums.Powder;
 import euteam.cleanmachine.model.enums.RoleName;
 import euteam.cleanmachine.model.enums.Softener;
@@ -112,7 +113,7 @@ public class IntegrationTest {
         assertEquals("Machine reserved by an other user", exception.getMessage());
 
         // Allowed customer tries to authenticate on the machine he reserved
-        assertTrue(machineService.authenticateOnMachine(nfcCard1.getId(), "1"));
+        machineService.authenticateOnMachine(nfcCard1.getId(), "1");
         Machine machine = machineDao.findById("1").orElse(null);
         assertEquals(State.AUTHENTICATED.getName(), machine.getState().getName());
 
@@ -122,7 +123,7 @@ public class IntegrationTest {
         premiumProgram.setDuration(0.1);
         premiumProgram = programDao.save(premiumProgram);
         machine.addProgram(premiumProgram);
-        assertTrue(machineService.startProgram("1", premiumProgram.getId()));
+        machineService.startProgram("1", premiumProgram.getId());
         assertEquals(State.RUNNING.getName(), machineService.getMachineStatus("1"));
 
         // Account balance should be updated
@@ -142,10 +143,13 @@ public class IntegrationTest {
         assertEquals(State.LOCKED.getName(), machineService.getMachineStatus("1"));
 
         // Forbidden user shouldn't be able to unlock the machine
-        assertFalse(machineService.unlockMachine("1", nfcCard2.getId()));
+        StateTransitionException stateTransitionException = assertThrows(StateTransitionException.class, () -> {
+            machineService.unlockMachine("1", finalNfcCard.getId());
+        });
+        assertEquals("cannot unlock because given id's doesn't match current logged in user", stateTransitionException.getMessage());
 
         // Allowed user unlocks machine
-        assertTrue(machineService.unlockMachine("1", nfcCard1.getId()));
+        machineService.unlockMachine("1", nfcCard1.getId());
 
         // Machine should be in idle state
         assertEquals(State.IDLE.getName(), machineService.getMachineStatus("1"));

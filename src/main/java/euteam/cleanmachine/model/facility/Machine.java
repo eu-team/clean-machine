@@ -73,7 +73,7 @@ public abstract class Machine {
         try{
             state.unlockMachine(this,userId);
         }catch(StateTransitionException e){
-            return  false;
+            throw e;
         }
         return true;
     }

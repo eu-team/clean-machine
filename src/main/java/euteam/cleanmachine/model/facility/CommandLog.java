@@ -21,6 +21,9 @@ public class CommandLog {
     @ManyToOne
     private Machine machine;
 
+    @ManyToOne
+    private Program program;
+
     public Long getId() {
         return id;
     }
@@ -59,5 +62,13 @@ public class CommandLog {
 
     public void setMachine(Machine machine) {
         this.machine = machine;
+    }
+
+    public Program getProgram() {
+        return program;
+    }
+
+    public void setProgram(Program program) {
+        this.program = program;
     }
 }

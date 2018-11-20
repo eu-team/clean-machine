@@ -26,6 +26,10 @@ public class DatabaseLogger implements MachineCommandLogger {
         log.setUser(machineCommand.getUser());
         log.setMachine(machineCommand.getMachine());
 
+        if(machineCommand.getProgram() != null) {
+            log.setProgram(machineCommand.getProgram());
+        }
+
         commandLogDao.save(log);
     }
 }

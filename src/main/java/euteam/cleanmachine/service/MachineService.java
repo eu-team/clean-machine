@@ -1,10 +1,14 @@
 package euteam.cleanmachine.service;
 
+import euteam.cleanmachine.commands.Authenticate;
 import euteam.cleanmachine.dao.MachineDao;
 import euteam.cleanmachine.dto.DtoFactory;
 import euteam.cleanmachine.dto.ProgramDto;
 import euteam.cleanmachine.dto.NewMachineDto;
+import euteam.cleanmachine.dto.UserDto;
+import euteam.cleanmachine.exceptions.ServiceException;
 import euteam.cleanmachine.exceptions.StateTransitionException;
+import euteam.cleanmachine.logging.DatabaseLogger;
 import euteam.cleanmachine.model.billing.OneTimePayment;
 import euteam.cleanmachine.model.facility.Dryer;
 import euteam.cleanmachine.model.facility.Machine;
@@ -28,6 +32,9 @@ public class MachineService {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private DatabaseLogger databaseLogger;
 
     public List<ProgramDto> getProgramsFromMachine(String machineID) {
         List<ProgramDto> programs = new ArrayList<>();
@@ -67,17 +74,22 @@ public class MachineService {
         machineDao.save(machine);
     }
 
-    public boolean authenticateOnMachine(Long authItemToken, String machineID) {
-        Machine machine = getMachineByIdentifier(machineID);
-        try {
-            User u = userService.getUserByAuthId(authItemToken);
-            if(u==null)return false;
-            machine.authenticateOnMachine(u.getId());
-        }catch(StateTransitionException e){
-            return false;
+    public UserDto authenticateOnMachine(Long authItemToken, String machineID) {
+        Machine machine = machineDao.findByIdentifier(machineID);
+        User user = userService.getUserByAuthId(authItemToken);
+
+        if (user == null) {
+            throw new ServiceException("Unknown user");
         }
-        update(machine);
-        return true;
+
+        if (machine == null) {
+            throw new ServiceException("Unknown machine");
+        }
+
+        Authenticate command = new Authenticate(machine, user, databaseLogger);
+        command.execute();
+
+        return new UserDto(user);
     }
 
     public Long getLoggedInUserId(String machineID) {

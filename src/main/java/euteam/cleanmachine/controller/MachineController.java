@@ -1,5 +1,7 @@
 package euteam.cleanmachine.controller;
 
+import euteam.cleanmachine.dto.UserDto;
+import euteam.cleanmachine.exceptions.ServiceException;
 import euteam.cleanmachine.model.facility.Machine;
 import euteam.cleanmachine.service.AccountService;
 import euteam.cleanmachine.service.MachineService;
@@ -47,19 +49,18 @@ public class MachineController {
     @RequestMapping(path = "/machine/login", method = RequestMethod.POST)
     public ResponseEntity<?> authenticateUserOnMachine(@RequestParam("authItemToken") Long authItemToken) {
         String machineID = getMachineIdByAuthentication();
-        Long userID = userService.getUserIdByAuthId(authItemToken);
-
-        if (!userService.doesUserExist(authItemToken)) {
-            return ResponseEntity.status(400).body("No user found linked to this Authentication item");
-        }
-        if (!machineService.authenticateOnMachine(authItemToken, machineID)) {
-            return ResponseEntity.status(400).body("Cannot change to authentication state at the moment");
-        }
-
         HashMap<String, Object> result = new HashMap<>();
-        result.put("Programs", machineService.getProgramsFromMachine(machineID));
-        result.put("Account Balance", accountService.getUserBalanceById(userID));
-        return ResponseEntity.ok(result);
+        try {
+            UserDto user = machineService.authenticateOnMachine(authItemToken, machineID);
+            result.put("Programs", machineService.getProgramsFromMachine(machineID));
+            result.put("Account Balance", accountService.getUserBalanceById(user.getId()));
+            return ResponseEntity.ok(result);
+        } catch (ServiceException e) {
+            result.put("error", e.getMessage());
+            return ResponseEntity.badRequest().body(result);
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(null);
+        }
     }
 
     /**

@@ -1,14 +1,6 @@
-package euteam.cleanmachine.model.facility;
+package euteam.cleanmachine.dto;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
-@Entity
-public abstract class Program {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+public class ProgramDto {
     private Long id;
 
     private String name;

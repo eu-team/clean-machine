@@ -18,6 +18,9 @@ public abstract class User {
     private String email;
     private String password;
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private Account account;
+
     @OneToMany
     private List<AuthItem> authItemList;
 
@@ -80,6 +83,15 @@ public abstract class User {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
     @Override

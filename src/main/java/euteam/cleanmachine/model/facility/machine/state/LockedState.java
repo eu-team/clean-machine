@@ -1,32 +1,20 @@
 package euteam.cleanmachine.model.facility.machine.state;
 
+import euteam.cleanmachine.exceptions.StateTransitionException;
 import euteam.cleanmachine.model.facility.Machine;
 
-import static euteam.cleanmachine.model.enums.State.RUNNING;
+import java.util.concurrent.locks.Lock;
 
-import euteam.cleanmachine.exceptions.StateTransitionException;
+import static euteam.cleanmachine.model.enums.State.LOCKED;
 
-import javax.persistence.Entity;
-
-@Entity
-public class RunningState extends MachineState {
+public class LockedState extends MachineState {
     private Long userId;
-    private Long endTime;
-    private long programId;
-    private static final String NAME = "Running";
 
-
-
-    public RunningState(){
-
-    }
-    public RunningState(Long userId, Long endTime, long programId) {
+    public LockedState(){}
+    public LockedState(Long userId) {
         this.userId = userId;
-        this.endTime = endTime;
-        this.programId = programId;
-        setName(RUNNING.getName());
+        setName(LOCKED.getName());
     }
-
 
     @Override
     public void idle(Machine m) {
@@ -35,17 +23,17 @@ public class RunningState extends MachineState {
 
     @Override
     public void startMachine(Machine machine, Long userId, Long EndTime, long programId) {
-        throw new StateTransitionException("Machine already started");
+        throw new StateTransitionException("Cannot start a machine while it's locked");
     }
 
     @Override
     public void lockMachine(Machine machine, Long userId) {
-        machine.setState(new LockedState(userId));
+        throw new StateTransitionException("Machine already locked");
     }
 
     @Override
     public void authenticateOnMachine(Machine machine, Long userId) {
-        throw new StateTransitionException("Cannot authenticate while the machine is running");
+        throw new StateTransitionException("Cannot authenticate on machine while locked");
     }
 
     @Override
@@ -58,19 +46,14 @@ public class RunningState extends MachineState {
         if(!employeID.equals(userId))throw new StateTransitionException("cannot unlock because given id's doesn't match current logged in user");
         machine.setState(new IdleState());
     }
-    public Long getEndTime() {
-        return endTime;
-    }
 
-    public void setEndTime(Long endTime) {
-        this.endTime = endTime;
-    }
 
     public Long getUserId() {
         return userId;
     }
-
     public void setUserId(Long userId) {
         this.userId = userId;
     }
+
+
 }

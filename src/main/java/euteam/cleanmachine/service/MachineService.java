@@ -84,8 +84,8 @@ public class MachineService {
 
             Reservation reservation = reservationService.checkIfMachineReserved(machine, new Date());
             if(reservation != null) {
-                if(reservation.getUser().getId() == user.getId()) {
-
+                if(reservation.getUser().getId().equals(user.getId())) {
+                    machine.authenticateOnMachine(user.getId());
                 } else {
                     throw new ServiceException("Machine reserved by an other user");
                 }

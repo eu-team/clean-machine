@@ -2,6 +2,7 @@ package euteam.cleanmachine.model.user;
 
 import euteam.cleanmachine.model.enums.RoleName;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.*;
@@ -27,7 +28,9 @@ public abstract class User {
     @ManyToOne(fetch = FetchType.EAGER)
     private Role role;
 
-    public User(){};
+    public User(){
+        this.authItemList = new ArrayList<>();
+    };
 
     public Long getId() {
         return id;

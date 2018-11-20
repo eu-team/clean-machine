@@ -3,6 +3,9 @@ package euteam.cleanmachine.model.facility.decorator;
 import euteam.cleanmachine.model.enums.Powder;
 import euteam.cleanmachine.model.facility.Program;
 
+import javax.persistence.Entity;
+
+@Entity
 public class WithPowder extends ProgramDecorator {
 
     private Powder powder;

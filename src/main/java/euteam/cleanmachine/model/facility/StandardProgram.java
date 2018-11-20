@@ -6,5 +6,7 @@ import javax.persistence.Entity;
 
 @Entity
 public class StandardProgram extends Program {
-
+    public StandardProgram(){
+        super();
+    }
 }

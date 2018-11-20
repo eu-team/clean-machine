@@ -4,6 +4,7 @@ import euteam.cleanmachine.model.billing.AccountSubscription;
 import euteam.cleanmachine.model.billing.Payment;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -25,12 +26,13 @@ public class Account {
     private List<Payment> payments;
 
     public Account() {
-        // Empty default constructor
+        this.payments = new ArrayList<>();
     }
 
     public Account(User user) {
         this.balance = 0;
         this.user = user;
+        this.payments = new ArrayList<>();
     }
 
     public Long getId() {

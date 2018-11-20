@@ -34,6 +34,10 @@ public class ReservationService {
             throw new ServiceException("Machine not found");
         }
 
+        if(this.checkIfMachineReserved(machine, reserveOneTimeDto.getStartDate())) {
+            throw new ServiceException("Machine already reserved at this date");
+        }
+
         OneTimeReservation oneTimeReservation = new OneTimeReservation(customer, reserveOneTimeDto.getStartDate(), reserveOneTimeDto.getEndDate(), machine);
 
         return new OneTimeReservationDto(reservationDao.save(oneTimeReservation));
@@ -44,6 +48,10 @@ public class ReservationService {
 
         if(machine == null) {
             throw new ServiceException("Machine not found");
+        }
+
+        if(this.checkIfMachineReserved(machine, reserveMaintenanceDto.getStartDate())) {
+            throw new ServiceException("Machine already reserved at this date");
         }
 
         MaintenanceReservation maintenanceReservation = new MaintenanceReservation(employee, machine, reserveMaintenanceDto.getStartDate(), reserveMaintenanceDto.getEndDate());
@@ -58,17 +66,16 @@ public class ReservationService {
             throw new ServiceException("Machine not found");
         }
 
+        if(this.checkIfMachineReserved(machine, reserveRepeatingDto.getStartDate())) {
+            throw new ServiceException("Machine already reserved at this date");
+        }
+
         RepeatingReservation repeatingReservation = new RepeatingReservation(machine, user, reserveRepeatingDto.getReservationPeriodicity(), reserveRepeatingDto.getStartDate(), reserveRepeatingDto.getEndDate());
 
         return new RepeatingReservationDto(reservationDao.save(repeatingReservation));
     }
 
-    public boolean checkIfMachineReserved(String machineId, Date date) throws ServiceException{
-        Machine machine = machineDao.findById(machineId).orElse(null);
-
-        if(machine == null) {
-            throw new ServiceException("Machine not found");
-        }
+    public boolean checkIfMachineReserved(Machine machine, Date date){
         List<Reservation> reservations = reservationDao.findAllByMachineAndCancelledFalse(machine);
 
         for(Reservation reservation: reservations) {

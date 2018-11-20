@@ -1,11 +1,15 @@
 package euteam.cleanmachine.controller;
 
+import euteam.cleanmachine.dto.NFCDto;
 import euteam.cleanmachine.dto.UserDto;
 import euteam.cleanmachine.dto.UserSignUpDto;
+import euteam.cleanmachine.model.user.User;
 import euteam.cleanmachine.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.validation.Valid;
 import java.util.HashMap;
@@ -32,4 +36,16 @@ public class UserController {
             return ResponseEntity.status(500).body(null);
         }
     }
+
+    @RequestMapping(path="/linkcard", method = RequestMethod.POST)
+    public ResponseEntity<?> linkCard(@RequestBody @Valid NFCDto cardDto) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String Username = auth.getName();
+        //bool method
+        userService.linkCard(Username,cardDto);
+        return ResponseEntity.ok().body(cardDto);
+    }
+//
+
+
 }

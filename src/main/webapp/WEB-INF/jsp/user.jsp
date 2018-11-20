@@ -14,10 +14,12 @@
 	 -->
     <c:url value="/css/main.css" var="jstlCss"/>
     <link href="${jstlCss}" rel="stylesheet"/>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
 </head>
 <body>
+
 <nav class="navbar navbar-inverse">
     <div class="container">
         <div class="navbar-header">
@@ -25,11 +27,11 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li><a href="#">Home</a></li>
-                <li><a href="user">User</a></li>
-                <li><a href="about">About</a></li>
-                <li class="active"><a href="login">Login</a></li>
+                <li><a href="view">Home</a></li>
+                <li class="active"><a href="user">User</a></li>
+                <li><a href="login">Login</a></li>
                 <li><a href="signup">SignUp</a></li>
+
             </ul>
         </div>
     </div>
@@ -41,28 +43,23 @@
             <div class="card">
                 <div class="card-body">
                     <h1 class="text-center pb-4 pt-3">
-                        <span class="text-primary"><i class="fa fa-lock"></i> Clean machine</span> Login
+                        <span class="text-primary"><i class="fa fa-lock"></i> Clean machine</span> Link Card
                     </h1>
-                    <form class="form-group"id="submitLogin" role="form" method="POST" action="/auth/user">
+                    <form class="form-group" id="submitCard" role="form" method="POST" action="/linkcard">
                         <div class="form-group">
-                            <label for="username">UserName</label>
-                            <input type="text" name="username" id="username" class="form-control" required>
+                            <label for="cardNumber">Card Number</label>
+                            <input type="number" name="cardNumber" id="cardNumber" class="form-control" required>
                         </div>
-                        <div class="form-group">
-                            <label for="password">Password</label>
-                            <input type="password" name="password" id="password" class="form-control" required>
-                        </div>
-                        <input type="submit" value="submit" class="btn btn-primary btn-block">
+                        <input type="submit" value="Submit" class="btn btn-primary btn-block">
                     </form>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 <script type="text/javascript" src="webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
-<script type="text/javascript" src="js/login.js"></script>
-
+<script type="text/javascript" src="js/linkCard.js"></script>
 
 </body>
 

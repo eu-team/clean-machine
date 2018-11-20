@@ -4,6 +4,7 @@ import euteam.cleanmachine.model.enums.RoleName;
 import euteam.cleanmachine.model.user.AuthItem;
 import euteam.cleanmachine.model.user.User;
 
+
 import java.util.List;
 
 public class UserDto {
@@ -13,6 +14,7 @@ public class UserDto {
     private List<AuthItem> authItemList;
     private RoleName roleName;
 
+
     public UserDto(User user) {
         this.id = user.getId();
         this.name = user.getName();
@@ -20,6 +22,7 @@ public class UserDto {
         this.authItemList = user.getAuthItemList();
         this.roleName = user.getRole().getRoleName();
     }
+
 
     public Long getId() {
         return id;
@@ -60,4 +63,5 @@ public class UserDto {
     public void setRoleName(RoleName roleName) {
         this.roleName = roleName;
     }
+
 }

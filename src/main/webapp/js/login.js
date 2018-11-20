@@ -29,6 +29,7 @@ $(document).ready(
                 dataType : 'json',
                 success : function(result) {
                     window.localStorage.setItem("token",result.token)
+                    window.location.replace("/user");
                 },
                 error : function(e) {
                     alert("Error!")

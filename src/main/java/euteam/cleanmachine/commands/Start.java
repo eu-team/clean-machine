@@ -14,8 +14,7 @@ public class Start extends MachineCommand {
 
     @Override
     public void execute() {
-        //TODO FIX command so we can add programID as parameter
-        this.machine.startMachine(this.user.getId(),1);
+        this.machine.startMachine(this.user.getId(),this.program.getId());
         this.log();
     }
 }

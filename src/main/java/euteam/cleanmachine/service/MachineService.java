@@ -2,6 +2,7 @@ package euteam.cleanmachine.service;
 
 import euteam.cleanmachine.commands.Authenticate;
 import euteam.cleanmachine.commands.Idle;
+import euteam.cleanmachine.commands.Start;
 import euteam.cleanmachine.dao.MachineDao;
 import euteam.cleanmachine.dto.DtoFactory;
 import euteam.cleanmachine.dto.ProgramDto;
@@ -119,19 +120,49 @@ public class MachineService {
         return getMachineByIdentifier(machineID).containsProgram(programId);
     }
 
-    public boolean startProgram(String machineID, long programId) {
-        Machine m = getMachineByIdentifier(machineID);
-        if(m==null)return  false;
-        Program p = m.getProgramById(programId);
-        User u = userService.getUserByID(m.getLoggedInUserId());
-        if(u==null)return false;
-        if (u.getAccount().getBalance() < p.getCost()) return  false;
-        u.getAccount().substractBalance(p.getCost());
-        u.getAccount().addPayment(new OneTimePayment(p.getCost()));
-        if(!m.startMachine(m.getLoggedInUserId(), programId))return false;
-        userService.update(u);
-        update(m);
-        return  true;
+    /**
+     * Starts a program on the machine
+     * @param machineID
+     * @param programId
+     * @return remaining time for program to finish
+     */
+    public Long startProgram(String machineID, long programId) {
+        Machine machine = machineDao.findById(machineID).orElse(null);
+        if (machine == null) {
+            throw new ServiceException("Machine not found");
+        }
+        if (!(machine.getState() instanceof AuthenticatedState)) {
+            throw new ServiceException("Machine cannot be started if no user is logged in");
+        }
+
+        User user = userService.getUserByID(((AuthenticatedState)(machine.getState())).getUserId());
+        if (user == null) {
+            throw new ServiceException("Logged user not found");
+        }
+
+        Program program = machine.getProgramById(programId);
+        if (program == null) {
+            throw new ServiceException("Program not found on this machine");
+        }
+
+        if (user.getAccount().getBalance() < program.getCost()) {
+            throw new ServiceException("Not enough funds for this program");
+        }
+
+        user.getAccount().substractBalance(program.getCost());
+        user.getAccount().addPayment(new OneTimePayment(program.getCost()));
+
+        Start command = new Start(machine, user, program, databaseLogger);
+        command.execute();
+
+        userService.update(user);
+
+        Long endTime = getProgramEndTime(machine.getIdentifier());
+        if (endTime == null) {
+            throw new ServiceException("The program is endless");
+        }
+
+        return endTime;
     }
 
     public Long getProgramEndTime(String machineID) {

@@ -107,18 +107,16 @@ public class MachineController {
     @RequestMapping(path = "/machine/startProgram", method = RequestMethod.POST)
     public ResponseEntity<?> startProgram(@RequestParam("programId") long programId) {
         String machineID = getMachineIdByAuthentication();
-        if (!machineService.containsProgram(machineID,programId))
-            return ResponseEntity.status(400).body("Machine doesn't have this program");
-        boolean successful = machineService.startProgram(machineID,programId);
-        if(!successful) return ResponseEntity.status(400).body("Not enough funds or Machine not in the correct state");
-
-        Long endTime = machineService.getProgramEndTime(machineID);
-        if(endTime==null){
-            return ResponseEntity.status(400).body("Something serious went wrong, if you get this message then even I can't help you. God bless you");
+        try {
+            Map<String, Long> response = new HashMap<>();
+            Long endTime = machineService.startProgram(machineID, programId);
+            response.put("EndTime", endTime);
+            return ResponseEntity.ok(response);
+        } catch (ServiceException e) {
+            Map<String, String> response = new HashMap<>();
+            response.put("error", e.getMessage());
+            return ResponseEntity.badRequest().body(response);
         }
-        HashMap<String, Long> result = new HashMap<>();
-        result.put("EndTime", endTime);
-        return ResponseEntity.ok(result);
     }
 
     @RequestMapping(path = "/machine/getEndTime", method = RequestMethod.GET)

@@ -3,6 +3,7 @@ package euteam.cleanmachine.Services;
 import euteam.cleanmachine.CleanmachineApplication;
 import euteam.cleanmachine.commands.Authenticate;
 import euteam.cleanmachine.commands.MachineCommand;
+import euteam.cleanmachine.logging.DatabaseLogger;
 import euteam.cleanmachine.model.facility.Machine;
 import euteam.cleanmachine.model.facility.machine.state.AuthenticatedState;
 import euteam.cleanmachine.model.facility.machine.state.IdleState;
@@ -36,6 +37,9 @@ public class MachineTest {
     @Autowired
     private MachineService machineService;
 
+    @Autowired
+    private DatabaseLogger databaseLogger;
+
     @Before
     public void setup() {
         mvc = MockMvcBuilders
@@ -52,8 +56,8 @@ public class MachineTest {
 
         assert(machine.getState() instanceof IdleState);
 
-        MachineCommand command = new Authenticate();
-        command.execute(user, machine);
+        MachineCommand command = new Authenticate(machine, user, databaseLogger);
+        command.execute();
 
         assert(machine.getState() instanceof AuthenticatedState);
     }

@@ -18,7 +18,10 @@ public abstract class User {
     private String email;
     private String password;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private Account account;
+
+    @OneToMany
     private List<AuthItem> authItemList;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -82,6 +85,13 @@ public abstract class User {
         this.role = role;
     }
 
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
 
     @Override
     public boolean equals(Object obj) {

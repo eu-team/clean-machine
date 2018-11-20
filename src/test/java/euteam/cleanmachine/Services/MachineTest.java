@@ -46,7 +46,7 @@ public class MachineTest {
     @Test
     public void authenticateOnMachine() {
         User user = userService.getUserByID(100L);
-        Machine machine = machineService.getMachineByIdentifier("ABC987654321");
+        Machine machine = machineService.getMachineByIdentifier("1");
 
         machine.setState(new IdleState());
 

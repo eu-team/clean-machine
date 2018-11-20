@@ -6,6 +6,6 @@ import euteam.cleanmachine.model.user.User;
 public class Reopen extends MachineCommand {
     @Override
     public void execute(User user, Machine machine) {
-        machine.reopenMachine(user.getId());
+        machine.unlockMachine(user.getId());
     }
 }

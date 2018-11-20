@@ -6,6 +6,7 @@ import euteam.cleanmachine.model.user.User;
 public class Start extends MachineCommand {
     @Override
     public void execute(User user, Machine machine) {
-        machine.startMachine(user.getId());
+        //TODO FIX command so we can add programID as parameter
+        machine.startMachine(user.getId(),1);
     }
 }

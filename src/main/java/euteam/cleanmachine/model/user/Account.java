@@ -21,7 +21,7 @@ public class Account {
     @OneToMany(cascade = CascadeType.ALL)
     private List<AccountSubscription> subscriptions;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Payment> payments;
 
     public Account() {
@@ -63,6 +63,14 @@ public class Account {
 
     public void setSubscriptions(List<AccountSubscription> subscriptions) {
         this.subscriptions = subscriptions;
+    }
+
+    public void substractBalance(double payment){
+        this.balance -= payment;
+    }
+
+    public void addPayment(Payment payment){
+        payments.add(payment);
     }
 
     @Override

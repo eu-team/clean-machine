@@ -99,4 +99,8 @@ public class AccountService {
         }
         return false;
     }
+
+    public double getUserBalanceById(Long userID) {
+        return getAccountByID(userID).getBalance();
+    }
 }

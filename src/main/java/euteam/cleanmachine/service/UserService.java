@@ -26,6 +26,9 @@ public class UserService {
     private AccountService accountService;
 
     @Autowired
+    private AuthItemService authItemService;
+
+    @Autowired
     private RoleService roleService;
 
     @Autowired
@@ -100,7 +103,30 @@ public class UserService {
         return repository.findById(id).orElse(null);
     }
 
+    public User getUserByAuthId(Long authId){
+        AuthItem authItem = authItemService.getAuthItem(authId);
+
+        try {
+            return repository.getUserByAuthItemListContains(authItem);
+        }catch (Exception e){
+            return null;
+        }
+    }
+
     public User getUserByUsername(String username) {
         return repository.findByUsername(username);
+    }
+
+    public void update(User u) {
+        repository.save(u);
+    }
+
+    public boolean doesUserExist(Long authItemToken) {
+       return getUserByAuthId(authItemToken)!=null;
+    }
+
+    public Long getUserIdByAuthId(Long authItemToken) {
+        if(getUserByAuthId(authItemToken)==null)return null;
+        return getUserByAuthId(authItemToken).getId();
     }
 }

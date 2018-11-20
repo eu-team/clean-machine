@@ -71,7 +71,10 @@ public class ReservationServiceTest {
         customer.setRole(role);
         ReserveOneTimeDto reserveOneTimeDto = new ReserveOneTimeDto();
         reserveOneTimeDto.setMachineId(1L);
-        reserveOneTimeDto.setReservationDate(new Date());
+        Date date = new Date();
+        reserveOneTimeDto.setStartDate(date);
+        date.setTime(date.getTime() + 36000);
+        reserveOneTimeDto.setEndDate(date);
 
         OneTimeReservationDto oneTimeReservationDto = reservationService.createOneTimeReservation(customer, reserveOneTimeDto);
 
@@ -106,7 +109,10 @@ public class ReservationServiceTest {
         maintainer.setRole(role);
         ReserveRepeatingDto reserveRepeatingDto = new ReserveRepeatingDto();
         reserveRepeatingDto.setMachineId(1L);
-        reserveRepeatingDto.setReservationDate(new Date());
+        Date date = new Date();
+        reserveRepeatingDto.setStartDate(date);
+        date.setTime(date.getTime() + 36000);
+        reserveRepeatingDto.setEndDate(date);
         reserveRepeatingDto.setReservationPeriodicity(ReservationPeriodicity.MONTHLY);
 
         RepeatingReservationDto repeatingReservationDto = reservationService.createRepeatingReservation(maintainer, reserveRepeatingDto);

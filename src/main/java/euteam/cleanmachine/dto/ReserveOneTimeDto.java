@@ -3,15 +3,24 @@ package euteam.cleanmachine.dto;
 import java.util.Date;
 
 public class ReserveOneTimeDto {
-    private Date reservationDate;
+    private Date startDate;
+    private Date endDate;
     private Long machineId;
 
-    public Date getReservationDate() {
-        return reservationDate;
+    public Date getStartDate() {
+        return startDate;
     }
 
-    public void setReservationDate(Date reservationDate) {
-        this.reservationDate = reservationDate;
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 
     public Long getMachineId() {

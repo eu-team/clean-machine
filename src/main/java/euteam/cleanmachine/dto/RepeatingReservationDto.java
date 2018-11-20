@@ -9,14 +9,16 @@ public class RepeatingReservationDto {
     private UserDto userDto;
     private ReservationPeriodicity reservationPeriodicity;
     private Date reservationMadeDate;
-    private Date reservationDate;
+    private Date startDate;
+    private Date endDate;
     private MachineDto machineDto;
 
     public RepeatingReservationDto(RepeatingReservation repeatingReservation) {
         this.userDto = new UserDto(repeatingReservation.getUser());
         this.reservationPeriodicity = repeatingReservation.getReservationPeriodicity();
         this.reservationMadeDate = repeatingReservation.getReservationMadeDate();
-        this.reservationDate =  repeatingReservation.getReservationDate();
+        this.startDate =  repeatingReservation.getStartDate();
+        this.endDate = repeatingReservation.getEndDate();
         this.machineDto = new MachineDto(repeatingReservation.getMachine());
     }
 
@@ -44,12 +46,20 @@ public class RepeatingReservationDto {
         this.reservationMadeDate = reservationMadeDate;
     }
 
-    public Date getReservationDate() {
-        return reservationDate;
+    public Date getStartDate() {
+        return startDate;
     }
 
-    public void setReservationDate(Date reservationDate) {
-        this.reservationDate = reservationDate;
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 
     public MachineDto getMachineDto() {

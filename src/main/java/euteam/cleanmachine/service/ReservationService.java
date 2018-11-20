@@ -8,11 +8,14 @@ import euteam.cleanmachine.model.facility.Machine;
 import euteam.cleanmachine.model.reservation.MaintenanceReservation;
 import euteam.cleanmachine.model.reservation.OneTimeReservation;
 import euteam.cleanmachine.model.reservation.RepeatingReservation;
+import euteam.cleanmachine.model.reservation.Reservation;
 import euteam.cleanmachine.model.user.Customer;
 import euteam.cleanmachine.model.user.Employee;
 import euteam.cleanmachine.model.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ReservationService {
@@ -30,7 +33,7 @@ public class ReservationService {
             throw new ServiceException("Machine not found");
         }
 
-        OneTimeReservation oneTimeReservation = new OneTimeReservation(customer, reserveOneTimeDto.getReservationDate(), machine);
+        OneTimeReservation oneTimeReservation = new OneTimeReservation(customer, reserveOneTimeDto.getStartDate(), reserveOneTimeDto.getEndDate(), machine);
 
         return new OneTimeReservationDto(reservationDao.save(oneTimeReservation));
     }
@@ -54,8 +57,17 @@ public class ReservationService {
             throw new ServiceException("Machine not found");
         }
 
-        RepeatingReservation repeatingReservation = new RepeatingReservation(machine, user, reserveRepeatingDto.getReservationPeriodicity(), reserveRepeatingDto.getReservationDate());
+        RepeatingReservation repeatingReservation = new RepeatingReservation(machine, user, reserveRepeatingDto.getReservationPeriodicity(), reserveRepeatingDto.getStartDate(), reserveRepeatingDto.getEndDate());
 
         return new RepeatingReservationDto(reservationDao.save(repeatingReservation));
+    }
+
+    public List<Reservation> getReservationOfMachine(String machineId) throws ServiceException{
+        Machine machine = machineDao.findById(machineId).orElse(null);
+
+        if(machine == null) {
+            throw new ServiceException("Machine not found");
+        }
+        return reservationDao.findAllByMachine(machine);
     }
 }

@@ -4,18 +4,21 @@ import euteam.cleanmachine.dao.MachineDao;
 import euteam.cleanmachine.dto.DtoFactory;
 import euteam.cleanmachine.dto.ProgramDto;
 import euteam.cleanmachine.dto.NewMachineDto;
+import euteam.cleanmachine.exceptions.ServiceException;
 import euteam.cleanmachine.exceptions.StateTransitionException;
 import euteam.cleanmachine.model.billing.OneTimePayment;
 import euteam.cleanmachine.model.facility.Dryer;
 import euteam.cleanmachine.model.facility.Machine;
 import euteam.cleanmachine.model.facility.Program;
 import euteam.cleanmachine.model.facility.WashingMachine;
+import euteam.cleanmachine.model.reservation.Reservation;
 import euteam.cleanmachine.model.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -28,6 +31,9 @@ public class MachineService {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private ReservationService reservationService;
 
     public List<ProgramDto> getProgramsFromMachine(String machineID) {
         List<ProgramDto> programs = new ArrayList<>();
@@ -67,13 +73,15 @@ public class MachineService {
         machineDao.save(machine);
     }
 
-    public boolean authenticateOnMachine(Long authItemToken, String machineID) {
+    public boolean authenticateOnMachine(Long authItemToken, String machineID) throws ServiceException {
         Machine machine = getMachineByIdentifier(machineID);
         try {
-            User u = userService.getUserByAuthId(authItemToken);
-            if(u==null)return false;
-            machine.authenticateOnMachine(u.getId());
-        }catch(StateTransitionException e){
+            User user = userService.getUserByAuthId(authItemToken);
+            if (user == null) {
+                throw new ServiceException("Account not found");
+            }
+            machine.authenticateOnMachine(user.getId());
+        } catch(StateTransitionException e){
             return false;
         }
         update(machine);
@@ -122,5 +130,11 @@ public class MachineService {
         boolean status = machine.unlockMachine(u.getId());
         update(machine);
         return status;
+    }
+
+    public boolean checkIfReserved(String machineId) throws ServiceException {
+        Date now = new Date();
+        List<Reservation> reservations = reservationService.getReservationOfMachine(machineId);
+        return true;
     }
 }

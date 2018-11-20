@@ -13,10 +13,16 @@ public abstract class Reservation {
     @ManyToOne
     private Machine machine;
     private Date reservationMadeDate;
+    private Date startDate;
+    private Date endDate;
+    private boolean cancelled;
 
-    public Reservation(Machine machine) {
+    public Reservation(Machine machine, Date startDate, Date endDate) {
         this.machine = machine;
         this.reservationMadeDate = new Date();
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.cancelled = false;
     }
 
     public Long getId() {
@@ -41,5 +47,29 @@ public abstract class Reservation {
 
     public void setReservationMadeDate(Date reservationMadeDate) {
         this.reservationMadeDate = reservationMadeDate;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+
+    public boolean isCancelled() {
+        return cancelled;
+    }
+
+    public void setCancelled(boolean cancelled) {
+        this.cancelled = cancelled;
     }
 }

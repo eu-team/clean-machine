@@ -13,13 +13,11 @@ public class RepeatingReservation extends Reservation {
     @ManyToOne
     private User user;
     private ReservationPeriodicity reservationPeriodicity;
-    private Date reservationDate;
 
-    public RepeatingReservation(Machine machine, User user, ReservationPeriodicity reservationPeriodicity, Date reservationDate) {
-        super(machine);
+    public RepeatingReservation(Machine machine, User user, ReservationPeriodicity reservationPeriodicity, Date startDate, Date endDate) {
+        super(machine, startDate, endDate);
         this.user = user;
         this.reservationPeriodicity = reservationPeriodicity;
-        this.reservationDate  = reservationDate;
     }
 
     public User getUser() {
@@ -36,13 +34,5 @@ public class RepeatingReservation extends Reservation {
 
     public void setReservationPeriodicity(ReservationPeriodicity reservationPeriodicity) {
         this.reservationPeriodicity = reservationPeriodicity;
-    }
-
-    public Date getReservationDate() {
-        return reservationDate;
-    }
-
-    public void setReservationDate(Date reservationDate) {
-        this.reservationDate = reservationDate;
     }
 }

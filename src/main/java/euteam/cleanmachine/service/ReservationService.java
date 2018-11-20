@@ -52,7 +52,7 @@ public class ReservationService {
     }
 
     public RepeatingReservationDto createRepeatingReservation(User user, ReserveRepeatingDto reserveRepeatingDto) throws ServiceException {
-        Machine machine = machineDao.findById(reserveRepeatingDto.getMachineId()).orElse(null);
+        Machine machine = machineDao.findById(reserveRepeatingDto.getMachineId().toString()).orElse(null);
 
         if(machine == null) {
             throw new ServiceException("Machine not found");

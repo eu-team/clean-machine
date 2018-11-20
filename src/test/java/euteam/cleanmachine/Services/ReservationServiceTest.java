@@ -88,6 +88,7 @@ public class ReservationServiceTest {
         maintainer.setRole(role);
         ReserveMaintenanceDto reserveMaintenanceDto = new ReserveMaintenanceDto();
         reserveMaintenanceDto.setMachineId(1L);
+
         reserveMaintenanceDto.setStartDate(new Date());
         reserveMaintenanceDto.setEndDate(new Date());
 

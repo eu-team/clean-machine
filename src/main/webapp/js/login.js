@@ -28,24 +28,7 @@ $(document).ready(
                 data : JSON.stringify(formData),
                 dataType : 'json',
                 success : function(result) {
-                    if (result.status === "success") {
-                        window.localStorage.setItem("token",result.token)
-                        $("#postResultDiv").html(
-                            "" + result.data.name
-                            + "Post Successfully! <br>"
-                            + "---> Congrats !!" + "</p>");
-                    } else {
-                        $("#postResultDiv").html("<strong>error</strong>");
-                    }
-
-
-                    window.localStorage.setItem("lae", "Smith");
-                    console.log(result);
-                    //console.log(token);
-
-
-
-
+                    window.localStorage.setItem("token",result.token)
                 },
                 error : function(e) {
                     alert("Error!")

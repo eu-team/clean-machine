@@ -3,10 +3,12 @@ package euteam.cleanmachine.model.facility.machine.state;
 import euteam.cleanmachine.exceptions.StateTransitionException;
 import euteam.cleanmachine.model.facility.Machine;
 
+import javax.persistence.Entity;
 import java.util.concurrent.locks.Lock;
 
 import static euteam.cleanmachine.model.enums.State.LOCKED;
 
+@Entity
 public class LockedState extends MachineState {
     private Long userId;
 

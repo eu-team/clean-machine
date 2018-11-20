@@ -1,5 +1,6 @@
 package euteam.cleanmachine.model.reservation;
 
+import euteam.cleanmachine.model.facility.Machine;
 import euteam.cleanmachine.model.user.Employee;
 
 import javax.persistence.Entity;
@@ -8,10 +9,7 @@ import java.util.Date;
 
 @Entity
 public class MaintenanceReservation extends Reservation {
-    private Date startDate;
-
-    private Date endDate;
-
-    @ManyToOne
-    private Employee employee;
+    public MaintenanceReservation(Employee employee, Machine machine, Date startDate, Date endDate) {
+        super(machine, employee, startDate, endDate);
+    }
 }

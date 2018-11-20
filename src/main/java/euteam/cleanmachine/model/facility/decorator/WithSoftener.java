@@ -3,6 +3,9 @@ package euteam.cleanmachine.model.facility.decorator;
 import euteam.cleanmachine.model.enums.Softener;
 import euteam.cleanmachine.model.facility.Program;
 
+import javax.persistence.Entity;
+
+@Entity
 public class WithSoftener extends ProgramDecorator {
 
     private Softener softener;

@@ -17,6 +17,9 @@ public abstract class Program {
 
     private double cost;
 
+    public Program() {
+    }
+
     public Long getId() {
         return id;
     }

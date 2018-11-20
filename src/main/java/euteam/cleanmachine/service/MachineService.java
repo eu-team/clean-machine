@@ -17,6 +17,7 @@ import euteam.cleanmachine.model.facility.Dryer;
 import euteam.cleanmachine.model.facility.Machine;
 import euteam.cleanmachine.model.facility.Program;
 import euteam.cleanmachine.model.facility.WashingMachine;
+import euteam.cleanmachine.model.reservation.Reservation;
 import euteam.cleanmachine.model.facility.machine.state.AuthenticatedState;
 import euteam.cleanmachine.model.facility.machine.state.LockedState;
 import euteam.cleanmachine.model.user.User;
@@ -25,6 +26,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -37,6 +39,9 @@ public class MachineService {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private ReservationService reservationService;
 
     @Autowired
     private DatabaseLogger databaseLogger;
@@ -91,8 +96,18 @@ public class MachineService {
             throw new ServiceException("Unknown machine");
         }
 
-        Authenticate command = new Authenticate(machine, user, databaseLogger);
-        command.execute();
+        Reservation reservation = reservationService.checkIfMachineReserved(machine, new Date());
+        if(reservation != null) {
+            if(reservation.getUser().getId().equals(user.getId())) {
+                Authenticate command = new Authenticate(machine, user, databaseLogger);
+                command.execute();
+            } else {
+                throw new ServiceException("Machine reserved by an other user");
+            }
+        } else {
+            Authenticate command = new Authenticate(machine, user, databaseLogger);
+            command.execute();
+        }
 
         return new UserDto(user);
     }

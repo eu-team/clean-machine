@@ -30,7 +30,11 @@ public abstract class Machine {
     }
 
     public void checkIfRunningStateIsOver(MachineState state) {
-        if(state == null) state = this.state;
+        if(state == null) {
+            state = this.state;
+        } else {
+            this.state = state;
+        }
         if (!(state instanceof RunningState)) {
             return;
         }
@@ -69,7 +73,7 @@ public abstract class Machine {
         try{
             state.unlockMachine(this,userId);
         }catch(StateTransitionException e){
-            return  false;
+            throw e;
         }
         return true;
     }
@@ -127,5 +131,7 @@ public abstract class Machine {
         return result;
     }
 
-
+    public void addProgram(Program program) {
+        this.programs.add(program);
+    }
 }

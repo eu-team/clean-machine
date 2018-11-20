@@ -53,7 +53,6 @@
                             <input type="password" name="password" id="password" class="form-control" required>
                         </div>
                         <input type="submit" value="submit" class="btn btn-primary btn-block">
-                        <%--<button type="submit" class="btn btn-success"><i class="fa fa-user-plus"></i> Register</button>--%>
                     </form>
                 </div>
             </div>

@@ -1,26 +1,26 @@
 $(document).ready(
     function() {
 
-        // SUBMIT FORM
+        /* SUBMIT FORM*/
         $("#submitLogin").submit(function(event) {
-            // Prevent the form from submitting via the browser.
+            /* Prevent the form from submitting via the browser.*/
             event.preventDefault();
             ajaxPost();
+
         });
 
         function ajaxPost() {
 
-            // PREPARE FORM DATA
+            /* PREPARE FORM DATA*/
             var formData = {
                 "username" : $("#username").val(),
                 "password" : $("#password").val()
 
 
+
             }
 
-
-
-            // DO POST
+            /* DO POST*/
             $.ajax({
                 type : "POST",
                 contentType : "application/json",
@@ -29,6 +29,7 @@ $(document).ready(
                 dataType : 'json',
                 success : function(result) {
                     if (result.status === "success") {
+                        window.localStorage.setItem("token",result.token)
                         $("#postResultDiv").html(
                             "" + result.data.name
                             + "Post Successfully! <br>"
@@ -38,13 +39,12 @@ $(document).ready(
                     }
 
 
-                     $.post("/auth/user", formData, function(res) {
-                        window.localStorage.setItem('token',res.token)
-                    });
+                    window.localStorage.setItem("lae", "Smith");
                     console.log(result);
+                    //console.log(token);
 
 
-                    window.location.replace("/view");
+
 
                 },
                 error : function(e) {
@@ -52,6 +52,8 @@ $(document).ready(
                     console.log("ERROR: ", e);
                 }
             });
+
+
 
 
         }

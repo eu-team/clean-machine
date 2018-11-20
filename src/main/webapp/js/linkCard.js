@@ -22,10 +22,9 @@ $(document).ready(
                 url: "/linkcard",
                 data: JSON.stringify(formData),
                 dataType: 'json',
-
-                headers: {
-                    "Authorization": "Bearer " + window.localStorage.getItem('token')
-                },
+                // headers: {
+                //     "Authorization": "Bearer " + window.localStorage.getItem('token')
+                // },
                 success: function (result) {
                     if (result.status === "success") {
                         $("#postResultDiv").html(

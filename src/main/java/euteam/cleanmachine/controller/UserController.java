@@ -38,11 +38,11 @@ public class UserController {
     }
 
     @RequestMapping(path="/linkcard", method = RequestMethod.POST)
-    public ResponseEntity<?> LinkCard(@RequestBody @Valid NFCDto cardDto, String Username) {
+    public ResponseEntity<?> linkCard(@RequestBody @Valid NFCDto cardDto, String Username) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         //bool method
-        userService.LinkCard(Username,cardDto);
-        // UserDto userDto= userService.LinkCard(Username,cardDto);
+        userService.linkCard(Username,cardDto);
+
         String identifier = auth.getName();
 
         if(identifier != null){

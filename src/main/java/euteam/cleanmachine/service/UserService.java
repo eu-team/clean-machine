@@ -84,7 +84,7 @@ public class UserService {
         return userDto;
     }
 
-    public boolean LinkCard( String Username,NFCDto nfcDto) {
+    public boolean linkCard( String Username,NFCDto nfcDto) {
         User user = repository.findByUsername(Username);
         //get authItem from db
         Optional<AuthItem> optional =  authDao.findById(nfcDto.getId());

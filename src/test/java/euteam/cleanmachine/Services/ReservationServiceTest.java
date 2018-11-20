@@ -7,6 +7,7 @@ import euteam.cleanmachine.dao.UserDao;
 import euteam.cleanmachine.dto.*;
 import euteam.cleanmachine.model.enums.ReservationPeriodicity;
 import euteam.cleanmachine.model.enums.RoleName;
+import euteam.cleanmachine.model.reservation.Reservation;
 import euteam.cleanmachine.model.user.Customer;
 import euteam.cleanmachine.model.user.Employee;
 import euteam.cleanmachine.model.user.Maintainer;
@@ -24,11 +25,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
 import javax.transaction.Transactional;
 import java.util.Date;
+
+import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = CleanmachineApplication.class)
@@ -69,17 +70,29 @@ public class ReservationServiceTest {
         customer.setName("customer");
         Role role = roleDao.findByRoleName(RoleName.ROLE_CUSTOMER);
         customer.setRole(role);
+        userDao.save(customer);
+
         ReserveOneTimeDto reserveOneTimeDto = new ReserveOneTimeDto();
         reserveOneTimeDto.setMachineId(1L);
+
         Date date = new Date();
         reserveOneTimeDto.setStartDate(date);
-        date.setTime(date.getTime() + 36000);
-        reserveOneTimeDto.setEndDate(date);
+        Date endDate =  new Date();
+        endDate.setTime(date.getTime() + 3600000);
+        reserveOneTimeDto.setEndDate(endDate);
 
         OneTimeReservationDto oneTimeReservationDto = reservationService.createOneTimeReservation(customer, reserveOneTimeDto);
 
         assertNotNull(oneTimeReservationDto);
         assertEquals("customer", oneTimeReservationDto.getUserDto().getName());
+
+        Date inbetween = new Date();
+        inbetween.setTime(inbetween.getTime() + 10000);
+        assertTrue(reservationService.checkIfMachineReserved("1", inbetween));
+
+        Date notInbetween = new Date();
+        notInbetween.setTime(notInbetween.getTime() + 7200000);
+        assertFalse(reservationService.checkIfMachineReserved("1", notInbetween));
     }
 
     @Test
@@ -88,16 +101,29 @@ public class ReservationServiceTest {
         maintainer.setName("maintainer");
         Role role = roleDao.findByRoleName(RoleName.ROLE_MAINTAINER);
         maintainer.setRole(role);
+        userDao.save(maintainer);
+
         ReserveMaintenanceDto reserveMaintenanceDto = new ReserveMaintenanceDto();
         reserveMaintenanceDto.setMachineId(1L);
 
-        reserveMaintenanceDto.setStartDate(new Date());
-        reserveMaintenanceDto.setEndDate(new Date());
+        Date date = new Date();
+        reserveMaintenanceDto.setStartDate(date);
+        Date endDate =  new Date();
+        endDate.setTime(date.getTime() + 3600000);
+        reserveMaintenanceDto.setEndDate(endDate);
 
         MaintenanceReservationDto maintenanceReservationDto = reservationService.createMaintenanceReservation(maintainer, reserveMaintenanceDto);
 
         assertNotNull(maintenanceReservationDto);
         assertEquals("maintainer", maintenanceReservationDto.getUserDto().getName());
+
+        Date inbetween = new Date();
+        inbetween.setTime(inbetween.getTime() + 10000);
+        assertTrue(reservationService.checkIfMachineReserved("1", inbetween));
+
+        Date notInbetween = new Date();
+        notInbetween.setTime(notInbetween.getTime() + 7200000);
+        assertFalse(reservationService.checkIfMachineReserved("1", notInbetween));
     }
 
 
@@ -107,17 +133,66 @@ public class ReservationServiceTest {
         maintainer.setName("maintainer");
         Role role = roleDao.findByRoleName(RoleName.ROLE_MAINTAINER);
         maintainer.setRole(role);
+        userDao.save(maintainer);
+
         ReserveRepeatingDto reserveRepeatingDto = new ReserveRepeatingDto();
         reserveRepeatingDto.setMachineId(1L);
         Date date = new Date();
         reserveRepeatingDto.setStartDate(date);
-        date.setTime(date.getTime() + 36000);
-        reserveRepeatingDto.setEndDate(date);
+        Date endDate =  new Date();
+        endDate.setTime(date.getTime() + 3600000);
+        reserveRepeatingDto.setEndDate(endDate);
         reserveRepeatingDto.setReservationPeriodicity(ReservationPeriodicity.MONTHLY);
 
         RepeatingReservationDto repeatingReservationDto = reservationService.createRepeatingReservation(maintainer, reserveRepeatingDto);
 
         assertNotNull(repeatingReservationDto);
         assertEquals("maintainer", repeatingReservationDto.getUserDto().getName());
+
+        Date inbetween = new Date();
+        inbetween.setTime(inbetween.getTime() + 10000);
+        assertTrue(reservationService.checkIfMachineReserved("1", inbetween));
+
+        Date notInbetween = new Date();
+        notInbetween.setTime(notInbetween.getTime() + 7200000);
+        assertFalse(reservationService.checkIfMachineReserved("1", notInbetween));
+    }
+
+    @Test
+    public void cancelRepeatingReservation() {
+        Employee maintainer = new Maintainer();
+        maintainer.setName("maintainer");
+        Role role = roleDao.findByRoleName(RoleName.ROLE_MAINTAINER);
+        maintainer.setRole(role);
+        userDao.save(maintainer);
+
+        ReserveRepeatingDto reserveRepeatingDto = new ReserveRepeatingDto();
+        reserveRepeatingDto.setMachineId(1L);
+        Date date = new Date();
+        reserveRepeatingDto.setStartDate(date);
+        Date endDate =  new Date();
+        endDate.setTime(date.getTime() + 3600000);
+        reserveRepeatingDto.setEndDate(endDate);
+        reserveRepeatingDto.setReservationPeriodicity(ReservationPeriodicity.MONTHLY);
+
+        RepeatingReservationDto repeatingReservationDto = reservationService.createRepeatingReservation(maintainer, reserveRepeatingDto);
+
+        assertNotNull(repeatingReservationDto);
+        assertEquals("maintainer", repeatingReservationDto.getUserDto().getName());
+
+        Reservation reservation = reservationDao.findById(repeatingReservationDto.getId()).orElse(null);
+        assertNotNull(reservation);
+
+        reservation.setCancelled(true);
+        reservationDao.save(reservation);
+
+
+        Date inbetween = new Date();
+        inbetween.setTime(inbetween.getTime() + 10000);
+        assertFalse(reservationService.checkIfMachineReserved("1", inbetween));
+
+        Date notInbetween = new Date();
+        notInbetween.setTime(notInbetween.getTime() + 7200000);
+        assertFalse(reservationService.checkIfMachineReserved("1", notInbetween));
     }
 }

@@ -131,10 +131,4 @@ public class MachineService {
         update(machine);
         return status;
     }
-
-    public boolean checkIfReserved(String machineId) throws ServiceException {
-        Date now = new Date();
-        List<Reservation> reservations = reservationService.getReservationOfMachine(machineId);
-        return true;
-    }
 }

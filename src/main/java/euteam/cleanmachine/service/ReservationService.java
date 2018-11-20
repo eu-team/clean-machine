@@ -15,6 +15,7 @@ import euteam.cleanmachine.model.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -62,12 +63,47 @@ public class ReservationService {
         return new RepeatingReservationDto(reservationDao.save(repeatingReservation));
     }
 
-    public List<Reservation> getReservationOfMachine(String machineId) throws ServiceException{
+    public boolean checkIfMachineReserved(String machineId, Date date) throws ServiceException{
         Machine machine = machineDao.findById(machineId).orElse(null);
 
         if(machine == null) {
             throw new ServiceException("Machine not found");
         }
-        return reservationDao.findAllByMachine(machine);
+        List<Reservation> reservations = reservationDao.findAllByMachineAndCancelledFalse(machine);
+
+        for(Reservation reservation: reservations) {
+            if(!date.before(reservation.getStartDate()) && !date.after(reservation.getEndDate())) {
+                // A reservation already exists
+                return true;
+            }
+
+            if(reservation instanceof RepeatingReservation) {
+                Long increaseTimeAmount = 0L;
+                switch(((RepeatingReservation) reservation).getReservationPeriodicity()) {
+                    case DAILY:
+                        increaseTimeAmount = 86400000L;
+                        break;
+                    case WEEKLY:
+                        increaseTimeAmount = 604800000L;
+                        break;
+                    case MONTHLY:
+                        increaseTimeAmount = 2419200000L;
+                        break;
+
+                }
+                Date startDate = reservation.getStartDate();
+                Date endDate = reservation.getEndDate();
+
+                while (date.after(endDate)) {
+                    if(!date.before(startDate) && !date.after(endDate)) {
+                        // A reservation already exists
+                        return true;
+                    }
+                    startDate.setTime(startDate.getTime() + increaseTimeAmount);
+                    endDate.setTime(endDate.getTime() + increaseTimeAmount);
+                }
+            }
+        }
+        return false;
     }
 }

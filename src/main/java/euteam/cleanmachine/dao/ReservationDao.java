@@ -10,4 +10,5 @@ import java.util.List;
 @Repository
 public interface ReservationDao extends CrudRepository<Reservation, Long> {
     List<Reservation> findAllByMachine(Machine machine);
+    List<Reservation> findAllByMachineAndCancelledFalse(Machine machine);
 }

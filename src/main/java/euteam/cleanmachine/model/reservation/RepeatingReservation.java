@@ -4,13 +4,15 @@ import euteam.cleanmachine.model.enums.ReservationPeriodicity;
 import euteam.cleanmachine.model.facility.Machine;
 import euteam.cleanmachine.model.user.User;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import java.util.Date;
 
 @Entity
 public class RepeatingReservation extends Reservation {
-    @ManyToOne
+    @ManyToOne (fetch = FetchType.EAGER)
     private User user;
     private ReservationPeriodicity reservationPeriodicity;
 

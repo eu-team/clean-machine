@@ -6,6 +6,7 @@ import euteam.cleanmachine.model.reservation.RepeatingReservation;
 import java.util.Date;
 
 public class RepeatingReservationDto {
+    private Long id;
     private UserDto userDto;
     private ReservationPeriodicity reservationPeriodicity;
     private Date reservationMadeDate;
@@ -14,12 +15,21 @@ public class RepeatingReservationDto {
     private MachineDto machineDto;
 
     public RepeatingReservationDto(RepeatingReservation repeatingReservation) {
+        this.id = repeatingReservation.getId();
         this.userDto = new UserDto(repeatingReservation.getUser());
         this.reservationPeriodicity = repeatingReservation.getReservationPeriodicity();
         this.reservationMadeDate = repeatingReservation.getReservationMadeDate();
         this.startDate =  repeatingReservation.getStartDate();
         this.endDate = repeatingReservation.getEndDate();
         this.machineDto = new MachineDto(repeatingReservation.getMachine());
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public UserDto getUserDto() {

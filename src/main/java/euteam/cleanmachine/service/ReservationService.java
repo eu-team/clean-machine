@@ -34,7 +34,7 @@ public class ReservationService {
             throw new ServiceException("Machine not found");
         }
 
-        if(this.checkIfMachineReserved(machine, reserveOneTimeDto.getStartDate())) {
+        if(this.checkIfMachineReserved(machine, reserveOneTimeDto.getStartDate()) != null) {
             throw new ServiceException("Machine already reserved at this date");
         }
 
@@ -50,7 +50,7 @@ public class ReservationService {
             throw new ServiceException("Machine not found");
         }
 
-        if(this.checkIfMachineReserved(machine, reserveMaintenanceDto.getStartDate())) {
+        if(this.checkIfMachineReserved(machine, reserveMaintenanceDto.getStartDate()) != null) {
             throw new ServiceException("Machine already reserved at this date");
         }
 
@@ -66,7 +66,7 @@ public class ReservationService {
             throw new ServiceException("Machine not found");
         }
 
-        if(this.checkIfMachineReserved(machine, reserveRepeatingDto.getStartDate())) {
+        if(this.checkIfMachineReserved(machine, reserveRepeatingDto.getStartDate()) != null) {
             throw new ServiceException("Machine already reserved at this date");
         }
 
@@ -75,13 +75,13 @@ public class ReservationService {
         return new RepeatingReservationDto(reservationDao.save(repeatingReservation));
     }
 
-    public boolean checkIfMachineReserved(Machine machine, Date date){
+    public Reservation checkIfMachineReserved(Machine machine, Date date){
         List<Reservation> reservations = reservationDao.findAllByMachineAndCancelledFalse(machine);
 
         for(Reservation reservation: reservations) {
             if(!date.before(reservation.getStartDate()) && !date.after(reservation.getEndDate())) {
                 // A reservation already exists
-                return true;
+                return reservation;
             }
 
             if(reservation instanceof RepeatingReservation) {
@@ -104,13 +104,13 @@ public class ReservationService {
                 while (date.after(endDate)) {
                     if(!date.before(startDate) && !date.after(endDate)) {
                         // A reservation already exists
-                        return true;
+                        return reservation;
                     }
                     startDate.setTime(startDate.getTime() + increaseTimeAmount);
                     endDate.setTime(endDate.getTime() + increaseTimeAmount);
                 }
             }
         }
-        return false;
+        return null;
     }
 }

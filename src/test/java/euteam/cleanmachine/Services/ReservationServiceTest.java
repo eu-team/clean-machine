@@ -97,11 +97,11 @@ public class ReservationServiceTest {
 
         Date inbetween = new Date();
         inbetween.setTime(inbetween.getTime() + 10000);
-        assertTrue(reservationService.checkIfMachineReserved(machine, inbetween));
+        assertNotNull(reservationService.checkIfMachineReserved(machine, inbetween));
 
         Date notInbetween = new Date();
         notInbetween.setTime(notInbetween.getTime() + 7200000);
-        assertFalse(reservationService.checkIfMachineReserved(machine, notInbetween));
+        assertNull(reservationService.checkIfMachineReserved(machine, notInbetween));
     }
 
     @Test
@@ -130,11 +130,11 @@ public class ReservationServiceTest {
 
         Date inbetween = new Date();
         inbetween.setTime(inbetween.getTime() + 10000);
-        assertTrue(reservationService.checkIfMachineReserved(machine, inbetween));
+        assertNotNull(reservationService.checkIfMachineReserved(machine, inbetween));
 
         Date notInbetween = new Date();
         notInbetween.setTime(notInbetween.getTime() + 7200000);
-        assertFalse(reservationService.checkIfMachineReserved(machine, notInbetween));
+        assertNull(reservationService.checkIfMachineReserved(machine, notInbetween));
     }
 
 
@@ -164,11 +164,11 @@ public class ReservationServiceTest {
 
         Date inbetween = new Date();
         inbetween.setTime(inbetween.getTime() + 10000);
-        assertTrue(reservationService.checkIfMachineReserved(machine, inbetween));
+        assertNotNull(reservationService.checkIfMachineReserved(machine, inbetween));
 
         Date notInbetween = new Date();
         notInbetween.setTime(notInbetween.getTime() + 7200000);
-        assertFalse(reservationService.checkIfMachineReserved(machine, notInbetween));
+        assertNull(reservationService.checkIfMachineReserved(machine, notInbetween));
     }
 
     @Test
@@ -203,11 +203,11 @@ public class ReservationServiceTest {
 
         Date inbetween = new Date();
         inbetween.setTime(inbetween.getTime() + 10000);
-        assertFalse(reservationService.checkIfMachineReserved(machine, inbetween));
+        assertNull(reservationService.checkIfMachineReserved(machine, inbetween));
 
         Date notInbetween = new Date();
         notInbetween.setTime(notInbetween.getTime() + 7200000);
-        assertFalse(reservationService.checkIfMachineReserved(machine, notInbetween));
+        assertNull(reservationService.checkIfMachineReserved(machine, notInbetween));
     }
 
     @Test

@@ -19,10 +19,8 @@ INSERT INTO facility_machines (machines_identifier,facility_id)VALUES ('1', 100)
 INSERT INTO public.users VALUES ('Customer', 100, 'email@domain.com', 'Name', '$2a$10$4g7r7UA3UjlU08A4NabsG.Jt3rYTRWlHZDk3KcjPB.HybTML3aK4a', 'username', 3, NULL);
 INSERT INTO public.users VALUES ('Administrator', 200, 'admin@domain.com', 'Admin', '$2a$10$4g7r7UA3UjlU08A4NabsG.Jt3rYTRWlHZDk3KcjPB.HybTML3aK4a', 'admin', 1, 100);
 INSERT INTO public.users VALUES ('Maintainer', 300, 'maintainer@domain.com', 'Maintainer', '$2a$10$4g7r7UA3UjlU08A4NabsG.Jt3rYTRWlHZDk3KcjPB.HybTML3aK4a', 'maintainer', 2, 100);
-<<<<<<< HEAD
 insert into public.users(id,dtype,email,password,username,name,role_id) values (400,'Customer','vince@email.be','$2a$10$4g7r7UA3UjlU08A4NabsG.Jt3rYTRWlHZDk3KcjPB.HybTML3aK4a','vince','vincent',3);
-=======
->>>>>>> 05469fecd32bc8acc4e5cbe7e2ad7e503590fb31
+
 INSERT INTO "public"."account" VALUES (100, 0, 100);
 
 insert into auth_item(id,dtype,card_number) values (100,'NFCCard',1);

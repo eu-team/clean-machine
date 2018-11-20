@@ -1,15 +1,17 @@
 package euteam.cleanmachine.commands;
 
+import euteam.cleanmachine.logging.MachineCommandLogger;
 import euteam.cleanmachine.model.facility.Machine;
 import euteam.cleanmachine.model.user.User;
 
 public class Idle extends MachineCommand {
-    public Idle() {
-        super.commandName = "Idle";
+    public Idle(Machine machine, User user, MachineCommandLogger machineCommandLogger) {
+        super(machine, user, "Idle", machineCommandLogger);
     }
 
     @Override
-    public void execute(User user, Machine machine) {
-        machine.idle();
+    public void execute() {
+        this.machine.idle();
+        this.log();
     }
 }

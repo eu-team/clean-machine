@@ -13,6 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @CrossOrigin
@@ -88,9 +89,19 @@ public class MachineController {
      */
     @RequestMapping(path = "/machine/logout", method = RequestMethod.POST)
     public ResponseEntity<?> userLogout() {
-        String machineID = getMachineIdByAuthentication();
-        if (!machineService.machinelogout(machineID))return ResponseEntity.status(400).body("something went wrong during the logout process");
-        return ResponseEntity.ok("Successfully logged out");
+        Map<String, String> response = new HashMap<>();
+        try {
+            String machineID = getMachineIdByAuthentication();
+            machineService.machinelogout(machineID);
+            response.put("message", "Successfully logged out");
+            return ResponseEntity.ok(response);
+        } catch (ServiceException e) {
+            response.put("message", e.getMessage());
+            return ResponseEntity.badRequest().body(response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body(null);
+        }
     }
 
     @RequestMapping(path = "/machine/startProgram", method = RequestMethod.POST)

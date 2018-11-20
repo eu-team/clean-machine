@@ -1,6 +1,7 @@
 package euteam.cleanmachine.service;
 
 import euteam.cleanmachine.commands.Authenticate;
+import euteam.cleanmachine.commands.Idle;
 import euteam.cleanmachine.dao.MachineDao;
 import euteam.cleanmachine.dto.DtoFactory;
 import euteam.cleanmachine.dto.ProgramDto;
@@ -14,6 +15,7 @@ import euteam.cleanmachine.model.facility.Dryer;
 import euteam.cleanmachine.model.facility.Machine;
 import euteam.cleanmachine.model.facility.Program;
 import euteam.cleanmachine.model.facility.WashingMachine;
+import euteam.cleanmachine.model.facility.machine.state.AuthenticatedState;
 import euteam.cleanmachine.model.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -96,11 +98,21 @@ public class MachineService {
         return getMachineByIdentifier(machineID).getLoggedInUserId();
     }
 
-    public boolean machinelogout(String machineID) {
-        Machine m =getMachineByIdentifier(machineID);
-        boolean status = getMachineByIdentifier(machineID).idle();
-        update(m);
-        return status;
+    public void machinelogout(String machineID) {
+        Machine machine = machineDao.findById(machineID).orElse(null);
+        if (machine == null) {
+            throw new ServiceException("Machine not found");
+        }
+
+        AuthenticatedState state = (AuthenticatedState)(machine.getState());
+        User currentlyAuthenticatedUser = userService.getUserByID(state.getUserId());
+
+        if (currentlyAuthenticatedUser == null) {
+            throw new ServiceException("No user currently authenticated");
+        }
+
+        Idle command = new Idle(machine, currentlyAuthenticatedUser, databaseLogger);
+        command.execute();
     }
 
     public boolean containsProgram(String machineID, long programId) {

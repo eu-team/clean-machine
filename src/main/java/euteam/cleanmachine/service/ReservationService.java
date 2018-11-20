@@ -5,8 +5,6 @@ import euteam.cleanmachine.dao.ReservationDao;
 import euteam.cleanmachine.dto.*;
 import euteam.cleanmachine.exceptions.ServiceException;
 import euteam.cleanmachine.model.facility.Machine;
-import euteam.cleanmachine.model.facility.machine.state.MachineState;
-import euteam.cleanmachine.model.facility.machine.state.ReservedState;
 import euteam.cleanmachine.model.reservation.MaintenanceReservation;
 import euteam.cleanmachine.model.reservation.OneTimeReservation;
 import euteam.cleanmachine.model.reservation.RepeatingReservation;
@@ -32,7 +30,6 @@ public class ReservationService {
             throw new ServiceException("Machine not found");
         }
 
-        machine.setState(new ReservedState(customer.getId()));
         OneTimeReservation oneTimeReservation = new OneTimeReservation(customer, reserveOneTimeDto.getReservationDate(), machine);
 
         return new OneTimeReservationDto(reservationDao.save(oneTimeReservation));
@@ -45,7 +42,6 @@ public class ReservationService {
             throw new ServiceException("Machine not found");
         }
 
-        machine.setState(new ReservedState(employee.getId()));
         MaintenanceReservation maintenanceReservation = new MaintenanceReservation(employee, machine, reserveMaintenanceDto.getStartDate(), reserveMaintenanceDto.getEndDate());
 
         return new MaintenanceReservationDto(reservationDao.save(maintenanceReservation));
@@ -58,7 +54,6 @@ public class ReservationService {
             throw new ServiceException("Machine not found");
         }
 
-        machine.setState(new ReservedState(user.getId()));
         RepeatingReservation repeatingReservation = new RepeatingReservation(machine, user, reserveRepeatingDto.getReservationPeriodicity(), reserveRepeatingDto.getReservationDate());
 
         return new RepeatingReservationDto(reservationDao.save(repeatingReservation));

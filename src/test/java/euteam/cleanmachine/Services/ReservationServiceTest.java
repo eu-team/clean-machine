@@ -77,7 +77,6 @@ public class ReservationServiceTest {
 
         assertNotNull(oneTimeReservationDto);
         assertEquals("customer", oneTimeReservationDto.getUserDto().getName());
-        assertEquals("Reserved", oneTimeReservationDto.getMachineDto().getState());
     }
 
     @Test
@@ -96,7 +95,6 @@ public class ReservationServiceTest {
 
         assertNotNull(maintenanceReservationDto);
         assertEquals("maintainer", maintenanceReservationDto.getUserDto().getName());
-        assertEquals("Reserved", maintenanceReservationDto.getMachineDto().getState());
     }
 
 
@@ -107,7 +105,7 @@ public class ReservationServiceTest {
         Role role = roleDao.findByRoleName(RoleName.ROLE_MAINTAINER);
         maintainer.setRole(role);
         ReserveRepeatingDto reserveRepeatingDto = new ReserveRepeatingDto();
-        reserveRepeatingDto.setMachineId(100L);
+        reserveRepeatingDto.setMachineId(1L);
         reserveRepeatingDto.setReservationDate(new Date());
         reserveRepeatingDto.setReservationPeriodicity(ReservationPeriodicity.MONTHLY);
 
@@ -115,6 +113,5 @@ public class ReservationServiceTest {
 
         assertNotNull(repeatingReservationDto);
         assertEquals("maintainer", repeatingReservationDto.getUserDto().getName());
-        assertEquals("Reserved", repeatingReservationDto.getMachineDto().getState());
     }
 }

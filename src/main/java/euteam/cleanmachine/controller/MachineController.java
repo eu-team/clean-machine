@@ -134,16 +134,18 @@ public class MachineController {
     @RequestMapping(path = "/machine/unlockMachine", method = RequestMethod.POST)
     public ResponseEntity<?> unlockMachine(@RequestParam("authItemToken") Long authItemToken) {
         String machineID = getMachineIdByAuthentication();
-        boolean status = machineService.unlockMachine(machineID,authItemToken);
-        HashMap<String, Object> result = new HashMap<>();
-        if (!status) {
-            result.put("Message", "Someting went wrong ");
-            result.put("status", status);
-            return ResponseEntity.status(400).body(result);
+        Map<String, Object> response = new HashMap<>();
+        try {
+            machineService.unlockMachine(machineID, authItemToken);
+            response.put("Message", "Program Succesfully interupted");
+            response.put("status", true);
+            return ResponseEntity.ok(response);
+        } catch (ServiceException e) {
+            response.put("error", e.getMessage());
+            response.put("status", false);
+            return ResponseEntity.badRequest().body(response);
         }
-        result.put("Message", "Program Succesfully interupted");
-        result.put("status", status);
-        return ResponseEntity.ok(result);
+
     }
 
     @RequestMapping(path = "/machine/hello", method = RequestMethod.GET)

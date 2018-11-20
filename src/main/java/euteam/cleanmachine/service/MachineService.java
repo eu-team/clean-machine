@@ -2,6 +2,7 @@ package euteam.cleanmachine.service;
 
 import euteam.cleanmachine.commands.Authenticate;
 import euteam.cleanmachine.commands.Idle;
+import euteam.cleanmachine.commands.Reopen;
 import euteam.cleanmachine.commands.Start;
 import euteam.cleanmachine.dao.MachineDao;
 import euteam.cleanmachine.dto.DtoFactory;
@@ -17,6 +18,7 @@ import euteam.cleanmachine.model.facility.Machine;
 import euteam.cleanmachine.model.facility.Program;
 import euteam.cleanmachine.model.facility.WashingMachine;
 import euteam.cleanmachine.model.facility.machine.state.AuthenticatedState;
+import euteam.cleanmachine.model.facility.machine.state.LockedState;
 import euteam.cleanmachine.model.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -169,13 +171,18 @@ public class MachineService {
         return getMachineByIdentifier(machineID).getProgramEndTime();
     }
 
-    public boolean unlockMachine(String machineID, Long authItemToken) {
-        User u = userService.getUserByAuthId(authItemToken);
-        if(u==null)return  false;
-        Machine machine = getMachineByIdentifier(machineID);
-        if(machine==null)return  false;
-        boolean status = machine.unlockMachine(u.getId());
-        update(machine);
-        return status;
+    public void unlockMachine(String machineID, Long authItemToken) {
+        User user = userService.getUserByAuthId(authItemToken);
+        if (user == null) {
+            throw new ServiceException("Unknown user");
+        }
+
+        Machine machine = machineDao.findById(machineID).orElse(null);
+        if (machine == null) {
+            throw new ServiceException("Machine not found");
+        }
+
+        Reopen command = new Reopen(machine, user, databaseLogger);
+        command.execute();
     }
 }

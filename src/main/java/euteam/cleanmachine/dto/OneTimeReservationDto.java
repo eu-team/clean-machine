@@ -21,7 +21,7 @@ public class OneTimeReservationDto {
         this.reservationMadeDate = oneTimeReservation.getReservationMadeDate();
         this.startDate = oneTimeReservation.getStartDate();
         this.endDate = oneTimeReservation.getEndDate();
-        this.userDto = new UserDto(oneTimeReservation.getCustomer());
+        this.userDto = new UserDto(oneTimeReservation.getUser());
     }
 
     public Long getId() {

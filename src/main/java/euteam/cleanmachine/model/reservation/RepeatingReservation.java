@@ -12,22 +12,11 @@ import java.util.Date;
 
 @Entity
 public class RepeatingReservation extends Reservation {
-    @ManyToOne (fetch = FetchType.EAGER)
-    private User user;
     private ReservationPeriodicity reservationPeriodicity;
 
     public RepeatingReservation(Machine machine, User user, ReservationPeriodicity reservationPeriodicity, Date startDate, Date endDate) {
-        super(machine, startDate, endDate);
-        this.user = user;
+        super(machine, user, startDate, endDate);
         this.reservationPeriodicity = reservationPeriodicity;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 
     public ReservationPeriodicity getReservationPeriodicity() {

@@ -77,12 +77,23 @@ public class MachineService {
         Machine machine = getMachineByIdentifier(machineID);
         try {
             User user = userService.getUserByAuthId(authItemToken);
+
             if (user == null) {
                 throw new ServiceException("Account not found");
             }
-            machine.authenticateOnMachine(user.getId());
+
+            Reservation reservation = reservationService.checkIfMachineReserved(machine, new Date());
+            if(reservation != null) {
+                if(reservation.getUser().getId() == user.getId()) {
+
+                } else {
+                    throw new ServiceException("Machine reserved by an other user");
+                }
+            } else {
+                machine.authenticateOnMachine(user.getId());
+            }
         } catch(StateTransitionException e){
-            return false;
+            throw e;
         }
         update(machine);
         return true;

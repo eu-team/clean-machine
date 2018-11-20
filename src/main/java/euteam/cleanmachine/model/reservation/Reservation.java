@@ -1,6 +1,7 @@
 package euteam.cleanmachine.model.reservation;
 
 import euteam.cleanmachine.model.facility.Machine;
+import euteam.cleanmachine.model.user.User;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -12,17 +13,20 @@ public abstract class Reservation {
     private Long id;
     @ManyToOne
     private Machine machine;
+    @ManyToOne
+    private User user;
     private Date reservationMadeDate;
     private Date startDate;
     private Date endDate;
     private boolean cancelled;
 
-    public Reservation(Machine machine, Date startDate, Date endDate) {
+    public Reservation(Machine machine, User user, Date startDate, Date endDate) {
         this.machine = machine;
         this.reservationMadeDate = new Date();
         this.startDate = startDate;
         this.endDate = endDate;
         this.cancelled = false;
+        this.user = user;
     }
 
     public Long getId() {
@@ -39,6 +43,14 @@ public abstract class Reservation {
 
     public void setMachine(Machine machine) {
         this.machine = machine;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Date getReservationMadeDate() {

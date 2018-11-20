@@ -13,7 +13,7 @@ public class MaintenanceReservationDto {
 
     public MaintenanceReservationDto(MaintenanceReservation maintenanceReservation) {
         this.machineDto = new MachineDto(maintenanceReservation.getMachine());
-        this.userDto = new UserDto(maintenanceReservation.getEmployee());
+        this.userDto = new UserDto(maintenanceReservation.getUser());
         this.startDate = maintenanceReservation.getStartDate();
         this.endDate = maintenanceReservation.getEndDate();
         this.reservationMadeDate = maintenanceReservation.getReservationMadeDate();

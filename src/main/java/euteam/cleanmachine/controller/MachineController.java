@@ -30,7 +30,6 @@ public class MachineController {
 
     /**
      * Retrieves the status from the machine
-     *
      * @return
      */
     @RequestMapping(path = "/machine/getStatus", method = RequestMethod.GET)

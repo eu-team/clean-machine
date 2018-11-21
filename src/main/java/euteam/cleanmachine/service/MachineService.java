@@ -46,6 +46,11 @@ public class MachineService {
     @Autowired
     private DatabaseLogger databaseLogger;
 
+    /**
+     * returns all the programs from a machine
+     * @param machineID
+     * @return list of programs
+     */
     public List<ProgramDto> getProgramsFromMachine(String machineID) {
         List<ProgramDto> programs = new ArrayList<>();
         for (Program program: getMachineByIdentifier(machineID).getPrograms()) {
@@ -54,12 +59,22 @@ public class MachineService {
         return  programs;
     }
 
+    /**
+     * retrieves a machine
+     * @param identifier
+     * @return Machine
+     */
     public Machine getMachineByIdentifier(String identifier) {
         Machine m = machineDao.findByIdentifier(identifier);
         if(m!=null)m.checkIfRunningStateIsOver(null);
         return m;
     }
 
+    /**
+     * Creates machine baase on given Dto objec
+     * @param newMachineDto
+     * @return
+     */
     public Machine createMachine(NewMachineDto newMachineDto) {
         Machine machine;
         switch (newMachineDto.getMachineType()) {
@@ -72,17 +87,26 @@ public class MachineService {
             default:
                 return null;
         }
-
         return machineDao.save(machine);
     }
 
+    /**
+     * return the state of a given machine possible states be found in the model.enums.State enum
+     * @param machineID
+     * @return State enum
+     */
     public String getMachineStatus(String machineID){
        return  getMachineByIdentifier(machineID).getState().getName();
     }
 
+    /**
+     * Updates a given machine in the database
+     * @param machine
+     */
     public void update(Machine machine) {
         machineDao.save(machine);
     }
+
 
     public UserDto authenticateOnMachine(Long authItemToken, String machineID) {
         Machine machine = machineDao.findByIdentifier(machineID);
@@ -112,10 +136,21 @@ public class MachineService {
         return new UserDto(user);
     }
 
+    /**
+     * Get user if logged in on given machine, if not it will return null otherwise it will return the userId
+     * @param machineID
+     * @return userId
+     */
     public Long getLoggedInUserId(String machineID) {
         return getMachineByIdentifier(machineID).getLoggedInUserId();
     }
 
+    /**
+     * Logout on machine
+     * Pre someone must be logged in on the machine
+     * post user is logged out
+     * @param machineID
+     */
     public void machinelogout(String machineID) {
         Machine machine = machineDao.findById(machineID).orElse(null);
         if (machine == null) {
@@ -182,10 +217,22 @@ public class MachineService {
         return endTime;
     }
 
+    /**
+     * returns the end time of the progrem
+     * pre: a program must be running
+     * @param machineID
+     * @return
+     */
     public Long getProgramEndTime(String machineID) {
         return getMachineByIdentifier(machineID).getProgramEndTime();
     }
 
+    /**
+     * unlocks the machine
+     * Pre: machine must be in a state that allows it to be unlocked (more details in MachineState.class)
+     * @param machineID
+     * @param authItemToken
+     */
     public void unlockMachine(String machineID, Long authItemToken) {
         User user = userService.getUserByAuthId(authItemToken);
         if (user == null) {

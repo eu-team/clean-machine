@@ -15,13 +15,15 @@ public abstract class MachineState {
     private String name;
 
     /**
-     * When a machine goes back to is idle state means aka machine is not being used
+     * Change back to Idle state
+     * possible from following states: authenticated
      * @param m
      */
     public abstract void idle(Machine m);
 
     /**
      * start a program on the machine with a given end time and userid
+     * only possible from authenticated state
      * @param machine
      * @param userId
      * @param EndTime
@@ -31,6 +33,7 @@ public abstract class MachineState {
 
     /**
      * locks the machine, ussualy done when the machine is finished with a program
+     * possible from the running state
      * @param machine
      * @param userId
      */
@@ -38,18 +41,26 @@ public abstract class MachineState {
 
     /**
      * a user logs in on the machine
+     * only possible from the Idle machine
      * @param machine
      * @param userId
      */
     public abstract void authenticateOnMachine(Machine machine,Long userId);
 
     /**
-     * a employe sets the machine out of order
+     * changes machine state to outOfOrder
+     *  possible from all states except outOfOrder
      * @param machine
      * @param employeId
      */
     public abstract void outOfOrder(Machine machine,Long employeId);
 
+    /**
+     * Change back to Idle state
+     * possible from following states: runningState, outOfOrder, locked
+     * @param machine
+     * @param employeID
+     */
     public abstract  void unlockMachine(Machine machine,Long employeID);
 
     public Long getId() {
